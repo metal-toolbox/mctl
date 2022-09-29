@@ -196,7 +196,8 @@ func (a *App) authCodePKCE(oauthConfig *oauth2.Config, audience string) (*oauth2
 
 func randStr(len int) string {
 	buff := make([]byte, len)
-	rand.Read(buff)
+	_, _ = rand.Read(buff)
+
 	return base64.StdEncoding.EncodeToString(buff)[:len]
 }
 
