@@ -1,16 +1,11 @@
 package cmd
 
 import (
-	"errors"
 	"fmt"
 	"os"
 
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/spf13/cobra"
-)
-
-var (
-	errAuth = errors.New("error in authentication")
 )
 
 // authCmd represents the auth command

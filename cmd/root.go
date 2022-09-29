@@ -22,12 +22,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var rootCmdFlags struct {
-	debug      bool
-	trace      bool
-	configFile string
-}
-
 var (
 	cfgFile string
 )
