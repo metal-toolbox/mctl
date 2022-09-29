@@ -141,6 +141,7 @@ func (a *App) keyringStoreToken(token *oauth2.Token) error {
 func (a *App) authCodePKCE(oauthConfig *oauth2.Config, audience string) (*oauth2.Token, error) {
 	tc := make(chan *oauth2.Token)
 
+	// nolint:gomnd // state string is limited to 20 random characters
 	c := &authClient{
 		oauthConfig: oauthConfig,
 		state:       randStr(20),
@@ -148,7 +149,8 @@ func (a *App) authCodePKCE(oauthConfig *oauth2.Config, audience string) (*oauth2
 
 	c.codeVerifier, _ = cv.CreateCodeVerifier()
 
-	server := &http.Server{Addr: ":18000"}
+	// nolint:gomnd // read header timeout is set to 30s
+	server := &http.Server{Addr: ":18000", ReadHeaderTimeout: time.Second * 30}
 
 	http.HandleFunc("/identity/callback", func(w http.ResponseWriter, r *http.Request) {
 		c.handlePKCECallback(w, r, tc)
@@ -194,11 +196,11 @@ func (a *App) authCodePKCE(oauthConfig *oauth2.Config, audience string) (*oauth2
 	return token, nil
 }
 
-func randStr(len int) string {
-	buff := make([]byte, len)
+func randStr(length int) string {
+	buff := make([]byte, length)
 	_, _ = rand.Read(buff)
 
-	return base64.StdEncoding.EncodeToString(buff)[:len]
+	return base64.StdEncoding.EncodeToString(buff)[:length]
 }
 
 type authClient struct {
