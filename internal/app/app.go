@@ -40,7 +40,7 @@ func New(ctx context.Context, cfgFile string) (app *App, err error) {
 	return &App{Config: cfg}, nil
 }
 
-func loadConfig(cfgFile string) (config *model.Config, err error) {
+func loadConfig(cfgFile string) (*model.Config, error) {
 	cfg := &model.Config{}
 
 	if cfgFile != "" {
@@ -86,7 +86,7 @@ func validateServerServiceParams(cfg *model.Config) (*url.URL, error) {
 		return nil, errors.Wrap(ErrConfig, "Serverservice endpoint URL error: "+err.Error())
 	}
 
-	if os.Getenv(EnvDisableAuth) == "true" {
+	if cfg.DisableOAuth {
 		return endpoint, nil
 	}
 
