@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -12,20 +14,35 @@ import (
 )
 
 func newServerserviceClient(ctx context.Context, mctl *app.App) (*serverservice.Client, error) {
-	token, err := mctl.RefreshToken(
-		ctx,
-		mctl.Config.OidcClientID,
-		mctl.Config.OidcIssuerEndpoint,
-	)
-	if err != nil {
-		if strings.Contains(err.Error(), "secret not found in keyring") {
-			log.Println("please run `mctl auth` and try your command again: " + err.Error())
+	accessToken := "fake"
+
+	if !mctl.Config.DisableOAuth {
+		token, err := mctl.RefreshToken(
+			ctx,
+			mctl.Config.OidcClientID,
+			mctl.Config.OidcIssuerEndpoint,
+		)
+		if err != nil {
+			if strings.Contains(err.Error(), "secret not found in keyring") {
+				log.Println("please run `mctl auth` and retry your command: " + err.Error())
+				os.Exit(1)
+			}
+
+			log.Println("authentication error: " + err.Error())
 			os.Exit(1)
 		}
 
-		log.Println("authentication error: " + err.Error())
-		os.Exit(1)
+		accessToken = token.AccessToken
 	}
 
-	return serverservice.NewClientWithToken(token.AccessToken, mctl.Config.ServerserviceEndpoint, nil)
+	return serverservice.NewClientWithToken(accessToken, mctl.Config.ServerserviceEndpoint, nil)
+}
+
+func printJSON(data interface{}) {
+	b, err := json.MarshalIndent(data, "", "  ")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(string(b))
 }
