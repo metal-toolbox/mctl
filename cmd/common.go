@@ -8,9 +8,15 @@ import (
 	"strings"
 
 	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/pkg/errors"
 	"golang.org/x/net/context"
 
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
+)
+
+var (
+	ErrAttributeFromLabel = errors.New("error creating Attribute from Label")
+	ErrLabelFromAttribute = errors.New("error creating Label from Attribute")
 )
 
 func newServerserviceClient(ctx context.Context, mctl *app.App) (*serverservice.Client, error) {
@@ -36,6 +42,28 @@ func newServerserviceClient(ctx context.Context, mctl *app.App) (*serverservice.
 	}
 
 	return serverservice.NewClientWithToken(accessToken, mctl.Config.ServerserviceEndpoint, nil)
+}
+
+func findAttribute(ns string, attributes []serverservice.Attributes) *serverservice.Attributes {
+	for _, attribute := range attributes {
+		if attribute.Namespace == ns {
+			return &attribute
+		}
+	}
+
+	return nil
+}
+
+func attributeFromLabels(ns string, labels map[string]string) (*serverservice.Attributes, error) {
+	data, err := json.Marshal(labels)
+	if err != nil {
+		return nil, errors.Wrap(ErrAttributeFromLabel, err.Error())
+	}
+
+	return &serverservice.Attributes{
+		Namespace: ns,
+		Data:      data,
+	}, nil
 }
 
 func printJSON(data interface{}) {
