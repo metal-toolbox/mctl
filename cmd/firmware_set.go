@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -118,11 +117,6 @@ var cmdCreateFirmwareSet = &cobra.Command{
 
 		if len(payload.ComponentFirmwareUUIDs) == 0 {
 			log.Fatal("one or more firmware UUIDs required to create set")
-		}
-
-		b, err := json.Marshal(payload)
-		if err != nil {
-			log.Fatal(err)
 		}
 
 		id, _, err := c.CreateServerComponentFirmwareSet(cmd.Context(), payload)
