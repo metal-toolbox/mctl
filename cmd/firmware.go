@@ -1,8 +1,11 @@
 package cmd
 
 import (
+	"context"
 	"log"
 	"os"
+	"strings"
+	"time"
 
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/pkg/model"
@@ -10,6 +13,10 @@ import (
 	"github.com/spf13/cobra"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 	"gopkg.in/yaml.v3"
+)
+
+var (
+	cmdTimeout = 20 * time.Second
 )
 
 // List
@@ -22,14 +29,17 @@ var cmdListFirmware = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		c, err := newServerserviceClient(cmd.Context(), mctl)
+		ctx, cancel := context.WithTimeout(cmd.Context(), cmdTimeout)
+		defer cancel()
+
+		c, err := newServerserviceClient(ctx, mctl)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal("error initializing serverservice client: ", err)
 		}
 
 		firmware, _, err := c.ListServerComponentFirmware(cmd.Context(), nil)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal("serverservice client returned error: ", err)
 		}
 
 		if outputJSON {
@@ -40,7 +50,7 @@ var cmdListFirmware = &cobra.Command{
 		table := tablewriter.NewWriter(os.Stdout)
 		table.SetHeader([]string{"UUID", "Vendor", "Model", "Component", "Version"})
 		for _, f := range firmware {
-			table.Append([]string{f.UUID.String(), f.Vendor, f.Model, f.Component, f.Version})
+			table.Append([]string{f.UUID.String(), f.Vendor, strings.Join(f.Model, ","), f.Component, f.Version})
 		}
 		table.Render()
 	},
@@ -80,26 +90,24 @@ var cmdCreateFirmware = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		for _, provider := range firmwareConfig.Providers {
-			for _, config := range provider.Firmwares {
-				c := serverservice.ComponentFirmwareVersion{
-					Vendor:        provider.Vendor,
-					RepositoryURL: provider.RepositoryURL,
-					Model:         config.Model,
-					UpstreamURL:   config.UpstreamURL,
-					Version:       config.Version,
-					Filename:      config.FileName,
-					Checksum:      config.Checksum,
-					Component:     config.ComponentSlug,
-				}
-
-				id, _, err := client.CreateServerComponentFirmware(cmd.Context(), c)
-				if err != nil {
-					log.Fatal(err)
-				}
-
-				log.Println(id)
+		for _, config := range firmwareConfig.Firmwares {
+			c := serverservice.ComponentFirmwareVersion{
+				Vendor:        config.Vendor,
+				RepositoryURL: config.RepositoryURL,
+				Model:         config.Model,
+				UpstreamURL:   config.UpstreamURL,
+				Version:       config.Version,
+				Filename:      config.FileName,
+				Checksum:      config.Checksum,
+				Component:     config.Component,
 			}
+
+			id, _, err := client.CreateServerComponentFirmware(cmd.Context(), c)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			log.Println(id)
 		}
 	},
 }
