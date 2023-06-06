@@ -1,5 +1,9 @@
 package model
 
+const (
+	AttributeNSFirmwareSetLabels = "sh.hollow.firmware_set.labels"
+)
+
 // Config struct holds the mctl configuration parameters
 type Config struct {
 	// File is configuration file path
@@ -19,24 +23,18 @@ type Config struct {
 
 // Firmware includes a firmware version attributes and is part of FirmwareConfig
 type Firmware struct {
-	Version       string `yaml:"version"`
-	UpstreamURL   string `yaml:"upstreamURL"`
-	FileName      string `yaml:"filename"`
-	Utility       string `yaml:"utility"`
-	Model         string `yaml:"model"`
-	ComponentSlug string `yaml:"componentslug"`
-	Checksum      string `yaml:"checksum"`
-}
-
-// FirmwareProviders struct holds firmwares for firmware providers is part of FirmwareConfig
-type FirmwareProviders struct {
-	Vendor           string      `yaml:"vendor"`
-	RepositoryURL    string      `yaml:"repositoryURL"`
-	RepositoryRegion string      `yaml:"repositoryRegion"`
-	Firmwares        []*Firmware `yaml:"firmwares"`
+	Vendor        string   `yaml:"vendor"`
+	Version       string   `yaml:"version"`
+	UpstreamURL   string   `yaml:"upstreamURL"`
+	RepositoryURL string   `yaml:"repositoryURL"`
+	FileName      string   `yaml:"filename"`
+	Utility       string   `yaml:"utility"`
+	Component     string   `yaml:"component"`
+	Checksum      string   `yaml:"checksum"`
+	Model         []string `yaml:"model"`
 }
 
 // FirmwareConfig struct holds firmware configuration data
 type FirmwareConfig struct {
-	Providers []*FirmwareProviders `yaml:"providers"`
+	Firmwares []*Firmware `yaml:"firmwares"`
 }
