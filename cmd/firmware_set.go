@@ -62,14 +62,14 @@ var cmdListFirmwareSet = &cobra.Command{
 
 // firmware set command flags
 type firmwareSetFlags struct {
+	// labels are key values
+	labels map[string]string
 	// id is the firmware set id
 	id string
 	// comma separated list of firmware UUIDs
 	firmwareUUIDs string
 	// name for the firmware set to be created/edited
 	firmwareSetName string
-	// labels are key values
-	labels map[string]string
 }
 
 var (
