@@ -12,6 +12,9 @@ type Config struct {
 	// https://github.com/metal-toolbox/hollow-serverservice
 	ServerserviceEndpoint string `mapstructure:"serverservice_endpoint"`
 
+	// ConditionsEndpoint is the URL for the Condition Orchestrator API
+	ConditionsEndpoint string `mapstructure:"conditions_endpoint"`
+
 	// ServerService OAuth2 parameters
 	OidcClientID       string `mapstructure:"oidc_client_id"`
 	OidcIssuerEndpoint string `mapstructure:"oidc_issuer_endpoint"`

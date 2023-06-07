@@ -1,5 +1,6 @@
 ---
 serverservice_endpoint: https://serverservice.example.com
+conditions_endpoint: https://conditions-api.example.com
 oidc_issuer_endpoint: https://auth.example.com/
 oidc_audience: https://servserservice.example.com
 oidc_client_id: mctl
