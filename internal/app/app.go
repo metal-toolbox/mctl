@@ -26,13 +26,13 @@ type App struct {
 	Client *serverservice.Client
 }
 
-func New(ctx context.Context, cfgFile string) (app *App, err error) {
+func New(_ context.Context, cfgFile string) (app *App, err error) {
 	cfg, err := loadConfig(cfgFile)
 	if err != nil {
 		return nil, err
 	}
 
-	_, err = validateServerServiceParams(cfg)
+	err = validateClientParams(cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -74,29 +74,37 @@ func loadConfig(cfgFile string) (*model.Config, error) {
 	return cfg, nil
 }
 
-// validateServerServiceParams checks required serverservice configuration parameters are present
-// and returns the serverservice URL endpoint
-func validateServerServiceParams(cfg *model.Config) (*url.URL, error) {
+// validateClientParams checks required downstream service configuration parameters are present
+func validateClientParams(cfg *model.Config) error {
 	if cfg.ServerserviceEndpoint == "" {
-		return nil, errors.Wrap(ErrConfig, "Serverservice endpoint not defined")
+		return errors.Wrap(ErrConfig, "Serverservice endpoint not defined")
 	}
 
-	endpoint, err := url.Parse(cfg.ServerserviceEndpoint)
+	if cfg.ConditionsEndpoint == "" {
+		return errors.Wrap(ErrConfig, "Conditions endpoint not defined")
+	}
+
+	_, err := url.Parse(cfg.ServerserviceEndpoint)
 	if err != nil {
-		return nil, errors.Wrap(ErrConfig, "Serverservice endpoint URL error: "+err.Error())
+		return errors.Wrap(ErrConfig, "Serverservice endpoint URL error: "+err.Error())
+	}
+
+	_, err = url.Parse(cfg.ConditionsEndpoint)
+	if err != nil {
+		return errors.Wrap(ErrConfig, "Conditions endpoint URL error: "+err.Error())
 	}
 
 	if cfg.DisableOAuth {
-		return endpoint, nil
+		return nil
 	}
 
 	if cfg.OidcIssuerEndpoint == "" {
-		return nil, errors.Wrap(ErrConfig, "OIDC issuer endpoint not defined")
+		return errors.Wrap(ErrConfig, "OIDC issuer endpoint not defined")
 	}
 
 	if cfg.OidcAudience == "" {
-		return nil, errors.Wrap(ErrConfig, "OIDC Audience not defined")
+		return errors.Wrap(ErrConfig, "OIDC Audience not defined")
 	}
 
-	return endpoint, nil
+	return nil
 }
