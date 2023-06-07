@@ -11,6 +11,7 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/net/context"
 
+	co "github.com/metal-toolbox/conditionorc/pkg/api/v1/client"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
@@ -19,7 +20,7 @@ var (
 	ErrLabelFromAttribute = errors.New("error creating Label from Attribute")
 )
 
-func newServerserviceClient(ctx context.Context, mctl *app.App) (*serverservice.Client, error) {
+func getAuthToken(ctx context.Context, mctl *app.App) string {
 	accessToken := "fake"
 
 	if !mctl.Config.DisableOAuth {
@@ -37,11 +38,21 @@ func newServerserviceClient(ctx context.Context, mctl *app.App) (*serverservice.
 			log.Println("authentication error: " + err.Error())
 			os.Exit(1)
 		}
-
 		accessToken = token.AccessToken
 	}
+	return accessToken
+}
 
+func newServerserviceClient(ctx context.Context, mctl *app.App) (*serverservice.Client, error) {
+	accessToken := getAuthToken(ctx, mctl)
 	return serverservice.NewClientWithToken(accessToken, mctl.Config.ServerserviceEndpoint, nil)
+}
+
+func newConditionsClient(ctx context.Context, mctl *app.App) (*co.Client, error) {
+	accessToken := getAuthToken(ctx, mctl)
+	return co.NewClient(mctl.Config.ConditionsEndpoint,
+		co.WithAuthToken(accessToken),
+	)
 }
 
 func findAttribute(ns string, attributes []serverservice.Attributes) *serverservice.Attributes {
