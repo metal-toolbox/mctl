@@ -47,8 +47,6 @@ linters-settings:
       - wrapperFunc
   gofumpt:
     extra-rules: true
-  wsl:
-    auto-fix: true
 
 linters:
   enable:
@@ -60,13 +58,10 @@ linters:
     - ineffassign
     - stylecheck
     - misspell
-    - deadcode
     - staticcheck
-    - structcheck
     - unused
     - prealloc
     - typecheck
-    - varcheck
     # additional linters
     - bodyclose
     - gocritic
@@ -78,7 +73,6 @@ linters:
     - noctx
     - stylecheck
     - whitespace
-    - wsl
     - gosec
   enable-all: false
   disable-all: true
