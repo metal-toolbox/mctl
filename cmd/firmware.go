@@ -130,10 +130,25 @@ func (i *installParams) MustBytes() json.RawMessage {
 	return byt
 }
 
+// fail fatally if we fail any argument sanity checks
+func composeInstallParams(uuidStr string, isSet bool) []byte {
+	fmwID, err := uuid.Parse(uuidStr)
+	if err != nil {
+		log.Fatalf("firmware id is not a uuid: %s", err.Error())
+	}
+	params := installParams{
+		FirmwareID: fmwID,
+		IsSet:      isSet,
+	}
+	return params.MustBytes()
+}
+
 var (
-	serverIDStr   string
-	firmwareIDStr string
-	firmwareSet   bool
+	fwFlagName       = "firmware-id"
+	setFlagName      = "fwset-id"
+	serverIDStr      string
+	firmwareIDStr    string
+	firmwareSetIDStr string
 )
 
 // install firmware on a server
@@ -159,37 +174,43 @@ var installFirmware = &cobra.Command{
 			log.Fatalf("server id invalid: %s", err.Error())
 		}
 
-		fmwID, err := uuid.Parse(firmwareIDStr)
-		if err != nil {
-			log.Fatalf("firmware id invalid: %s", err.Error())
-		}
-
-		params := installParams{
-			FirmwareID: fmwID,
-			IsSet:      firmwareSet,
+		var payload json.RawMessage
+		switch {
+		case firmwareIDStr != "":
+			payload = composeInstallParams(firmwareIDStr, false)
+		case firmwareSetIDStr != "":
+			payload = composeInstallParams(firmwareSetIDStr, true)
+		default:
+			log.Fatalf("either %s or %s must be used", fwFlagName, setFlagName)
 		}
 
 		create := coApi.ConditionCreate{
-			Parameters: params.MustBytes(),
+			Parameters: payload,
 		}
 
 		resp, err := client.ServerConditionCreate(ctx, srvID, coTyp.FirmwareInstall, create)
 		if err != nil {
-			log.Printf("Error returned from creating the server condition: %s", err.Error())
+			log.Fatalf("Error returned from creating the server condition: %s", err.Error())
 		}
-		if resp != nil {
+
+		if resp == nil {
+			log.Fatal("nil response from server")
+		}
+
+		if resp.Message != "" {
 			log.Printf("Message: %s", resp.Message)
-			if resp.Records == nil {
-				log.Printf("no condition records returned")
-			} else {
-				retCondID := "not returned"
-				retSrvID := resp.Records.ServerID
-				if len(resp.Records.Conditions) > 0 {
-					retCondID = resp.Records.Conditions[0].ID.String()
-				}
-				log.Printf("Server => %s\nCondition =>%s\n", retSrvID, retCondID)
-			}
 		}
+
+		if resp.Records == nil {
+			log.Fatal("no condition records returned")
+		}
+
+		retCondID := "not returned"
+		retSrvID := resp.Records.ServerID
+		if len(resp.Records.Conditions) > 0 {
+			retCondID = resp.Records.Conditions[0].ID.String()
+		}
+		log.Printf("Server => %s\nCondition =>%s\n", retSrvID, retCondID)
 	},
 }
 
@@ -205,17 +226,16 @@ func init() {
 
 	installFirmware.PersistentFlags().StringVar(
 		&serverIDStr, "server-id", "", "server uuid string")
-	installFirmware.PersistentFlags().StringVar(
-		&firmwareIDStr, "firmware-id", "", "firmware uuid string")
-	installFirmware.PersistentFlags().BoolVar(
-		&firmwareSet, "is-set", false, "designates the firmware-id as a firmware set to be applied as a unit")
+	installFirmware.PersistentFlags().StringVarP(
+		&firmwareIDStr, fwFlagName, "f", "", "firmware uuid string")
+	installFirmware.PersistentFlags().StringVarP(
+		&firmwareSetIDStr, setFlagName, "s", "", "uuid of a set of firmware to be applied as a unit")
 
 	if err := installFirmware.MarkPersistentFlagRequired("server-id"); err != nil {
 		log.Fatalf("make server-id required: %s", err.Error())
 	}
-	if err := installFirmware.MarkPersistentFlagRequired("firmware-id"); err != nil {
-		log.Fatalf("make firmware-id required: %s", err.Error())
-	}
+
+	installFirmware.MarkFlagsMutuallyExclusive(fwFlagName, setFlagName)
 
 	rootCmd.AddCommand(installFirmware)
 }
