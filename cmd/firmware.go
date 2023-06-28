@@ -153,7 +153,7 @@ var (
 
 // install firmware on a server
 var installFirmware = &cobra.Command{
-	Use:     "install --server-id server-uuid --firmware-id firmware-uuid [--set]",
+	Use:     "install --server-id server-uuid { --firmware-id firmware-uuid | --fwset-id set-uuid }",
 	Aliases: []string{"flash"},
 	Short:   "install firmware or a firmware set on a server",
 	Args:    cobra.ExactArgs(0),
