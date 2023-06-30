@@ -19,6 +19,7 @@ import (
 	"github.com/metal-toolbox/mctl/cmd"
 	_ "github.com/metal-toolbox/mctl/cmd/create"
 	_ "github.com/metal-toolbox/mctl/cmd/delete"
+	_ "github.com/metal-toolbox/mctl/cmd/edit"
 	_ "github.com/metal-toolbox/mctl/cmd/get"
 )
 
