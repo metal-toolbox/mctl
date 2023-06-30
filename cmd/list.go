@@ -21,7 +21,7 @@ var cmdList = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(cmdList)
+	RootCmd.AddCommand(cmdList)
 	cmdList.AddCommand(cmdListFirmware)
 	cmdList.AddCommand(cmdListFirmwareSet)
 

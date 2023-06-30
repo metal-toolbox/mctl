@@ -17,7 +17,7 @@ var cmdCreate = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(cmdCreate)
+	RootCmd.AddCommand(cmdCreate)
 	cmdCreate.AddCommand(cmdCreateFirmware)
 	cmdCreate.AddCommand(cmdCreateFirmwareSet)
 }

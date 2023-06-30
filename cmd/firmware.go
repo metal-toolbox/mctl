@@ -237,5 +237,5 @@ func init() {
 
 	installFirmware.MarkFlagsMutuallyExclusive(fwFlagName, setFlagName)
 
-	rootCmd.AddCommand(installFirmware)
+	RootCmd.AddCommand(installFirmware)
 }

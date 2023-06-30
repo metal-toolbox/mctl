@@ -20,6 +20,14 @@ var (
 	ErrLabelFromAttribute = errors.New("error creating Label from Attribute")
 )
 
+func MustCreateApp(ctx context.Context) *app.App {
+	mctl, err := app.New(ctx, cfgFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return mctl
+}
+
 func getAuthToken(ctx context.Context, mctl *app.App) string {
 	accessToken := "fake"
 

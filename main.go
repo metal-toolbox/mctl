@@ -15,7 +15,10 @@ limitations under the License.
 */
 package main
 
-import "github.com/metal-toolbox/mctl/cmd"
+import (
+	"github.com/metal-toolbox/mctl/cmd"
+	_ "github.com/metal-toolbox/mctl/cmd/get"
+)
 
 func main() {
 	cmd.Execute()

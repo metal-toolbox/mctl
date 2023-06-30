@@ -17,6 +17,6 @@ var cmdEdit = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(cmdEdit)
+	RootCmd.AddCommand(cmdEdit)
 	cmdEdit.AddCommand(cmdEditFirmwareSet)
 }

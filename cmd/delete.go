@@ -17,6 +17,6 @@ var cmdDelete = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(cmdDelete)
+	RootCmd.AddCommand(cmdDelete)
 	cmdDelete.AddCommand(cmdDeleteFirmwareSet)
 }

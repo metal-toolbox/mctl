@@ -1,10 +1,15 @@
-package cmd
+package get
 
 import (
 	"log"
 	"strings"
 
+	"github.com/metal-toolbox/mctl/cmd"
 	"github.com/spf13/cobra"
+)
+
+var (
+	output string
 )
 
 var cmdGet = &cobra.Command{
@@ -17,8 +22,8 @@ var cmdGet = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(cmdGet)
-	cmdGet.AddCommand(cmdGetComponent)
+	cmd.RootCmd.AddCommand(cmdGet)
+	cmdGet.AddCommand(getComponent)
 
-	cmdGet.PersistentFlags().BoolVar(&outputJSON, "output-json", false, "Output listing as JSON")
+	cmdGet.PersistentFlags().StringVarP(&output, "output", "o", "json", "{json|text}")
 }
