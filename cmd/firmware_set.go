@@ -64,36 +64,6 @@ var cmdListFirmwareSet = &cobra.Command{
 	},
 }
 
-// Delete
-
-var cmdDeleteFirmwareSet = &cobra.Command{
-	Use:   "firmware-set",
-	Short: "Delete a firmware set",
-	Run: func(cmd *cobra.Command, args []string) {
-		mctl, err := app.New(cmd.Context(), cfgFile)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		c, err := newServerserviceClient(cmd.Context(), mctl)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		id, err := uuid.Parse(definedfirmwareSetFlags.ID)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		_, err = c.DeleteServerComponentFirmwareSet(cmd.Context(), id)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		fmt.Println("firmware set deleted: " + id.String())
-	},
-}
-
 // Edit
 var cmdEditFirmwareSet = &cobra.Command{
 	Use:   "firmware-set",
@@ -157,14 +127,6 @@ var cmdEditFirmwareSet = &cobra.Command{
 
 func init() {
 	definedfirmwareSetFlags = &FirmwareSetFlags{}
-	// delete
-
-	cmdDeleteFirmwareSet.PersistentFlags().StringVar(&definedfirmwareSetFlags.ID, "uuid", "", "UUID of firmware set to be deleted")
-
-	if err := cmdDeleteFirmwareSet.MarkPersistentFlagRequired("uuid"); err != nil {
-		log.Fatal(err)
-	}
-
 	// edit
 	cmdEditFirmwareSet.PersistentFlags().StringVar(&definedfirmwareSetFlags.ID, "uuid", "", "UUID of firmware set to be edited")
 	cmdEditFirmwareSet.PersistentFlags().StringVar(&definedfirmwareSetFlags.FirmwareSetName, "name", "", "Update name for the firmware set")
