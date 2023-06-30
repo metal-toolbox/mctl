@@ -73,7 +73,7 @@ func findAttribute(ns string, attributes []serverservice.Attributes) *serverserv
 	return nil
 }
 
-func attributeFromLabels(ns string, labels map[string]string) (*serverservice.Attributes, error) {
+func AttributeFromLabels(ns string, labels map[string]string) (*serverservice.Attributes, error) {
 	data, err := json.Marshal(labels)
 	if err != nil {
 		return nil, errors.Wrap(ErrAttributeFromLabel, err.Error())

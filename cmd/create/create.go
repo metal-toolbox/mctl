@@ -1,13 +1,15 @@
-package cmd
+package create
 
 import (
 	"log"
 	"strings"
 
+	"github.com/metal-toolbox/mctl/cmd"
+
 	"github.com/spf13/cobra"
 )
 
-var cmdCreate = &cobra.Command{
+var create = &cobra.Command{
 	Use:   "create",
 	Short: "Create resources",
 	Run: func(cmd *cobra.Command, args []string) {
@@ -17,7 +19,7 @@ var cmdCreate = &cobra.Command{
 }
 
 func init() {
-	RootCmd.AddCommand(cmdCreate)
-	cmdCreate.AddCommand(cmdCreateFirmware)
-	cmdCreate.AddCommand(cmdCreateFirmwareSet)
+	cmd.RootCmd.AddCommand(create)
+	create.AddCommand(createFirmware)
+	create.AddCommand(createFirmwareSet)
 }

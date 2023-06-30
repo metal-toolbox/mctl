@@ -10,11 +10,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/metal-toolbox/mctl/internal/app"
-	"github.com/metal-toolbox/mctl/pkg/model"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
-	"gopkg.in/yaml.v3"
 
 	coApi "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
 	coTyp "github.com/metal-toolbox/conditionorc/pkg/types"
@@ -58,62 +55,6 @@ var cmdListFirmware = &cobra.Command{
 			table.Append([]string{f.UUID.String(), f.Vendor, strings.Join(f.Model, ","), f.Component, f.Version})
 		}
 		table.Render()
-	},
-}
-
-// Create
-type createFirmwareFlags struct {
-	// file containing firmware configuration
-	firmwareConfigFile string
-}
-
-var (
-	flagsDefinedCreateFirmware *createFirmwareFlags
-)
-
-var cmdCreateFirmware = &cobra.Command{
-	Use:   "firmware",
-	Short: "Create firmware",
-	Run: func(cmd *cobra.Command, args []string) {
-		mctl, err := app.New(cmd.Context(), cfgFile)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		client, err := newServerserviceClient(cmd.Context(), mctl)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		firmwareConfig := &model.FirmwareConfig{}
-		fbytes, err := os.ReadFile(flagsDefinedCreateFirmware.firmwareConfigFile)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		if err = yaml.Unmarshal(fbytes, firmwareConfig); err != nil {
-			log.Fatal(err)
-		}
-
-		for _, config := range firmwareConfig.Firmwares {
-			c := serverservice.ComponentFirmwareVersion{
-				Vendor:        config.Vendor,
-				RepositoryURL: config.RepositoryURL,
-				Model:         config.Model,
-				UpstreamURL:   config.UpstreamURL,
-				Version:       config.Version,
-				Filename:      config.FileName,
-				Checksum:      config.Checksum,
-				Component:     config.Component,
-			}
-
-			id, _, err := client.CreateServerComponentFirmware(cmd.Context(), c)
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			log.Println(id)
-		}
 	},
 }
 
@@ -215,15 +156,6 @@ var installFirmware = &cobra.Command{
 }
 
 func init() {
-	flagsDefinedCreateFirmware = &createFirmwareFlags{}
-
-	cmdCreateFirmware.PersistentFlags().StringVar(
-		&flagsDefinedCreateFirmware.firmwareConfigFile,
-		"from-file", "", "YAML file with firmware configuration data")
-	if err := cmdCreateFirmware.MarkPersistentFlagRequired("from-file"); err != nil {
-		log.Fatal(err)
-	}
-
 	installFirmware.PersistentFlags().StringVar(
 		&serverIDStr, "server-id", "", "server uuid string")
 	installFirmware.PersistentFlags().StringVarP(
