@@ -1,9 +1,10 @@
-package cmd
+package list
 
 import (
 	"log"
 	"strings"
 
+	"github.com/metal-toolbox/mctl/cmd"
 	"github.com/spf13/cobra"
 )
 
@@ -11,7 +12,7 @@ var (
 	outputJSON bool
 )
 
-var cmdList = &cobra.Command{
+var list = &cobra.Command{
 	Use:   "list",
 	Short: "List resources",
 	Run: func(cmd *cobra.Command, args []string) {
@@ -21,9 +22,9 @@ var cmdList = &cobra.Command{
 }
 
 func init() {
-	RootCmd.AddCommand(cmdList)
-	cmdList.AddCommand(cmdListFirmware)
-	cmdList.AddCommand(cmdListFirmwareSet)
+	cmd.RootCmd.AddCommand(list)
+	list.AddCommand(listFirmware)
+	list.AddCommand(listFirmwareSet)
 
-	cmdList.PersistentFlags().BoolVar(&outputJSON, "output-json", false, "Output listing as JSON")
+	list.PersistentFlags().BoolVar(&outputJSON, "output-json", false, "Output listing as JSON")
 }

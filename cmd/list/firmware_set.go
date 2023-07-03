@@ -1,10 +1,11 @@
-package cmd
+package list
 
 import (
 	"log"
 	"os"
 	"strings"
 
+	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/pkg/model"
 	"github.com/olekukonko/tablewriter"
@@ -12,16 +13,13 @@ import (
 )
 
 // List
-var cmdListFirmwareSet = &cobra.Command{
+var listFirmwareSet = &cobra.Command{
 	Use:   "firmware-set",
 	Short: "List firmware",
 	Run: func(cmd *cobra.Command, args []string) {
-		mctl, err := app.New(cmd.Context(), cfgFile)
-		if err != nil {
-			log.Fatal(err)
-		}
+		theApp := mctl.MustCreateApp(cmd.Context())
 
-		c, err := newServerserviceClient(cmd.Context(), mctl)
+		c, err := app.NewServerserviceClient(cmd.Context(), theApp)
 		if err != nil {
 			log.Fatal(err)
 		}
