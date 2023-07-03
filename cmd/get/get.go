@@ -12,7 +12,7 @@ var (
 	output string
 )
 
-var cmdGet = &cobra.Command{
+var get = &cobra.Command{
 	Use:   "get",
 	Short: "Get resource",
 	Run: func(cmd *cobra.Command, args []string) {
@@ -23,8 +23,9 @@ var cmdGet = &cobra.Command{
 
 func init() {
 	cmd.RootCmd.AddCommand(cmdGet)
-	cmdGet.AddCommand(getComponent)
-	cmdGet.AddCommand(getCondition)
+	get.AddCommand(getComponent)
+	get.AddCommand(getCondition)
+	get.AddCommand(getServerFirmware)
 
-	cmdGet.PersistentFlags().StringVarP(&output, "output", "o", "json", "{json|text}")
+	get.PersistentFlags().StringVarP(&output, "output", "o", "json", "{json|text}")
 }
