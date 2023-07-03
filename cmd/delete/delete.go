@@ -1,13 +1,15 @@
-package cmd
+package deleteResource
 
 import (
 	"log"
 	"strings"
 
+	"github.com/metal-toolbox/mctl/cmd"
+
 	"github.com/spf13/cobra"
 )
 
-var cmdDelete = &cobra.Command{
+var deleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete resources",
 	Run: func(cmd *cobra.Command, args []string) {
@@ -17,6 +19,6 @@ var cmdDelete = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(cmdDelete)
-	cmdDelete.AddCommand(cmdDeleteFirmwareSet)
+	cmd.RootCmd.AddCommand(deleteCmd)
+	deleteCmd.AddCommand(deleteFirmwareSet)
 }

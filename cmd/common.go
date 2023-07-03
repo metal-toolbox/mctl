@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -19,6 +18,14 @@ var (
 	ErrAttributeFromLabel = errors.New("error creating Attribute from Label")
 	ErrLabelFromAttribute = errors.New("error creating Label from Attribute")
 )
+
+func MustCreateApp(ctx context.Context) *app.App {
+	mctl, err := app.New(ctx, cfgFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return mctl
+}
 
 func getAuthToken(ctx context.Context, mctl *app.App) string {
 	accessToken := "fake"
@@ -55,17 +62,7 @@ func newConditionsClient(ctx context.Context, mctl *app.App) (*co.Client, error)
 	)
 }
 
-func findAttribute(ns string, attributes []serverservice.Attributes) *serverservice.Attributes {
-	for _, attribute := range attributes {
-		if attribute.Namespace == ns {
-			return &attribute
-		}
-	}
-
-	return nil
-}
-
-func attributeFromLabels(ns string, labels map[string]string) (*serverservice.Attributes, error) {
+func AttributeFromLabels(ns string, labels map[string]string) (*serverservice.Attributes, error) {
 	data, err := json.Marshal(labels)
 	if err != nil {
 		return nil, errors.Wrap(ErrAttributeFromLabel, err.Error())
@@ -75,13 +72,4 @@ func attributeFromLabels(ns string, labels map[string]string) (*serverservice.At
 		Namespace: ns,
 		Data:      data,
 	}, nil
-}
-
-func printJSON(data interface{}) {
-	b, err := json.MarshalIndent(data, "", "  ")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(string(b))
 }
