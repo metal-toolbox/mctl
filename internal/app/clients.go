@@ -2,10 +2,12 @@ package app
 
 import (
 	"context"
-	"fmt"
-	"strings"
+	"log"
+	"os"
 
 	co "github.com/metal-toolbox/conditionorc/pkg/api/v1/client"
+	"github.com/metal-toolbox/mctl/internal/auth"
+	"github.com/metal-toolbox/mctl/pkg/model"
 	"github.com/pkg/errors"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 )
@@ -15,43 +17,45 @@ var (
 	ErrAuth          = errors.New("authentication error")
 )
 
-func getAuthTokenFromKeyring(ctx context.Context, mctl *App) (string, error) {
+func NewServerserviceClient(ctx context.Context, cfg *model.ConfigOIDC) (*serverservice.Client, error) {
 	accessToken := "fake"
 
-	if !mctl.Config.DisableOAuth {
-		token, err := mctl.RefreshToken(
-			ctx,
-			mctl.Config.OidcClientID,
-			mctl.Config.OidcIssuerEndpoint,
+	if cfg == nil || cfg.Disable {
+		return serverservice.NewClientWithToken(
+			accessToken,
+			cfg.Endpoint,
+			nil,
 		)
-		if err != nil {
-			if strings.Contains(err.Error(), "secret not found in keyring") {
-				return "", ErrNoTokenInRing
-			}
-
-			return "", fmt.Errorf("%w: %s", ErrAuth, err.Error())
-		}
-		accessToken = token.AccessToken
 	}
-	return accessToken, nil
+
+	token, err := auth.AccessToken(ctx, model.ServerserviceAPI, cfg)
+	if err != nil {
+		log.Println(string(model.ServerserviceAPI) + ": authentication error: " + err.Error())
+		os.Exit(1)
+	}
+
+	return serverservice.NewClientWithToken(
+		token,
+		cfg.Endpoint,
+		nil,
+	)
 }
 
-func NewServerserviceClient(ctx context.Context, mctl *App) (*serverservice.Client, error) {
-	accessToken, err := getAuthTokenFromKeyring(ctx, mctl)
-	if err != nil {
-		return nil, err
+func NewConditionsClient(ctx context.Context, cfg *model.ConfigOIDC) (*co.Client, error) {
+	if cfg == nil || cfg.Disable {
+		return co.NewClient(
+			cfg.Endpoint,
+		)
 	}
 
-	return serverservice.NewClientWithToken(accessToken, mctl.Config.ServerserviceEndpoint, nil)
-}
-
-func NewConditionsClient(ctx context.Context, mctl *App) (*co.Client, error) {
-	accessToken, err := getAuthTokenFromKeyring(ctx, mctl)
+	token, err := auth.AccessToken(ctx, model.ServerserviceAPI, cfg)
 	if err != nil {
-		return nil, err
+		log.Println(string(model.ConditionsAPI) + ": authentication error: " + err.Error())
+		os.Exit(1)
 	}
 
-	return co.NewClient(mctl.Config.ConditionsEndpoint,
-		co.WithAuthToken(accessToken),
+	return co.NewClient(
+		cfg.Endpoint,
+		co.WithAuthToken(token),
 	)
 }
