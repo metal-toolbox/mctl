@@ -1,6 +1,39 @@
 ---
-serverservice_endpoint: https://serverservice.example.com
-conditions_endpoint: https://conditions-api.example.com
-oidc_issuer_endpoint: https://auth.example.com/
-oidc_audience: https://servserservice.example.com
-oidc_client_id: mctl
+serverservice_api:
+  endpoint: https://serverservice
+  oidc_issuer_endpoint: https://foo
+  oidc_audience_endpoint: https://foo
+  oidc_client_id: mctl
+  oidc_pkce_callback_url: http://localhost:18000/identity/callback
+  oidc_scopes:
+    - read:server-component-types
+    - create:server-component-types
+    - update:server-component-types
+    - delete:server-component-types
+    - read:server:component
+    - update:server:component
+    - read:server:credentials
+    - read:server:attributes
+    - create:server:attributes
+    - update:server:attributes
+    - delete:server:attributes
+    - read:server:versioned-attributes
+    - create:server:versioned-attributes
+    - update:server:versioned-attributes
+    - delete:server:versioned-attributes
+    - create:server-component-firmwares
+    - read:server-component-firmwares
+    - update:server-component-firmwares
+    - delete:server-component-firmwares
+    - read:server-component-firmware-sets
+    - create:server-component-firmware-sets
+    - update:server-component-firmware-sets
+    - delete:server-component-firmware-sets
+#conditions_api:
+#  endpoint: http://localhost:9000
+#  oidc_issuer_endpoint: https://foo
+#  oidc_audience_endpoint: https://bar
+#  oidc_client_id:
+#  oidc_pkce_callback_url: http://localhost:18000/identity/callback
+#  oidc_scopes:
+#    - read:condition
