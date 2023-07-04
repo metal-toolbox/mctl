@@ -1,4 +1,4 @@
-package app
+package auth
 
 import (
 	"context"
@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/coreos/go-oidc"
+	"github.com/metal-toolbox/mctl/pkg/model"
 	cv "github.com/nirasan/go-oauth-pkce-code-verifier"
 	"github.com/skratchdot/open-golang/open"
 	"github.com/zalando/go-keyring"
@@ -20,10 +21,10 @@ import (
 // The oauth, pkce handling code here was adapted for mctl from an internal project.
 
 const (
-	keyringService  = "sh.hollow.mctl"
-	tokenNamePrefix = "serverservice"
+	keyringService = "sh.hollow.mctl"
+	// tokenNamePrefix = "serverservice"
 	// TODO: can this be generalized to localhost - the Oauth provider needs to allow the changed callback URL.
-	pkceCallbackURL = "http://localhost.metalkube.net:18000/identity/callback"
+	// pkceCallbackURL = ""
 )
 
 var (
@@ -32,14 +33,51 @@ var (
 	ErrNoToken = errors.New("failed to get a token")
 )
 
+type authenticator struct {
+	disable          bool
+	tokenNamePrefix  string
+	pkceCallbackURL  string
+	clientID         string
+	audienceEndpoint string
+	issuerEndpoint   string
+	scopes           []string
+}
+
+func newOIDCAuthenticator(apiKind model.APIKind, cfg *model.ConfigOIDC) *authenticator {
+	return &authenticator{
+		disable:          cfg.Disable,
+		tokenNamePrefix:  string(apiKind),
+		pkceCallbackURL:  cfg.PkceCallbackURL,
+		clientID:         cfg.ClientID,
+		audienceEndpoint: cfg.AudienceEndpoint,
+		issuerEndpoint:   cfg.IssuerEndpoint,
+		scopes:           cfg.Scopes,
+	}
+}
+
+// AccessToken looks up the keyring for the service access token, if none is found, it fetches a new one.
+func AccessToken(ctx context.Context, apiKind model.APIKind, cfg *model.ConfigOIDC) (string, error) {
+	authenticator := newOIDCAuthenticator(apiKind, cfg)
+
+	token, err := authenticator.refreshToken(ctx)
+	if err != nil {
+		token, err = authenticator.getOAuth2Token(ctx)
+		if err != nil {
+			return "", err
+		}
+	}
+
+	return token.AccessToken, nil
+}
+
 // GetOAuth2Token retrieves the OAuth2 token from the issuer and stores it in the local keyring with the given name.
-func (a *App) GetOAuth2Token(ctx context.Context, clientID, issuer, audience string) (*oauth2.Token, error) {
-	oauthConfig, err := a.oauth2Config(ctx, clientID, issuer)
+func (a *authenticator) getOAuth2Token(ctx context.Context) (*oauth2.Token, error) {
+	oauthConfig, err := a.oauth2Config(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	token, err := a.authCodePKCE(oauthConfig, audience)
+	token, err := a.authCodePKCE(oauthConfig, a.audienceEndpoint)
 	if err != nil {
 		return nil, err
 	}
@@ -51,36 +89,36 @@ func (a *App) GetOAuth2Token(ctx context.Context, clientID, issuer, audience str
 	return token, nil
 }
 
-func (a *App) oauth2Config(ctx context.Context, clientID, issuer string) (*oauth2.Config, error) {
+func (a *authenticator) oauth2Config(ctx context.Context) (*oauth2.Config, error) {
 	// setup oidc provider
-	provider, err := oidc.NewProvider(ctx, issuer)
+	provider, err := oidc.NewProvider(ctx, a.issuerEndpoint)
 	if err != nil {
 		return nil, err
 	}
 
-	scopes := []string{"offline_access", "read"}
+	// scopes := []string{"offline_access", "read"}
 
 	// return oauth configuration
 	return &oauth2.Config{
-		ClientID:    clientID,
-		RedirectURL: pkceCallbackURL,
+		ClientID:    a.clientID,
+		RedirectURL: a.pkceCallbackURL,
 		Endpoint:    provider.Endpoint(),
-		Scopes:      scopes,
+		Scopes:      a.scopes,
 	}, nil
 }
 
-func (a *App) RefreshToken(ctx context.Context, clientID, issuer string) (*oauth2.Token, error) {
-	oauthConfig, err := a.oauth2Config(ctx, clientID, issuer)
+func (a *authenticator) refreshToken(ctx context.Context) (*oauth2.Token, error) {
+	oauthConfig, err := a.oauth2Config(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	authToken, err := keyring.Get(keyringService, fmt.Sprintf("%s_token", tokenNamePrefix))
+	authToken, err := keyring.Get(keyringService, fmt.Sprintf("%s_token", a.tokenNamePrefix))
 	if err != nil {
 		return nil, err
 	}
 
-	refToken, err := keyring.Get(keyringService, fmt.Sprintf("%s_refresh_token", tokenNamePrefix))
+	refToken, err := keyring.Get(keyringService, fmt.Sprintf("%s_refresh_token", a.tokenNamePrefix))
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +146,7 @@ func (a *App) RefreshToken(ctx context.Context, clientID, issuer string) (*oauth
 }
 
 // tokenFromRaw will take a access and refresh token string and convert them into a proper token
-func (a *App) tokenFromRaw(rawAccess, refresh string) (*oauth2.Token, error) {
+func (a *authenticator) tokenFromRaw(rawAccess, refresh string) (*oauth2.Token, error) {
 	tok, err := jwt.ParseSigned(rawAccess)
 	if err != nil {
 		return nil, err
@@ -127,18 +165,18 @@ func (a *App) tokenFromRaw(rawAccess, refresh string) (*oauth2.Token, error) {
 	}, nil
 }
 
-func (a *App) keyringStoreToken(token *oauth2.Token) error {
-	err := keyring.Set(keyringService, fmt.Sprintf("%s_token", tokenNamePrefix), token.AccessToken)
+func (a *authenticator) keyringStoreToken(token *oauth2.Token) error {
+	err := keyring.Set(keyringService, fmt.Sprintf("%s_token", a.tokenNamePrefix), token.AccessToken)
 	if err != nil {
 		return err
 	}
 
-	return keyring.Set(keyringService, fmt.Sprintf("%s_refresh_token", tokenNamePrefix), token.RefreshToken)
+	return keyring.Set(keyringService, fmt.Sprintf("%s_refresh_token", a.tokenNamePrefix), token.RefreshToken)
 }
 
 // authCodePKCE starts a server and listens for an oauth2 callback and will
 // return the API token to the caller
-func (a *App) authCodePKCE(oauthConfig *oauth2.Config, audience string) (*oauth2.Token, error) {
+func (a *authenticator) authCodePKCE(oauthConfig *oauth2.Config, audience string) (*oauth2.Token, error) {
 	tc := make(chan *oauth2.Token)
 
 	// nolint:gomnd // state string is limited to 20 random characters
