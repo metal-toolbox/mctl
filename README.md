@@ -16,5 +16,5 @@ oidc_client_id: <>
 
 ### Run queries
 
-- First authenticate with `mctl auth`
+
 - Run queries `mctl list firmware`
