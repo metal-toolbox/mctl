@@ -24,7 +24,7 @@ var editFirmwareSet = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
-		c, err := app.NewServerserviceClient(cmd.Context(), theApp)
+		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -48,7 +48,7 @@ var editFirmwareSet = &cobra.Command{
 
 			payload.Attributes = []ss.Attributes{*attrs}
 
-			_, err = c.UpdateComponentFirmwareSetRequest(cmd.Context(), id, payload)
+			_, err = client.UpdateComponentFirmwareSetRequest(cmd.Context(), id, payload)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -65,7 +65,7 @@ var editFirmwareSet = &cobra.Command{
 				payload.ComponentFirmwareUUIDs = append(payload.ComponentFirmwareUUIDs, id)
 			}
 
-			_, err = c.RemoveServerComponentFirmwareSetFirmware(cmd.Context(), id, payload)
+			_, err = client.RemoveServerComponentFirmwareSetFirmware(cmd.Context(), id, payload)
 			if err != nil {
 				log.Fatal(err)
 			}

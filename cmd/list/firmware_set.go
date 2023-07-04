@@ -19,12 +19,12 @@ var listFirmwareSet = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
-		c, err := app.NewServerserviceClient(cmd.Context(), theApp)
+		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		set, _, err := c.ListServerComponentFirmwareSet(cmd.Context(), nil)
+		set, _, err := client.ListServerComponentFirmwareSet(cmd.Context(), nil)
 		if err != nil {
 			log.Fatal(err)
 		}

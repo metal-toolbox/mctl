@@ -25,7 +25,7 @@ var createFirmwareSet = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
-		c, err := app.NewServerserviceClient(cmd.Context(), theApp)
+		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -59,7 +59,7 @@ var createFirmwareSet = &cobra.Command{
 			log.Fatal("one or more firmware UUIDs required to create set")
 		}
 
-		id, _, err := c.CreateServerComponentFirmwareSet(cmd.Context(), payload)
+		id, _, err := client.CreateServerComponentFirmwareSet(cmd.Context(), payload)
 		if err != nil {
 			log.Fatal(err)
 		}
