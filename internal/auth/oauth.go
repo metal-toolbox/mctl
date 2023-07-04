@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -22,9 +23,6 @@ import (
 
 const (
 	keyringService = "sh.hollow.mctl"
-	// tokenNamePrefix = "serverservice"
-	// TODO: can this be generalized to localhost - the Oauth provider needs to allow the changed callback URL.
-	// pkceCallbackURL = ""
 )
 
 var (
@@ -107,18 +105,26 @@ func (a *authenticator) oauth2Config(ctx context.Context) (*oauth2.Config, error
 	}, nil
 }
 
+func (a *authenticator) keyringNameRefreshToken() string {
+	return fmt.Sprintf("%s_%s_refresh_token", a.clientID, a.tokenNamePrefix)
+}
+
+func (a *authenticator) keyringNameToken() string {
+	return fmt.Sprintf("%s_%s_token", a.clientID, a.tokenNamePrefix)
+}
+
 func (a *authenticator) refreshToken(ctx context.Context) (*oauth2.Token, error) {
 	oauthConfig, err := a.oauth2Config(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	authToken, err := keyring.Get(keyringService, fmt.Sprintf("%s_token", a.tokenNamePrefix))
+	authToken, err := keyring.Get(keyringService, a.keyringNameToken())
 	if err != nil {
 		return nil, err
 	}
 
-	refToken, err := keyring.Get(keyringService, fmt.Sprintf("%s_refresh_token", a.tokenNamePrefix))
+	refToken, err := keyring.Get(keyringService, a.keyringNameRefreshToken())
 	if err != nil {
 		return nil, err
 	}
@@ -166,12 +172,12 @@ func (a *authenticator) tokenFromRaw(rawAccess, refresh string) (*oauth2.Token, 
 }
 
 func (a *authenticator) keyringStoreToken(token *oauth2.Token) error {
-	err := keyring.Set(keyringService, fmt.Sprintf("%s_token", a.tokenNamePrefix), token.AccessToken)
+	err := keyring.Set(keyringService, a.keyringNameToken(), token.AccessToken)
 	if err != nil {
 		return err
 	}
 
-	return keyring.Set(keyringService, fmt.Sprintf("%s_refresh_token", a.tokenNamePrefix), token.RefreshToken)
+	return keyring.Set(keyringService, a.keyringNameRefreshToken(), token.RefreshToken)
 }
 
 // authCodePKCE starts a server and listens for an oauth2 callback and will
@@ -200,7 +206,7 @@ func (a *authenticator) authCodePKCE(oauthConfig *oauth2.Config, audience string
 				return
 			}
 
-			fmt.Printf("ERROR: %s\n", err.Error())
+			log.Printf("ERROR: %s\n", err.Error())
 			tc <- nil
 		}
 	}()
@@ -215,7 +221,7 @@ func (a *authenticator) authCodePKCE(oauthConfig *oauth2.Config, audience string
 	)
 
 	if err := open.Start(authURL); err != nil {
-		fmt.Printf("Failed to open browser automatically, please visit %s to complete auth\n\n", authURL)
+		log.Printf("Failed to open browser automatically, please visit %s to complete auth\n\n", authURL)
 	}
 
 	token := <-tc
@@ -250,7 +256,7 @@ type authClient struct {
 func (c *authClient) handlePKCECallback(w http.ResponseWriter, r *http.Request, tc chan *oauth2.Token) {
 	state := r.URL.Query().Get("state")
 	if state != c.state {
-		fmt.Println("ERROR: oauth state doesn't match")
+		log.Printf("ERROR: oauth state doesn't match")
 		w.WriteHeader(http.StatusBadRequest)
 		tc <- nil
 	}
@@ -262,7 +268,8 @@ func (c *authClient) handlePKCECallback(w http.ResponseWriter, r *http.Request, 
 	)
 
 	if err != nil {
-		fmt.Printf("ERROR: %s", err.Error())
+		log.Printf("ERROR in token exchange: %s\n", err.Error())
+
 		w.WriteHeader(http.StatusBadRequest)
 		tc <- nil
 	}
