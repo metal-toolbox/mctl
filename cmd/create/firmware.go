@@ -28,7 +28,7 @@ var createFirmware = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
-		client, err := app.NewServerserviceClient(cmd.Context(), theApp)
+		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice)
 		if err != nil {
 			log.Fatal(err)
 		}

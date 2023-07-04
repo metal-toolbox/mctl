@@ -27,12 +27,12 @@ var listFirmware = &cobra.Command{
 		ctx, cancel := context.WithTimeout(cmd.Context(), cmdTimeout)
 		defer cancel()
 
-		c, err := app.NewServerserviceClient(cmd.Context(), theApp)
+		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		firmware, _, err := c.ListServerComponentFirmware(ctx, nil)
+		firmware, _, err := client.ListServerComponentFirmware(ctx, nil)
 		if err != nil {
 			log.Fatal("serverservice client returned error: ", err)
 		}

@@ -20,7 +20,7 @@ var deleteFirmwareSet = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
-		c, err := app.NewServerserviceClient(cmd.Context(), theApp)
+		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -30,7 +30,7 @@ var deleteFirmwareSet = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		_, err = c.DeleteServerComponentFirmwareSet(cmd.Context(), id)
+		_, err = client.DeleteServerComponentFirmwareSet(cmd.Context(), id)
 		if err != nil {
 			log.Fatal(err)
 		}
