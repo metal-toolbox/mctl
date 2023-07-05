@@ -48,7 +48,7 @@ func NewConditionsClient(ctx context.Context, cfg *model.ConfigOIDC) (*co.Client
 		)
 	}
 
-	token, err := auth.AccessToken(ctx, model.ServerserviceAPI, cfg)
+	token, err := auth.AccessToken(ctx, model.ConditionsAPI, cfg)
 	if err != nil {
 		log.Println(string(model.ConditionsAPI) + ": authentication error: " + err.Error())
 		os.Exit(1)
