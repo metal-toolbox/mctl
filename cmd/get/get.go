@@ -24,6 +24,7 @@ var cmdGet = &cobra.Command{
 func init() {
 	cmd.RootCmd.AddCommand(cmdGet)
 	cmdGet.AddCommand(getComponent)
+	cmdGet.AddCommand(getCondition)
 
 	cmdGet.PersistentFlags().StringVarP(&output, "output", "o", "json", "{json|text}")
 }
