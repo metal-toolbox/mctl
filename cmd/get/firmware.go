@@ -9,14 +9,18 @@ import (
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	attr "github.com/metal-toolbox/mctl/pkg/attributes"
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	ss "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
 var (
-	cmdTimeout  = 2 * time.Minute
-	serverIDStr string
-	serverID    uuid.UUID
+	errInitialCall = errors.New("error reaching out to server-service")
+	errIteration   = errors.New("component results interrupted by error")
+	cmdTimeout     = 2 * time.Minute
+	serverIDStr    string
+	onePage        bool
+	page           int
 )
 
 var getServerFirmware = &cobra.Command{
@@ -28,7 +32,7 @@ var getServerFirmware = &cobra.Command{
 		ctx, cancel := context.WithTimeout(cmd.Context(), cmdTimeout)
 		defer cancel()
 
-		c, err := app.NewServerserviceClient(cmd.Context(), theApp)
+		c, err := app.NewServerserviceClient(ctx, theApp)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -38,23 +42,14 @@ var getServerFirmware = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		params := &ss.PaginationParams{}
-		cmps, resp, err := c.GetComponents(ctx, id, params)
-		if err != nil {
-			log.Fatalf("error on initial component query: %s", err.Error())
+		var cmps []ss.ServerComponent
+		if onePage {
+			cmps, err = getSingleComponentsPage(ctx, c, id)
+		} else {
+			cmps, err = getAllComponents(ctx, c, id)
 		}
-		currentPage := resp.Page
-		stopAt := resp.PageCount + 1
-		for currentPage < stopAt {
-			params.Page = (currentPage + 1)
-			next, resp, err := c.GetComponents(ctx, id, params)
-			if err != nil {
-				log.Printf("component iteration interrupted by an error: %s", err)
-				break
-			}
-			cmps = append(cmps, next...)
-			currentPage = resp.Page
-			log.Printf("retrieved page: %d", currentPage)
+		if err != nil {
+			log.Fatalf("error getting firmware: %s", err.Error())
 		}
 		log.Printf("retrieved %d components", len(cmps))
 		// select only those components that have a firmware attribute
@@ -63,12 +58,54 @@ var getServerFirmware = &cobra.Command{
 	},
 }
 
+func getSingleComponentsPage(ctx context.Context, c *ss.Client, id uuid.UUID) ([]ss.ServerComponent, error) {
+	params := &ss.PaginationParams{
+		Page: page,
+	}
+
+	cmps, _, err := c.GetComponents(ctx, id, params)
+	if err != nil {
+		return nil, err
+	}
+
+	return cmps, nil
+}
+
+func getAllComponents(ctx context.Context, c *ss.Client, id uuid.UUID) ([]ss.ServerComponent, error) {
+	params := &ss.PaginationParams{}
+
+	cmps, resp, err := c.GetComponents(ctx, id, params)
+	if err != nil {
+		return nil, errors.Wrap(errInitialCall, err.Error())
+	}
+
+	currentPage := resp.Page
+	stopAt := resp.TotalPages + 1
+	for currentPage < stopAt {
+		params.Page = (currentPage + 1)
+		next, resp, err := c.GetComponents(ctx, id, params)
+		if err != nil {
+			return nil, errors.Wrap(errIteration, err.Error())
+		}
+		cmps = append(cmps, next...)
+		currentPage = resp.Page
+		log.Printf("Debug -- retrieved page: %d", currentPage)
+	}
+
+	return cmps, nil
+}
+
 func init() {
-	flags := getServerFirmware.PersistentFlags()
+	flags := getServerFirmware.Flags()
 
 	flags.StringVarP(&serverIDStr, "server-id", "s", "", "the server id to look up")
 
 	if err := getServerFirmware.MarkFlagRequired("server-id"); err != nil {
-		log.Fatalf("set server-id required: %w", err)
+		log.Fatalf("getServerFirmware -- set server-id required: %s", err.Error())
 	}
+
+	flags.BoolVarP(&onePage, "limit-one", "1", false, "return only a single page of results")
+	flags.IntVarP(&page, "page-number", "n", 1, "the results page to retrieve (only valid with --limit-one")
+
+	getServerFirmware.MarkFlagsRequiredTogether("limit-one", "page-number")
 }
