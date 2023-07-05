@@ -22,7 +22,7 @@ var get = &cobra.Command{
 }
 
 func init() {
-	cmd.RootCmd.AddCommand(cmdGet)
+	cmd.RootCmd.AddCommand(get)
 	get.AddCommand(getComponent)
 	get.AddCommand(getCondition)
 	get.AddCommand(getServerFirmware)
