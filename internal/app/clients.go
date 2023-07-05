@@ -2,8 +2,6 @@ package app
 
 import (
 	"context"
-	"log"
-	"os"
 
 	co "github.com/metal-toolbox/conditionorc/pkg/api/v1/client"
 	"github.com/metal-toolbox/mctl/internal/auth"
@@ -30,8 +28,7 @@ func NewServerserviceClient(ctx context.Context, cfg *model.ConfigOIDC) (*server
 
 	token, err := auth.AccessToken(ctx, model.ServerserviceAPI, cfg)
 	if err != nil {
-		log.Println(string(model.ServerserviceAPI) + ": authentication error: " + err.Error())
-		os.Exit(1)
+		return nil, errors.Wrap(ErrAuth, string(model.ServerserviceAPI)+err.Error())
 	}
 
 	return serverservice.NewClientWithToken(
@@ -50,8 +47,7 @@ func NewConditionsClient(ctx context.Context, cfg *model.ConfigOIDC) (*co.Client
 
 	token, err := auth.AccessToken(ctx, model.ConditionsAPI, cfg)
 	if err != nil {
-		log.Println(string(model.ConditionsAPI) + ": authentication error: " + err.Error())
-		os.Exit(1)
+		return nil, errors.Wrap(ErrAuth, string(model.ConditionsAPI)+err.Error())
 	}
 
 	return co.NewClient(

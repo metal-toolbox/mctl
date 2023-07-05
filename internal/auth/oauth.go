@@ -94,8 +94,6 @@ func (a *authenticator) oauth2Config(ctx context.Context) (*oauth2.Config, error
 		return nil, err
 	}
 
-	// scopes := []string{"offline_access", "read"}
-
 	// return oauth configuration
 	return &oauth2.Config{
 		ClientID:    a.clientID,
