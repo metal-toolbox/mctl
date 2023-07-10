@@ -24,8 +24,6 @@ var (
 	errFetchFW     = errors.New("fetching firmware failed")
 	cmdTimeout     = 2 * time.Minute
 	serverIDStr    string
-	onePage        bool
-	page           int
 )
 
 var getServerFirmware = &cobra.Command{
@@ -47,12 +45,7 @@ var getServerFirmware = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		var cmps []ss.ServerComponent
-		if onePage {
-			cmps, err = getSingleComponentsPage(ctx, client, id)
-		} else {
-			cmps, err = getAllComponents(ctx, client, id)
-		}
+		cmps, err := getComponents(ctx, client, id)
 		if err != nil {
 			log.Fatalf("error getting firmware: %s", err.Error())
 		}
@@ -68,38 +61,18 @@ var getServerFirmware = &cobra.Command{
 	},
 }
 
-func getSingleComponentsPage(ctx context.Context, c *ss.Client, id uuid.UUID) ([]ss.ServerComponent, error) {
-	params := &ss.PaginationParams{
-		Page: page,
-	}
-
-	cmps, _, err := c.GetComponents(ctx, id, params)
-	if err != nil {
-		return nil, err
-	}
-
-	return cmps, nil
-}
-
-func getAllComponents(ctx context.Context, c *ss.Client, id uuid.UUID) ([]ss.ServerComponent, error) {
+func getComponents(ctx context.Context, c *ss.Client, id uuid.UUID) ([]ss.ServerComponent, error) {
 	params := &ss.PaginationParams{}
 
 	cmps, resp, err := c.GetComponents(ctx, id, params)
 	if err != nil {
-		return nil, errors.Wrap(errInitialCall, err.Error())
+		return nil, err
 	}
 
-	currentPage := resp.Page
-	stopAt := resp.TotalPages + 1
-	for currentPage < stopAt {
-		params.Page = (currentPage + 1)
-		next, resp, err := c.GetComponents(ctx, id, params)
-		if err != nil {
-			return nil, errors.Wrap(errIteration, err.Error())
-		}
-		cmps = append(cmps, next...)
-		currentPage = resp.Page
-		log.Printf("Debug -- retrieved page: %d", currentPage)
+	// XXX: the default result-set size is 100, so more than 100 components will trip
+	// the following error.
+	if resp.TotalPages > 0 {
+		return nil, errors.New("too many components -- add pagination")
 	}
 
 	return cmps, nil
@@ -155,9 +128,4 @@ func init() {
 	if err := getServerFirmware.MarkFlagRequired("server-id"); err != nil {
 		log.Fatalf("getServerFirmware -- set server-id required: %s", err.Error())
 	}
-
-	flags.BoolVarP(&onePage, "limit-one", "1", false, "return only a single page of results")
-	flags.IntVarP(&page, "page-number", "n", 1, "the results page to retrieve (only valid with --limit-one")
-
-	getServerFirmware.MarkFlagsRequiredTogether("limit-one", "page-number")
 }
