@@ -2,7 +2,9 @@ package get
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -14,9 +16,12 @@ import (
 	ss "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
+type fwSpecList map[string][]uuid.UUID
+
 var (
 	errInitialCall = errors.New("error reaching out to server-service")
 	errIteration   = errors.New("component results interrupted by error")
+	errFetchFW     = errors.New("fetching firmware failed")
 	cmdTimeout     = 2 * time.Minute
 	serverIDStr    string
 	onePage        bool
@@ -32,7 +37,7 @@ var getServerFirmware = &cobra.Command{
 		ctx, cancel := context.WithTimeout(cmd.Context(), cmdTimeout)
 		defer cancel()
 
-		c, err := app.NewServerserviceClient(ctx, theApp)
+		client, err := app.NewServerserviceClient(ctx, theApp)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -44,9 +49,9 @@ var getServerFirmware = &cobra.Command{
 
 		var cmps []ss.ServerComponent
 		if onePage {
-			cmps, err = getSingleComponentsPage(ctx, c, id)
+			cmps, err = getSingleComponentsPage(ctx, client, id)
 		} else {
-			cmps, err = getAllComponents(ctx, c, id)
+			cmps, err = getAllComponents(ctx, client, id)
 		}
 		if err != nil {
 			log.Fatalf("error getting firmware: %s", err.Error())
@@ -55,6 +60,11 @@ var getServerFirmware = &cobra.Command{
 		// select only those components that have a firmware attribute
 		fwset := attr.FirmwareFromComponents(cmps)
 		writeResults(fwset)
+		cmpIDs, err := getFirmwareIDs(ctx, client, fwset)
+		if err != nil {
+			log.Fatalf("error getting firmware ids: %s", err.Error())
+		}
+		writeResults(cmpIDs)
 	},
 }
 
@@ -93,6 +103,48 @@ func getAllComponents(ctx context.Context, c *ss.Client, id uuid.UUID) ([]ss.Ser
 	}
 
 	return cmps, nil
+}
+
+// XXX: Notice that the *component* is not part of the search params. If we have a collision
+// on components with identical model/vendor/version we're going to get weird results and
+// likely won't know until we try to install that firmware.
+func getSearchParams(cmp *attr.ComponentWithFirmware) *ss.ComponentFirmwareVersionListParams {
+	return &ss.ComponentFirmwareVersionListParams{
+		Vendor: cmp.Vendor,
+		Model: []string{
+			strings.ToLower(cmp.Model),
+		},
+		Version: cmp.Firmware.Installed,
+	}
+}
+
+// XXX: Consider getting all firmware in one shot?
+
+// Call server-service and get ids for any firmware that matches the tuple of
+// vendor/component/model/version. We are as permissive as we can be here, if
+// Alloy didn't log a given datum, just search with what we have.
+func getFirmwareIDs(ctx context.Context, client *ss.Client,
+	cmps []*attr.ComponentWithFirmware) (fwSpecList, error) {
+	fws := make(map[string][]uuid.UUID)
+	for _, cmp := range cmps {
+		var ids []uuid.UUID
+		params := getSearchParams(cmp)
+		log.Printf("DEBUG search params for %s: %#v\n", cmp.Name, params)
+		// XXX: we'll need to refactor this if we ever have more than a single page (~100 entries) of
+		// results for a single component.
+		fwRecords, _, err := client.ListServerComponentFirmware(ctx, params)
+		if err != nil {
+			return nil, errors.Wrap(errFetchFW,
+				fmt.Sprintf("%s:%s:%s : %s", cmp.Name, cmp.Vendor, cmp.Model, err.Error()),
+			)
+		}
+		log.Printf("DEBUG %s search returns %d records\n", cmp.Name, len(fwRecords))
+		for _, record := range fwRecords {
+			ids = append(ids, record.UUID)
+		}
+		fws[cmp.Name] = ids
+	}
+	return fws, nil
 }
 
 func init() {
