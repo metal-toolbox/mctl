@@ -10,10 +10,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-const (
-	EnvDisableAuth = "DISABLE_AUTH"
-)
-
 var (
 	ErrConfig = errors.New("configuration error")
 )
@@ -22,9 +18,11 @@ var (
 // App holds attributes for the mtl application
 type App struct {
 	Config *model.Config
+	// Force client to re-authenticate with Oauth services.
+	Reauth bool
 }
 
-func New(_ context.Context, cfgFile string) (app *App, err error) {
+func New(_ context.Context, cfgFile string, reauth bool) (app *App, err error) {
 	cfg, err := loadConfig(cfgFile)
 	if err != nil {
 		return nil, err
@@ -35,7 +33,7 @@ func New(_ context.Context, cfgFile string) (app *App, err error) {
 		return nil, err
 	}
 
-	return &App{Config: cfg}, nil
+	return &App{Config: cfg, Reauth: reauth}, nil
 }
 
 func loadConfig(cfgFile string) (*model.Config, error) {
@@ -50,6 +48,11 @@ func loadConfig(cfgFile string) (*model.Config, error) {
 		}
 
 		cfg.File = homedir + "/" + ".mctl.yml"
+	}
+
+	viper.AutomaticEnv()
+	if viper.GetString("mctlconfig") != "" {
+		cfg.File = viper.GetString("mctlconfig")
 	}
 
 	h, err := os.Open(cfg.File)

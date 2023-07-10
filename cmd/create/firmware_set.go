@@ -25,7 +25,7 @@ var createFirmwareSet = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
-		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice)
+		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
