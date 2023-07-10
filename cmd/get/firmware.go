@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -56,7 +57,6 @@ var getServerFirmware = &cobra.Command{
 			log.Fatalf("error getting firmware: %s", err.Error())
 		}
 		log.Printf("retrieved %d components", len(cmps))
-
 		// select only those components that have a firmware attribute
 		fwset := attr.FirmwareFromComponents(cmps)
 		writeResults(fwset)
@@ -112,11 +112,13 @@ func getSearchParams(cmp *attr.ComponentWithFirmware) *ss.ComponentFirmwareVersi
 	return &ss.ComponentFirmwareVersionListParams{
 		Vendor: cmp.Vendor,
 		Model: []string{
-			cmp.Model,
+			strings.ToLower(cmp.Model),
 		},
 		Version: cmp.Firmware.Installed,
 	}
 }
+
+// XXX: Consider getting all firmware in one shot?
 
 // Call server-service and get ids for any firmware that matches the tuple of
 // vendor/component/model/version. We are as permissive as we can be here, if
@@ -127,6 +129,7 @@ func getFirmwareIDs(ctx context.Context, client *ss.Client,
 	for _, cmp := range cmps {
 		var ids []uuid.UUID
 		params := getSearchParams(cmp)
+		log.Printf("DEBUG search params for %s: %#v\n", cmp.Name, params)
 		// XXX: we'll need to refactor this if we ever have more than a single page (~100 entries) of
 		// results for a single component.
 		fwRecords, _, err := client.ListServerComponentFirmware(ctx, params)
@@ -135,6 +138,7 @@ func getFirmwareIDs(ctx context.Context, client *ss.Client,
 				fmt.Sprintf("%s:%s:%s : %s", cmp.Name, cmp.Vendor, cmp.Model, err.Error()),
 			)
 		}
+		log.Printf("DEBUG %s search returns %d records\n", cmp.Name, len(fwRecords))
 		for _, record := range fwRecords {
 			ids = append(ids, record.UUID)
 		}
