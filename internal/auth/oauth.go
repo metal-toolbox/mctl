@@ -191,12 +191,13 @@ func (a *authenticator) authCodePKCE(oauthConfig *oauth2.Config, audience string
 
 	c.codeVerifier, _ = cv.CreateCodeVerifier()
 
-	// nolint:gomnd // read header timeout is set to 30s
-	server := &http.Server{Addr: ":18000", ReadHeaderTimeout: time.Second * 30}
-
-	http.HandleFunc("/identity/callback", func(w http.ResponseWriter, r *http.Request) {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/identity/callback", func(w http.ResponseWriter, r *http.Request) {
 		c.handlePKCECallback(w, r, tc)
 	})
+
+	// nolint:gomnd // read header timeout is set to 30s
+	server := &http.Server{Addr: ":18000", ReadHeaderTimeout: time.Second * 30, Handler: mux}
 
 	go func() {
 		if err := server.ListenAndServe(); err != nil {
