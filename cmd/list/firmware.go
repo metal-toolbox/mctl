@@ -27,7 +27,7 @@ var listFirmware = &cobra.Command{
 		ctx, cancel := context.WithTimeout(cmd.Context(), cmdTimeout)
 		defer cancel()
 
-		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice)
+		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}

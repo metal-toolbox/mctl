@@ -26,7 +26,7 @@ var getCondition = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
-		client, err := app.NewConditionsClient(cmd.Context(), theApp.Config.Conditions)
+		client, err := app.NewConditionsClient(cmd.Context(), theApp.Config.Conditions, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}

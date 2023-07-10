@@ -13,12 +13,17 @@ import (
 var (
 	ErrNoTokenInRing = errors.New("secret not found in keyring")
 	ErrAuth          = errors.New("authentication error")
+	ErrNilConfig     = errors.New("no configuration defined")
 )
 
-func NewServerserviceClient(ctx context.Context, cfg *model.ConfigOIDC) (*serverservice.Client, error) {
+func NewServerserviceClient(ctx context.Context, cfg *model.ConfigOIDC, reauth bool) (*serverservice.Client, error) {
 	accessToken := "fake"
 
-	if cfg == nil || cfg.Disable {
+	if cfg == nil {
+		return nil, errors.Wrap(ErrNilConfig, "missing serverservice API client configuration")
+	}
+
+	if cfg.Disable {
 		return serverservice.NewClientWithToken(
 			accessToken,
 			cfg.Endpoint,
@@ -26,7 +31,7 @@ func NewServerserviceClient(ctx context.Context, cfg *model.ConfigOIDC) (*server
 		)
 	}
 
-	token, err := auth.AccessToken(ctx, model.ServerserviceAPI, cfg)
+	token, err := auth.AccessToken(ctx, model.ServerserviceAPI, cfg, reauth)
 	if err != nil {
 		return nil, errors.Wrap(ErrAuth, string(model.ServerserviceAPI)+err.Error())
 	}
@@ -38,14 +43,18 @@ func NewServerserviceClient(ctx context.Context, cfg *model.ConfigOIDC) (*server
 	)
 }
 
-func NewConditionsClient(ctx context.Context, cfg *model.ConfigOIDC) (*co.Client, error) {
-	if cfg == nil || cfg.Disable {
+func NewConditionsClient(ctx context.Context, cfg *model.ConfigOIDC, reauth bool) (*co.Client, error) {
+	if cfg == nil {
+		return nil, errors.Wrap(ErrNilConfig, "missing conditions API client configuration")
+	}
+
+	if cfg.Disable {
 		return co.NewClient(
 			cfg.Endpoint,
 		)
 	}
 
-	token, err := auth.AccessToken(ctx, model.ConditionsAPI, cfg)
+	token, err := auth.AccessToken(ctx, model.ConditionsAPI, cfg, reauth)
 	if err != nil {
 		return nil, errors.Wrap(ErrAuth, string(model.ConditionsAPI)+err.Error())
 	}

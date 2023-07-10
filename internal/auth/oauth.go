@@ -54,14 +54,24 @@ func newOIDCAuthenticator(apiKind model.APIKind, cfg *model.ConfigOIDC) *authent
 }
 
 // AccessToken looks up the keyring for the service access token, if none is found, it fetches a new one.
-func AccessToken(ctx context.Context, apiKind model.APIKind, cfg *model.ConfigOIDC) (string, error) {
+func AccessToken(ctx context.Context, apiKind model.APIKind, cfg *model.ConfigOIDC, reauth bool) (string, error) {
 	authenticator := newOIDCAuthenticator(apiKind, cfg)
 
-	token, err := authenticator.refreshToken(ctx)
-	if err != nil {
+	var token *oauth2.Token
+	var err error
+
+	if reauth {
 		token, err = authenticator.getOAuth2Token(ctx)
 		if err != nil {
 			return "", err
+		}
+	} else {
+		token, err = authenticator.refreshToken(ctx)
+		if err != nil {
+			token, err = authenticator.getOAuth2Token(ctx)
+			if err != nil {
+				return "", err
+			}
 		}
 	}
 

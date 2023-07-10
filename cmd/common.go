@@ -3,6 +3,7 @@ package cmd
 import (
 	"encoding/json"
 	"log"
+	"time"
 
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/pkg/errors"
@@ -16,11 +17,16 @@ var (
 	ErrLabelFromAttribute = errors.New("error creating Label from Attribute")
 )
 
+const (
+	CmdTimeout = 20 * time.Second
+)
+
 func MustCreateApp(ctx context.Context) *app.App {
-	mctl, err := app.New(ctx, cfgFile)
+	mctl, err := app.New(ctx, cfgFile, reAuth)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	return mctl
 }
 
