@@ -35,7 +35,7 @@ var getServerFirmware = &cobra.Command{
 		ctx, cancel := context.WithTimeout(cmd.Context(), cmdTimeout)
 		defer cancel()
 
-		client, err := app.NewServerserviceClient(ctx, theApp.Config.Serverservice)
+		client, err := app.NewServerserviceClient(ctx, theApp.Config.Serverservice, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
