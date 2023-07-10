@@ -5,16 +5,11 @@ import (
 	"log"
 	"os"
 	"strings"
-	"time"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
-)
-
-var (
-	cmdTimeout = 20 * time.Second
 )
 
 // List
@@ -24,7 +19,7 @@ var listFirmware = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
-		ctx, cancel := context.WithTimeout(cmd.Context(), cmdTimeout)
+		ctx, cancel := context.WithTimeout(cmd.Context(), mctl.CmdTimeout)
 		defer cancel()
 
 		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice, theApp.Reauth)
