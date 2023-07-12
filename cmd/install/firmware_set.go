@@ -9,6 +9,7 @@ import (
 	cotypes "github.com/metal-toolbox/conditionorc/pkg/types"
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
 
@@ -72,8 +73,23 @@ var installFirmwareSet = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		log.Println(response)
+		condition, err := conditionResponse(response)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		log.Printf("status=%d msg=%s conditionID=%s", response.StatusCode, response.Message, condition.ID)
 	},
+}
+
+func conditionResponse(response *cotypesv1.ServerResponse) (cotypes.Condition, error) {
+	errUnexpectedResponse := errors.New("unexpected response")
+
+	if response.Records == nil || len(response.Records.Conditions) == 0 {
+		return cotypes.Condition{}, errors.Wrap(errUnexpectedResponse, "empty records")
+	}
+
+	return *response.Records.Conditions[0], nil
 }
 
 func init() {
