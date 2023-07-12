@@ -46,7 +46,7 @@ var getBiosConfig = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		if len(biosCfg) == 0 {
+		if biosCfg != nil {
 			log.Println("no bios configuration data found")
 			os.Exit(0)
 		}
@@ -69,13 +69,13 @@ func biosConfigFromNamespaces(ctx context.Context, serverID uuid.UUID, client *s
 				continue
 			}
 
-			return []serverservice.VersionedAttributes{}, err
+			return nil, err
 		}
 
 		return biosCfg, nil
 	}
 
-	return []serverservice.VersionedAttributes{}, nil
+	return nil, nil
 }
 
 func init() {
