@@ -19,11 +19,9 @@ import (
 type fwSpecList map[string][]uuid.UUID
 
 var (
-	errInitialCall = errors.New("error reaching out to server-service")
-	errIteration   = errors.New("component results interrupted by error")
-	errFetchFW     = errors.New("fetching firmware failed")
-	cmdTimeout     = 2 * time.Minute
-	serverIDStr    string
+	errFetchFW  = errors.New("fetching firmware failed")
+	cmdTimeout  = 2 * time.Minute
+	serverIDStr string
 )
 
 var getServerFirmware = &cobra.Command{
@@ -102,7 +100,6 @@ func getFirmwareIDs(ctx context.Context, client *ss.Client,
 	for _, cmp := range cmps {
 		var ids []uuid.UUID
 		params := getSearchParams(cmp)
-		log.Printf("DEBUG search params for %s: %#v\n", cmp.Name, params)
 		// XXX: we'll need to refactor this if we ever have more than a single page (~100 entries) of
 		// results for a single component.
 		fwRecords, _, err := client.ListServerComponentFirmware(ctx, params)
@@ -111,10 +108,12 @@ func getFirmwareIDs(ctx context.Context, client *ss.Client,
 				fmt.Sprintf("%s:%s:%s : %s", cmp.Name, cmp.Vendor, cmp.Model, err.Error()),
 			)
 		}
-		log.Printf("DEBUG %s search returns %d records\n", cmp.Name, len(fwRecords))
+
+		// nolint:gocritic // records are returned in this format and have to be iterated over.
 		for _, record := range fwRecords {
 			ids = append(ids, record.UUID)
 		}
+
 		fws[cmp.Name] = ids
 	}
 	return fws, nil
