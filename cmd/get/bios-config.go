@@ -46,7 +46,7 @@ var getBiosConfig = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		if biosCfg != nil {
+		if biosCfg == nil {
 			log.Println("no bios configuration data found")
 			os.Exit(0)
 		}
