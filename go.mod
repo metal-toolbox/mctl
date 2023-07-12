@@ -3,6 +3,7 @@ module github.com/metal-toolbox/mctl
 go 1.19
 
 require (
+	github.com/bmc-toolbox/common v0.0.0-20230220061748-93ff001f4a1d
 	github.com/coreos/go-oidc v2.2.1+incompatible
 	github.com/davecgh/go-spew v1.1.1
 	github.com/google/uuid v1.3.0
@@ -13,6 +14,7 @@ require (
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.16.0
+	github.com/stretchr/testify v1.8.4
 	github.com/zalando/go-keyring v0.2.1
 	go.hollow.sh/serverservice v0.15.3-0.20230519171430-6d4a327f68f3
 	golang.org/x/net v0.10.0
@@ -92,7 +94,6 @@ require (
 	github.com/spf13/cast v1.5.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/subosito/gotenv v1.4.2 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect
