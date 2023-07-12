@@ -24,6 +24,7 @@ func init() {
 	cmdGet.AddCommand(getFirmwareAvailable)
 	cmdGet.AddCommand(getServerFirmware)
 	cmdGet.AddCommand(getFirmwareSet)
+	cmdGet.AddCommand(getBiosConfig)
 
 	cmdGet.PersistentFlags().StringVarP(&output, "output", "o", "json", "{json|text}")
 }
