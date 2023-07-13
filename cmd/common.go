@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	bmclibcomm "github.com/bmc-toolbox/common"
@@ -110,13 +111,13 @@ func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, client 
 				Namespace: FirmwareSetAttributeNS,
 				Keys:      []string{"vendor"},
 				Operator:  "eq",
-				Value:     vendor,
+				Value:     strings.ToLower(vendor),
 			},
 			{
 				Namespace: FirmwareSetAttributeNS,
 				Keys:      []string{"model"},
 				Operator:  "like",
-				Value:     model,
+				Value:     strings.ToLower(model),
 			},
 			{
 				Namespace: FirmwareSetAttributeNS,

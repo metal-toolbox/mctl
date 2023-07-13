@@ -23,6 +23,10 @@ ifeq ($(GO_VERSION), 0)
 endif
 	GOOS=linux GOARCH=amd64 go build -o mctl
 
+## Generate CLI docs
+gen-docs:
+	go build -o mctl
+	./mctl gendocs
 
 # https://gist.github.com/prwhite/8168133
 # COLORS

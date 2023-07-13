@@ -20,6 +20,7 @@ import (
 	_ "github.com/metal-toolbox/mctl/cmd/create"
 	_ "github.com/metal-toolbox/mctl/cmd/delete"
 	_ "github.com/metal-toolbox/mctl/cmd/edit"
+	_ "github.com/metal-toolbox/mctl/cmd/generate"
 	_ "github.com/metal-toolbox/mctl/cmd/get"
 	_ "github.com/metal-toolbox/mctl/cmd/install"
 	_ "github.com/metal-toolbox/mctl/cmd/list"
