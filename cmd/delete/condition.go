@@ -1,4 +1,4 @@
-package deleteResource
+package deleteresource
 
 import (
 	"log"

@@ -12,20 +12,22 @@ var (
 )
 
 type firmwareAttribute struct {
-	Firmware *bmc.Firmware `json:"firmware",omitempty`
+	Firmware *bmc.Firmware `json:"firmware,omitempty"`
 }
 
 type ComponentWithFirmware struct {
 	Name     string        `json:"name"`
 	Vendor   string        `json:"vendor"`
 	Model    string        `json:"model"`
-	Firmware *bmc.Firmware `json:firmware`
+	Firmware *bmc.Firmware `json:"firmware"`
 }
 
 func FirmwareFromComponents(cs []ss.ServerComponent) []*ComponentWithFirmware {
 	var set []*ComponentWithFirmware
-	for _, c := range cs {
+	for idx := range cs {
+		c := cs[idx]
 		for _, attr := range c.VersionedAttributes {
+			attr := attr
 			if ok, fw := isFirmwareAttribute(&attr); ok {
 				set = append(set, &ComponentWithFirmware{
 					Name:     c.Name,

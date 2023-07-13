@@ -13,6 +13,7 @@ var list = &cobra.Command{
 	Use:   "list",
 	Short: "List resources",
 	Run: func(cmd *cobra.Command, args []string) {
+		//nolint:errcheck // returns nil
 		cmd.Help()
 	},
 }

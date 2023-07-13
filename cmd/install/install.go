@@ -9,6 +9,7 @@ var install = &cobra.Command{
 	Use:   "install",
 	Short: "Install actions",
 	Run: func(cmd *cobra.Command, args []string) {
+		//nolint:errcheck // returns nil
 		cmd.Help()
 	},
 }
