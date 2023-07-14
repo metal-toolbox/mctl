@@ -40,6 +40,7 @@ var getFirmwareSet = &cobra.Command{
 		}
 
 		if flagsDefinedGetFirmwareSet.id == "" && flagsDefinedGetFirmwareSet.serverID == "" {
+			//nolint:errcheck // returns nil
 			cmd.Help()
 			os.Exit(1)
 		}
