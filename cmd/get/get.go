@@ -13,6 +13,7 @@ var cmdGet = &cobra.Command{
 	Use:   "get",
 	Short: "Get resource",
 	Run: func(cmd *cobra.Command, args []string) {
+		//nolint:errcheck // returns nil
 		cmd.Help()
 	},
 }

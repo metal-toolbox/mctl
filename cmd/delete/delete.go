@@ -1,4 +1,4 @@
-package deleteResource
+package deleteresource
 
 import (
 	"github.com/metal-toolbox/mctl/cmd"
@@ -10,6 +10,7 @@ var deleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete resources",
 	Run: func(cmd *cobra.Command, args []string) {
+		//nolint:errcheck // returns nil
 		cmd.Help()
 	},
 }

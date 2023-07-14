@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/metal-toolbox/mctl/cmd"
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/pkg/model"
@@ -69,7 +68,7 @@ var createFirmwareSet = &cobra.Command{
 }
 
 func init() {
-	definedfirmwareSetFlags = &cmd.FirmwareSetFlags{}
+	definedfirmwareSetFlags = &mctl.FirmwareSetFlags{}
 
 	createFirmwareSet.PersistentFlags().StringVar(&definedfirmwareSetFlags.FirmwareUUIDs, "firmware-uuids", "", "comma separated list of UUIDs of firmware to be included in the set to be created")
 	createFirmwareSet.PersistentFlags().StringVar(&definedfirmwareSetFlags.FirmwareSetName, "name", "", "A name for the firmware set")

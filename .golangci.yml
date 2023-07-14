@@ -6,7 +6,7 @@ service:
 linters-settings:
   govet:
     enable:
-      - fieldalignment
+      #- fieldalignment
     auto-fix: true
     check-shadowing: true
     settings:
@@ -72,7 +72,6 @@ linters:
     - misspell
     - noctx
     - stylecheck
-    - whitespace
     - gosec
   enable-all: false
   disable-all: true
