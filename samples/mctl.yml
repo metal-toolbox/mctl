@@ -1,47 +1,18 @@
 ---
 serverservice_api:
-  # curl https://dev-74418858.okta.com/oauth2/ausa8ldxnjsujDOq55d7/.well-known/oauth-authorization-server | jq
-  endpoint: http://localhost:8000
-  #oidc_issuer_endpoint: https://dev-74418858.okta.com/oauth2/ausa8ldxnjsujDOq55d7
-  oidc_issuer_endpoint: https://dev-74418858.okta.com/oauth2/ausa8vxl2aSQrpv1q5d7
-  oidc_audience_endpoint: http://localhost:8000
-  oidc_client_id: 0oaa8kto5lZYascqP5d7
-  oidc_pkce_callback_url: http://localhost:18000/identity/callback
+  endpoint: https://hollow.platformequinix.net/
+  oidc_issuer_endpoint: https://sso.equinixmetal.com/oauth2/aus25zrmexjEfZbyd697
+  oidc_audience_endpoint: https://delivery.metalkube.net
+  oidc_client_id: 0oa26bxnzjpelULQc697
+  oidc_pkce_callback_url: http://localhost.metalkube.net:18000/identity/callback
   oidc_scopes:
-    - offline_access
-    - read:server-component-firmware-sets
-    - read:server-component-firmwares
-    - read:server-component-types
-    - create:server-component-types
-    - update:server-component-types
-    - delete:server-component-types
-    - read:server:component
-    - update:server:component
-    - read:server:credentials
-    - read:server:attributes
-    - create:server:attributes
-    - update:server:attributes
-    - delete:server:attributes
-    - read:server:versioned-attributes
-    - create:server:versioned-attributes
-    - update:server:versioned-attributes
-    - delete:server:versioned-attributes
-    - create:server-component-firmwares
-    - read:server-component-firmwares
-    - update:server-component-firmwares
-    - delete:server-component-firmwares
-    - offline_access
-    - read:server-component-firmware-sets
-    - create:server-component-firmware-sets
-    - update:server-component-firmware-sets
-    - delete:server-component-firmware-sets
+    - read
 conditions_api:
-  # curl https://dev-74418858.okta.com/oauth2/ausa8ldxnjsujDOq55d7/.well-known/oauth-authorization-server | jq
-  endpoint: http://localhost:9001
-  #oidc_issuer_endpoint: https://dev-74418858.okta.com/oauth2/ausa8ldxnjsujDOq55d7
-  oidc_issuer_endpoint: https://dev-74418858.okta.com/oauth2/ausa8vxl2aSQrpv1q5d7
-  oidc_audience_endpoint: http://localhost:9001
-  oidc_client_id: 0oaa8kto5lZYascqP5d7
+  endpoint: https://serverconditions.equinixmetal.net
+  oidc_issuer_endpoint: https://sso.equinixmetal.com/oauth2/aus25zrmexjEfZbyd697
+  oidc_audience_endpoint: https://delivery.metalkube.net
+  oidc_client_id: 0oa69xrkpxoaJDojc697
   oidc_pkce_callback_url: http://localhost:18000/identity/callback
   oidc_scopes:
     - read:condition
+    - create:condition
