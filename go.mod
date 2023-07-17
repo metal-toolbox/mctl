@@ -14,6 +14,8 @@ require (
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.16.0
+	github.com/splunk/go-dependencies v1.0.1
+	github.com/splunk/splunk-cloud-sdk-go v1.11.1
 	github.com/stretchr/testify v1.8.4
 	github.com/zalando/go-keyring v0.2.1
 	go.hollow.sh/serverservice v0.15.3-0.20230519171430-6d4a327f68f3
@@ -48,6 +50,7 @@ require (
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/godbus/dbus/v5 v5.0.6 // indirect
 	github.com/gofrs/uuid v4.4.0+incompatible // indirect
+	github.com/golang/glog v1.1.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect

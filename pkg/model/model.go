@@ -18,8 +18,9 @@ type Config struct {
 
 	// File is configuration file path
 	File          string
-	Serverservice *ConfigOIDC `mapstructure:"serverservice_api"`
-	Conditions    *ConfigOIDC `mapstructure:"conditions_api"`
+	Serverservice *ConfigOIDC     `mapstructure:"serverservice_api"`
+	Conditions    *ConfigOIDC     `mapstructure:"conditions_api"`
+	Splunk        *ConfigLogIndex `mapstructure:"splunk"`
 }
 
 type ConfigOIDC struct {
@@ -36,6 +37,11 @@ type ConfigOIDC struct {
 	AudienceEndpoint string   `mapstructure:"oidc_audience_endpoint"`
 	Scopes           []string `mapstructure:"oidc_scopes"`
 	PkceCallbackURL  string   `mapstructure:"oidc_pkce_callback_url"`
+}
+
+type ConfigLogIndex struct {
+	Endpoint string `mapstructure:"endpoint"`
+	Token    string `mapstructure:"token"`
 }
 
 // Firmware includes a firmware version attributes and is part of FirmwareConfig
