@@ -1,20 +1,19 @@
 ### mctl
 
-mctl is a CLI utility to interact with Server service.
+mctl is a CLI utility to interact with the metal-toolbox ecosystem of services.
 
 ### Getting started
 
-Create a `.mctl.yml` file with the below contents and place it in your home
-directory.
+0. Install the latest available version using `go install github.com/metal-toolbox/mctl@latest`.
+1. Create a configuration file as `.mctl.yml`, for sample configuration files checkout [samples/mctl.yml](https://github.com/metal-toolbox/mctl/blob/main/samples).
+2. Export `MCTLCONFIG=~/.mctl.yml`.
 
-```
-serverservice_endpoint: <>
-oidc_issuer_endpoint: <>
-oidc_audience: <>
-oidc_client_id: <>
-```
+### Actions
 
-### Run queries
+For the updated list of all commands available, check out the [CLI docs](https://github.com/metal-toolbox/mctl/tree/main/docs/mctl.md)
 
-
-- Run queries `mctl list firmware`
+- Get component information on a server - `mctl get component --server-id <>`
+- List available firmware - `mctl list firmware`
+- List firmware sets - `mctl list firmware-set`
+- Retrieve information about a firmware - `mctl get firmware --id <>`
+- Install a firmware set on a server - `mctl install firmware-set --server <>`
