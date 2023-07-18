@@ -1,18 +1,18 @@
 ---
 serverservice_api:
-  endpoint: https://hollow.platformequinix.net/
-  oidc_issuer_endpoint: https://sso.equinixmetal.com/oauth2/aus25zrmexjEfZbyd697
-  oidc_audience_endpoint: https://delivery.metalkube.net
-  oidc_client_id: 0oa26bxnzjpelULQc697
-  oidc_pkce_callback_url: http://localhost.metalkube.net:18000/identity/callback
+  endpoint:
+  oidc_issuer_endpoint:
+  oidc_audience_endpoint:
+  oidc_client_id:
+  oidc_pkce_callback_url:
   oidc_scopes:
     - read
 conditions_api:
-  endpoint: https://serverconditions.equinixmetal.net
-  oidc_issuer_endpoint: https://sso.equinixmetal.com/oauth2/aus25zrmexjEfZbyd697
-  oidc_audience_endpoint: https://delivery.metalkube.net
-  oidc_client_id: 0oa69xrkpxoaJDojc697
-  oidc_pkce_callback_url: http://localhost:18000/identity/callback
+  endpoint:
+  oidc_issuer_endpoint:
+  oidc_audience_endpoint:
+  oidc_client_id:
+  oidc_pkce_callback_url:
   oidc_scopes:
     - read:condition
     - create:condition
