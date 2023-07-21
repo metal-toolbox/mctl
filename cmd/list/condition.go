@@ -50,10 +50,10 @@ var listCondition = &cobra.Command{
 func init() {
 	flagsDefinedListCondition = &listConditionFlags{}
 
-	listCondition.PersistentFlags().StringVar(&flagsDefinedListCondition.id, "server-id", "", "server UUID")
+	listCondition.PersistentFlags().StringVar(&flagsDefinedListCondition.id, "server", "", "server UUID")
 	listCondition.PersistentFlags().StringVar(&flagsDefinedListCondition.state, "state", "", "condition state")
 
-	if err := listCondition.MarkPersistentFlagRequired("server-id"); err != nil {
+	if err := listCondition.MarkPersistentFlagRequired("server"); err != nil {
 		log.Fatal(err)
 	}
 

@@ -25,7 +25,7 @@ var (
 )
 
 var getServerFirmware = &cobra.Command{
-	Use:   "firmware {-s | --server-id} <server uuid>",
+	Use:   "firmware {-s | --server} <server uuid>",
 	Short: "Get all firmware components on a server",
 	Run: func(cmd *cobra.Command, args []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
@@ -122,9 +122,9 @@ func getFirmwareIDs(ctx context.Context, client *ss.Client,
 func init() {
 	flags := getServerFirmware.Flags()
 
-	flags.StringVarP(&serverIDStr, "server-id", "s", "", "the server id to look up")
+	flags.StringVarP(&serverIDStr, "server", "s", "", "the server id to look up")
 
-	if err := getServerFirmware.MarkFlagRequired("server-id"); err != nil {
-		log.Fatalf("getServerFirmware -- set server-id required: %s", err.Error())
+	if err := getServerFirmware.MarkFlagRequired("server"); err != nil {
+		log.Fatalf("getServerFirmware -- set server id required: %s", err.Error())
 	}
 }

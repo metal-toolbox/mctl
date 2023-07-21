@@ -46,9 +46,9 @@ var getComponent = &cobra.Command{
 func init() {
 	flagsDefinedGetComponent = &getComponentFlags{}
 
-	getComponent.PersistentFlags().StringVar(&flagsDefinedGetComponent.id, "server-id", "", "server UUID")
+	getComponent.PersistentFlags().StringVar(&flagsDefinedGetComponent.id, "server", "", "server UUID")
 
-	if err := getComponent.MarkPersistentFlagRequired("server-id"); err != nil {
+	if err := getComponent.MarkPersistentFlagRequired("server"); err != nil {
 		log.Fatal(err)
 	}
 }

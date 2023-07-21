@@ -48,10 +48,10 @@ var getCondition = &cobra.Command{
 func init() {
 	flagsDefinedGetCondition = &getConditionFlags{}
 
-	getCondition.PersistentFlags().StringVar(&flagsDefinedGetCondition.id, "server-id", "", "server UUID")
+	getCondition.PersistentFlags().StringVar(&flagsDefinedGetCondition.id, "server", "", "server UUID")
 	getCondition.PersistentFlags().StringVar(&flagsDefinedGetCondition.kind, "kind", "", "condition kind")
 
-	if err := getCondition.MarkPersistentFlagRequired("server-id"); err != nil {
+	if err := getCondition.MarkPersistentFlagRequired("server"); err != nil {
 		log.Fatal(err)
 	}
 
