@@ -49,10 +49,10 @@ var deleteCondition = &cobra.Command{
 func init() {
 	flagsDefinedGetCondition = &deleteConditionFlags{}
 
-	deleteCondition.PersistentFlags().StringVar(&flagsDefinedGetCondition.id, "server-id", "", "server UUID")
+	deleteCondition.PersistentFlags().StringVar(&flagsDefinedGetCondition.id, "server", "", "server UUID")
 	deleteCondition.PersistentFlags().StringVar(&flagsDefinedGetCondition.kind, "kind", "", "condition kind")
 
-	if err := deleteCondition.MarkPersistentFlagRequired("server-id"); err != nil {
+	if err := deleteCondition.MarkPersistentFlagRequired("server"); err != nil {
 		log.Fatal(err)
 	}
 

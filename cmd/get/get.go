@@ -22,8 +22,7 @@ func init() {
 	cmd.RootCmd.AddCommand(cmdGet)
 	cmdGet.AddCommand(getComponent)
 	cmdGet.AddCommand(getCondition)
-	cmdGet.AddCommand(getFirmwareAvailable)
-	cmdGet.AddCommand(getServerFirmware)
+	cmdGet.AddCommand(getFirmware)
 	cmdGet.AddCommand(getFirmwareSet)
 	cmdGet.AddCommand(getBiosConfig)
 
