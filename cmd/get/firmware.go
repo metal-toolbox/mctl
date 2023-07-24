@@ -11,17 +11,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type getFirmwareInfoFlags struct {
+type getFirmwareFlags struct {
 	id string
 }
 
 var (
-	flagsDefinedGetFirmware *getFirmwareInfoFlags
+	flagsDefinedGetFirmware *getFirmwareFlags
 )
 
 // Get firmware info
-var getFirmwareInfo = &cobra.Command{
-	Use:   "firmware-info",
+var getFirmware = &cobra.Command{
+	Use:   "firmware",
 	Short: "Get information for given firmware identifier",
 	Run: func(cmd *cobra.Command, args []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
@@ -50,11 +50,11 @@ var getFirmwareInfo = &cobra.Command{
 }
 
 func init() {
-	flagsDefinedGetFirmware = &getFirmwareInfoFlags{}
+	flagsDefinedGetFirmware = &getFirmwareFlags{}
 
-	getFirmwareInfo.PersistentFlags().StringVarP(&flagsDefinedGetFirmware.id, "firmware-id", "f", "", "firmware UUID")
+	getFirmware.PersistentFlags().StringVarP(&flagsDefinedGetFirmware.id, "firmware-id", "f", "", "firmware UUID")
 
-	if err := getFirmwareInfo.MarkPersistentFlagRequired("firmware-id"); err != nil {
+	if err := getFirmware.MarkPersistentFlagRequired("firmware-id"); err != nil {
 		log.Fatal(err)
 	}
 }
