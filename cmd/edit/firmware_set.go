@@ -54,7 +54,7 @@ var editFirmwareSet = &cobra.Command{
 			}
 		}
 
-		if len(payload.ComponentFirmwareUUIDs) > 0 {
+		if len(editFWSetFlags.FirmwareUUIDs) > 0 {
 			for _, id := range strings.Split(editFWSetFlags.FirmwareUUIDs, ",") {
 				_, err = uuid.Parse(id)
 				if err != nil {
