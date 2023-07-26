@@ -66,6 +66,10 @@ var editFirmwareSet = &cobra.Command{
 			}
 		}
 
+		if len(editFWSetFlags.FirmwareSetName) > 0 {
+			payload.Name = editFWSetFlags.FirmwareSetName
+			payloadUpdated = true
+		}
 
 		if payloadUpdated {
 			_, err = client.UpdateComponentFirmwareSetRequest(cmd.Context(), id, payload)
