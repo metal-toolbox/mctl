@@ -48,6 +48,19 @@ func openConfig(path string) (*os.File, error) {
 	}
 
 	path = filepath.Join(xdg.Home, ".mctl.yml")
+	f, err := os.Open(path)
+	if err != nil {
+		return f, nil
+	}
+	if !errors.Is(err, os.ErrNotExist) {
+		return nil, err
+	}
+
+	path, err = xdg.ConfigFile("mctl/config.yaml")
+	if err != nil {
+		return nil, err
+	}
+
 	return os.Open(path)
 }
 
