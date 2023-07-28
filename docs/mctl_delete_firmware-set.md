@@ -18,7 +18,7 @@ mctl delete firmware-set [flags]
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $HOME/.mctl.yml)
+      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
       --reauth          re-authenticate with oauth services
 ```
 
