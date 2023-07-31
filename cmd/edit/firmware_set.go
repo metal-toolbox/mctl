@@ -57,7 +57,7 @@ var editFirmwareSet = &cobra.Command{
 			for _, id := range strings.Split(editFWSetFlags.AddFirmwareUUIDs, ",") {
 				_, err = uuid.Parse(id)
 				if err != nil {
-					log.Println(err.Error())
+					log.Fatal(err)
 					os.Exit(1)
 				}
 
@@ -83,7 +83,7 @@ var editFirmwareSet = &cobra.Command{
 			for _, id := range strings.Split(editFWSetFlags.RemoveFirmwareUUIDs, ",") {
 				_, err = uuid.Parse(id)
 				if err != nil {
-					log.Println(err.Error())
+					log.Fatal(err)
 					os.Exit(1)
 				}
 
