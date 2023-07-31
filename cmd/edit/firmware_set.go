@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	"github.com/google/uuid"
 	mctl "github.com/metal-toolbox/mctl/cmd"
@@ -54,7 +53,7 @@ var editFirmwareSet = &cobra.Command{
 		}
 
 		if len(editFWSetFlags.AddFirmwareUUIDs) > 0 {
-			for _, id := range strings.Split(editFWSetFlags.AddFirmwareUUIDs, ",") {
+			for _, id := range editFWSetFlags.AddFirmwareUUIDs {
 				_, err = uuid.Parse(id)
 				if err != nil {
 					log.Fatal(err)
@@ -80,7 +79,7 @@ var editFirmwareSet = &cobra.Command{
 		}
 
 		if len(editFWSetFlags.RemoveFirmwareUUIDs) > 0 {
-			for _, id := range strings.Split(editFWSetFlags.RemoveFirmwareUUIDs, ",") {
+			for _, id := range editFWSetFlags.RemoveFirmwareUUIDs {
 				_, err = uuid.Parse(id)
 				if err != nil {
 					log.Fatal(err)
@@ -109,7 +108,7 @@ func init() {
 		log.Fatal(err)
 	}
 
-	cmdFlags.StringVar(&editFWSetFlags.RemoveFirmwareUUIDs, "remove-firmware-uuids", "", "UUIDs of firmware to be removed from the set")
-	cmdFlags.StringVar(&editFWSetFlags.AddFirmwareUUIDs, "add-firmware-uuids", "", "UUIDs of firmware to be added to the set")
+	cmdFlags.StringSliceVar(&editFWSetFlags.RemoveFirmwareUUIDs, "remove-firmware-uuids", []string{}, "UUIDs of firmware to be removed from the set")
+	cmdFlags.StringSliceVar(&editFWSetFlags.AddFirmwareUUIDs, "add-firmware-uuids", []string{}, "UUIDs of firmware to be added to the set")
 
 }

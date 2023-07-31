@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	"github.com/google/uuid"
 	mctl "github.com/metal-toolbox/mctl/cmd"
@@ -44,7 +43,7 @@ var createFirmwareSet = &cobra.Command{
 			payload.Attributes = []ss.Attributes{*attrs}
 		}
 
-		for _, id := range strings.Split(definedfirmwareSetFlags.AddFirmwareUUIDs, ",") {
+		for _, id := range definedfirmwareSetFlags.AddFirmwareUUIDs {
 			_, err = uuid.Parse(id)
 			if err != nil {
 				log.Println(err.Error())
@@ -70,7 +69,7 @@ var createFirmwareSet = &cobra.Command{
 func init() {
 	definedfirmwareSetFlags = &mctl.FirmwareSetFlags{}
 
-	createFirmwareSet.PersistentFlags().StringVar(&definedfirmwareSetFlags.AddFirmwareUUIDs, "firmware-uuids", "", "comma separated list of UUIDs of firmware to be included in the set to be created")
+	createFirmwareSet.PersistentFlags().StringSliceVar(&definedfirmwareSetFlags.AddFirmwareUUIDs, "firmware-uuids", []string{}, "comma separated list of UUIDs of firmware to be included in the set to be created")
 	createFirmwareSet.PersistentFlags().StringVar(&definedfirmwareSetFlags.FirmwareSetName, "name", "", "A name for the firmware set")
 	createFirmwareSet.PersistentFlags().StringToStringVar(&definedfirmwareSetFlags.Labels, "labels", nil, "Labels to assign to the firmware set - 'vendor=foo,model=bar'")
 
