@@ -3,7 +3,6 @@ package edit
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/google/uuid"
 	mctl "github.com/metal-toolbox/mctl/cmd"
@@ -57,7 +56,6 @@ var editFirmwareSet = &cobra.Command{
 				_, err = uuid.Parse(id)
 				if err != nil {
 					log.Fatal(err)
-					os.Exit(1)
 				}
 
 				payload.ComponentFirmwareUUIDs = append(payload.ComponentFirmwareUUIDs, id)
@@ -83,7 +81,6 @@ var editFirmwareSet = &cobra.Command{
 				_, err = uuid.Parse(id)
 				if err != nil {
 					log.Fatal(err)
-					os.Exit(1)
 				}
 
 				payload.ComponentFirmwareUUIDs = append(payload.ComponentFirmwareUUIDs, id)

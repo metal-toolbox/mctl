@@ -3,7 +3,6 @@ package create
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/google/uuid"
 	mctl "github.com/metal-toolbox/mctl/cmd"
@@ -46,8 +45,7 @@ var createFirmwareSet = &cobra.Command{
 		for _, id := range definedfirmwareSetFlags.AddFirmwareUUIDs {
 			_, err = uuid.Parse(id)
 			if err != nil {
-				log.Println(err.Error())
-				os.Exit(1)
+				log.Fatal(err)
 			}
 
 			payload.ComponentFirmwareUUIDs = append(payload.ComponentFirmwareUUIDs, id)
