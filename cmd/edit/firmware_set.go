@@ -3,8 +3,6 @@ package edit
 import (
 	"fmt"
 	"log"
-	"os"
-	"strings"
 
 	"github.com/google/uuid"
 	mctl "github.com/metal-toolbox/mctl/cmd"
@@ -40,6 +38,8 @@ var editFirmwareSet = &cobra.Command{
 		}
 
 		var attrs *ss.Attributes
+		var payloadUpdated bool
+
 		if len(editFWSetFlags.Labels) > 0 {
 			attrs, err = mctl.AttributeFromLabels(model.AttributeNSFirmwareSetLabels, editFWSetFlags.Labels)
 			if err != nil {
@@ -47,19 +47,40 @@ var editFirmwareSet = &cobra.Command{
 			}
 
 			payload.Attributes = []ss.Attributes{*attrs}
+			payloadUpdated = true
 
+		}
+
+		if len(editFWSetFlags.AddFirmwareUUIDs) > 0 {
+			for _, id := range editFWSetFlags.AddFirmwareUUIDs {
+				_, err = uuid.Parse(id)
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				payload.ComponentFirmwareUUIDs = append(payload.ComponentFirmwareUUIDs, id)
+				payloadUpdated = true
+			}
+		}
+
+		if len(editFWSetFlags.FirmwareSetName) > 0 {
+			payload.Name = editFWSetFlags.FirmwareSetName
+			payloadUpdated = true
+		}
+
+		if payloadUpdated {
 			_, err = client.UpdateComponentFirmwareSetRequest(cmd.Context(), id, payload)
 			if err != nil {
 				log.Fatal(err)
 			}
+			fmt.Println("firmware set updated: " + id.String())
 		}
 
-		if len(payload.ComponentFirmwareUUIDs) > 0 {
-			for _, id := range strings.Split(editFWSetFlags.FirmwareUUIDs, ",") {
+		if len(editFWSetFlags.RemoveFirmwareUUIDs) > 0 {
+			for _, id := range editFWSetFlags.RemoveFirmwareUUIDs {
 				_, err = uuid.Parse(id)
 				if err != nil {
-					log.Println(err.Error())
-					os.Exit(1)
+					log.Fatal(err)
 				}
 
 				payload.ComponentFirmwareUUIDs = append(payload.ComponentFirmwareUUIDs, id)
@@ -69,9 +90,8 @@ var editFirmwareSet = &cobra.Command{
 			if err != nil {
 				log.Fatal(err)
 			}
+			fmt.Println("firmware set uuids removed: " + id.String())
 		}
-
-		fmt.Println("firmware set updated: " + id.String())
 	},
 }
 
@@ -85,6 +105,7 @@ func init() {
 		log.Fatal(err)
 	}
 
-	cmdFlags.StringVar(&editFWSetFlags.FirmwareUUIDs, "remove-firmware-uuids", "", "UUIDs of firmware to be removed from the set")
+	cmdFlags.StringSliceVar(&editFWSetFlags.RemoveFirmwareUUIDs, "remove-firmware-uuids", []string{}, "UUIDs of firmware to be removed from the set")
+	cmdFlags.StringSliceVar(&editFWSetFlags.AddFirmwareUUIDs, "add-firmware-uuids", []string{}, "UUIDs of firmware to be added to the set")
 
 }
