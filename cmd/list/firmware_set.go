@@ -10,11 +10,14 @@ import (
 	"github.com/metal-toolbox/mctl/pkg/model"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
+
+	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
 type listFirmwareSetFlags struct {
-	vendor string
-	model  string
+	vendor  string
+	model   string
+	listAll bool
 }
 
 var (
@@ -33,9 +36,17 @@ var listFirmwareSet = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		fwSet, err := mctl.FirmwareSetByVendorModel(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, client)
-		if err != nil {
-			log.Fatal(err)
+		var fwSet []serverservice.ComponentFirmwareSet
+		if flagsDefinedListFwSet.listAll {
+			fwSet, _, err = client.ListServerComponentFirmwareSet(cmd.Context(), &serverservice.ComponentFirmwareSetListParams{})
+			if err != nil {
+				log.Fatal(err)
+			}
+		} else {
+			fwSet, err = mctl.FirmwareSetByVendorModel(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, client)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 
 		if outputJSON {
@@ -69,4 +80,5 @@ func init() {
 
 	listFirmwareSet.PersistentFlags().StringVar(&flagsDefinedListFwSet.vendor, "vendor", "", "filter by server vendor")
 	listFirmwareSet.PersistentFlags().StringVar(&flagsDefinedListFwSet.model, "model", "", "filter by server model")
+	listFirmwareSet.PersistentFlags().BoolVar(&flagsDefinedListFwSet.listAll, "all", false, "show all firmware sets. By default results are filtered on having labels for vendor, model and latest=true")
 }
