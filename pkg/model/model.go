@@ -37,21 +37,3 @@ type ConfigOIDC struct {
 	Scopes           []string `mapstructure:"oidc_scopes"`
 	PkceCallbackURL  string   `mapstructure:"oidc_pkce_callback_url"`
 }
-
-// Firmware includes a firmware version attributes and is part of FirmwareConfig
-type Firmware struct {
-	Vendor        string   `yaml:"vendor"`
-	Version       string   `yaml:"version"`
-	UpstreamURL   string   `yaml:"upstreamURL"`
-	RepositoryURL string   `yaml:"repositoryURL"`
-	FileName      string   `yaml:"filename"`
-	Utility       string   `yaml:"utility"`
-	Component     string   `yaml:"component"`
-	Checksum      string   `yaml:"checksum"`
-	Model         []string `yaml:"model"`
-}
-
-// FirmwareConfig struct holds firmware configuration data
-type FirmwareConfig struct {
-	Firmwares []*Firmware `yaml:"firmwares"`
-}
