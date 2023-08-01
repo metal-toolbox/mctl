@@ -1,15 +1,14 @@
 package create
 
 import (
+	"encoding/json"
 	"log"
 	"os"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
-	"github.com/metal-toolbox/mctl/pkg/model"
 	"github.com/spf13/cobra"
-	ss "go.hollow.sh/serverservice/pkg/api/v1"
-	"gopkg.in/yaml.v2"
+	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
 // Create
@@ -33,29 +32,18 @@ var createFirmware = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		firmwareConfig := &model.FirmwareConfig{}
+		var firmwares []*serverservice.ComponentFirmwareVersion
 		fbytes, err := os.ReadFile(flagsDefinedCreateFirmware.firmwareConfigFile)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		if err = yaml.Unmarshal(fbytes, firmwareConfig); err != nil {
+		if err = json.Unmarshal(fbytes, &firmwares); err != nil {
 			log.Fatal(err)
 		}
 
-		for _, config := range firmwareConfig.Firmwares {
-			c := ss.ComponentFirmwareVersion{
-				Vendor:        config.Vendor,
-				RepositoryURL: config.RepositoryURL,
-				Model:         config.Model,
-				UpstreamURL:   config.UpstreamURL,
-				Version:       config.Version,
-				Filename:      config.FileName,
-				Checksum:      config.Checksum,
-				Component:     config.Component,
-			}
-
-			id, _, err := client.CreateServerComponentFirmware(cmd.Context(), c)
+		for _, fw := range firmwares {
+			id, _, err := client.CreateServerComponentFirmware(cmd.Context(), *fw)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -70,7 +58,7 @@ func init() {
 
 	createFirmware.PersistentFlags().StringVar(
 		&flagsDefinedCreateFirmware.firmwareConfigFile,
-		"from-file", "", "YAML file with firmware configuration data")
+		"from-file", "", "JSON file with firmware configuration data")
 	if err := createFirmware.MarkPersistentFlagRequired("from-file"); err != nil {
 		log.Fatal(err)
 	}
