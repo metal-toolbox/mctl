@@ -207,7 +207,7 @@ func (a *authenticator) authCodePKCE(oauthConfig *oauth2.Config, audience string
 	})
 
 	// nolint:gomnd // read header timeout is set to 30s
-	server := &http.Server{Addr: ":18000", ReadHeaderTimeout: time.Second * 30, Handler: mux}
+	server := &http.Server{Addr: ":18000", ReadHeaderTimeout: time.Second * 100, Handler: mux}
 
 	go func() {
 		if err := server.ListenAndServe(); err != nil {
