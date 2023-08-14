@@ -31,6 +31,8 @@ var (
 var RootCmd = &cobra.Command{
 	Use:   "mctl",
 	Short: "mctl is a CLI utility to interact with metal toolbox services",
+
+	DisableAutoGenTag: true,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
