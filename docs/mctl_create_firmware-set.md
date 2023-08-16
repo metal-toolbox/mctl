@@ -11,10 +11,10 @@ mctl create firmware-set [flags]
 ### Options
 
 ```
-      --firmware-uuids string   comma separated list of UUIDs of firmware to be included in the set to be created
-  -h, --help                    help for firmware-set
-      --labels stringToString   Labels to assign to the firmware set - 'vendor=foo,model=bar' (default [])
-      --name string             A name for the firmware set
+      --firmware-uuids strings   comma separated list of UUIDs of firmware to be included in the set to be created
+  -h, --help                     help for firmware-set
+      --labels stringToString    Labels to assign to the firmware set - 'vendor=foo,model=bar' (default [])
+      --name string              A name for the firmware set
 ```
 
 ### Options inherited from parent commands

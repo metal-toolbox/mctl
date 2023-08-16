@@ -11,7 +11,7 @@ mctl create firmware [flags]
 ### Options
 
 ```
-      --from-file string   YAML file with firmware configuration data
+      --from-file string   JSON file with firmware configuration data
   -h, --help               help for firmware
 ```
 

@@ -11,11 +11,12 @@ mctl edit firmware-set [flags]
 ### Options
 
 ```
-  -h, --help                           help for firmware-set
-      --labels stringToString          Labels to assign to the firmware set - 'vendor=foo,model=bar' (default [])
-      --name string                    Update name for the firmware set
-      --remove-firmware-uuids string   UUIDs of firmware to be removed from the set
-      --uuid string                    UUID of firmware set to be edited
+      --add-firmware-uuids strings      UUIDs of firmware to be added to the set
+  -h, --help                            help for firmware-set
+      --labels stringToString           Labels to assign to the firmware set - 'vendor=foo,model=bar' (default [])
+      --name string                     Update name for the firmware set
+      --remove-firmware-uuids strings   UUIDs of firmware to be removed from the set
+      --uuid string                     UUID of firmware set to be edited
 ```
 
 ### Options inherited from parent commands

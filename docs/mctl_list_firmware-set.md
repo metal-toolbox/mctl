@@ -11,6 +11,7 @@ mctl list firmware-set [flags]
 ### Options
 
 ```
+      --all             show all firmware sets. By default results are filtered on having labels for vendor, model and latest=true
   -h, --help            help for firmware-set
       --model string    filter by server model
       --vendor string   filter by server vendor
