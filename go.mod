@@ -3,6 +3,7 @@ module github.com/metal-toolbox/mctl
 go 1.19
 
 require (
+	github.com/adrg/xdg v0.4.0
 	github.com/bmc-toolbox/common v0.0.0-20230220061748-93ff001f4a1d
 	github.com/coreos/go-oidc v2.2.1+incompatible
 	github.com/davecgh/go-spew v1.1.1

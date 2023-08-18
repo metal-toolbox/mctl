@@ -4,7 +4,9 @@ import (
 	"context"
 	"net/url"
 	"os"
+	"path/filepath"
 
+	"github.com/adrg/xdg"
 	"github.com/metal-toolbox/mctl/pkg/model"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
@@ -36,30 +38,41 @@ func New(_ context.Context, cfgFile string, reauth bool) (app *App, err error) {
 	return &App{Config: cfg, Reauth: reauth}, nil
 }
 
-func loadConfig(cfgFile string) (*model.Config, error) {
-	cfg := &model.Config{}
-
-	if cfgFile != "" {
-		cfg.File = cfgFile
-	} else {
-		homedir, err := os.UserHomeDir()
-		if err != nil {
-			return nil, err
-		}
-
-		cfg.File = homedir + "/" + ".mctl.yml"
+func openConfig(path string) (*os.File, error) {
+	if path != "" {
+		return os.Open(path)
+	}
+	path = viper.GetString("mctlconfig")
+	if path != "" {
+		return os.Open(path)
 	}
 
-	viper.AutomaticEnv()
-	if viper.GetString("mctlconfig") != "" {
-		cfg.File = viper.GetString("mctlconfig")
+	path = filepath.Join(xdg.Home, ".mctl.yml")
+	f, err := os.Open(path)
+	if err != nil {
+		return f, nil
+	}
+	if !errors.Is(err, os.ErrNotExist) {
+		return nil, err
 	}
 
-	h, err := os.Open(cfg.File)
+	path, err = xdg.ConfigFile("mctl/config.yaml")
 	if err != nil {
 		return nil, err
 	}
 
+	return os.Open(path)
+}
+
+func loadConfig(cfgFile string) (*model.Config, error) {
+	cfg := &model.Config{}
+	viper.AutomaticEnv()
+	h, err := openConfig(cfgFile)
+	if err != nil {
+		return nil, err
+	}
+
+	cfg.File = h.Name()
 	viper.SetConfigFile(cfg.File)
 
 	err = viper.ReadConfig(h)
