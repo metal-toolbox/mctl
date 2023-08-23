@@ -49,7 +49,7 @@ func openConfig(path string) (*os.File, error) {
 
 	path = filepath.Join(xdg.Home, ".mctl.yml")
 	f, err := os.Open(path)
-	if err != nil {
+	if err == nil {
 		return f, nil
 	}
 	if !errors.Is(err, os.ErrNotExist) {
