@@ -7,12 +7,13 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	cotypesv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
-	cotypes "github.com/metal-toolbox/conditionorc/pkg/types"
-	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+
+	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
+	cotypes "github.com/metal-toolbox/conditionorc/pkg/types"
+	mctl "github.com/metal-toolbox/mctl/cmd"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
@@ -67,7 +68,7 @@ func installFwSet(ctx context.Context) {
 		ForceInstall:          flagsDefinedInstallFwSet.forceInstall,
 	})
 
-	co := cotypesv1.ConditionCreate{
+	co := coapiv1.ConditionCreate{
 		Exclusive:  true,
 		Parameters: json.RawMessage(b),
 	}
@@ -77,7 +78,7 @@ func installFwSet(ctx context.Context) {
 		log.Fatal(err)
 	}
 
-	condition, err := conditionResponse(response)
+	condition, err := mctl.ConditionFromResponse(response)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -127,16 +128,6 @@ func firmwareSetForInstall(ctx context.Context, client *serverservice.Client, se
 	}
 
 	return fwSetID, nil
-}
-
-func conditionResponse(response *cotypesv1.ServerResponse) (cotypes.Condition, error) {
-	errUnexpectedResponse := errors.New("unexpected response")
-
-	if response.Records == nil || len(response.Records.Conditions) == 0 {
-		return cotypes.Condition{}, errors.Wrap(errUnexpectedResponse, "empty records")
-	}
-
-	return *response.Records.Conditions[0], nil
 }
 
 func init() {

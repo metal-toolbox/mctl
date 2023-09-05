@@ -2,12 +2,11 @@ package install
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 
 	"github.com/google/uuid"
-	coapi "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
+
 	cotypes "github.com/metal-toolbox/conditionorc/pkg/types"
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
@@ -42,46 +41,7 @@ func statusCheck(ctx context.Context) {
 		log.Fatalf("querying server conditions: %s", err.Error())
 	}
 
-	fmt.Println(formatCondition(resp))
-}
-
-type conditionDisplay struct {
-	ID         uuid.UUID              `json:"id"`
-	Kind       cotypes.ConditionKind  `json:"kind"`
-	State      cotypes.ConditionState `json:"state"`
-	Parameters json.RawMessage        `json:"parameters"`
-	Status     json.RawMessage        `json:"status"`
-}
-
-// XXX: this logs Fatal on errors, and I don't love it but the choice is boilerplate error
-// definitions and handling or do something expediant in a one-file command function.
-func formatCondition(resp *coapi.ServerResponse) string {
-	if resp.Records == nil {
-		log.Fatal("no records returned")
-	}
-
-	if len(resp.Records.Conditions) == 0 {
-		log.Fatal("no install condition found")
-	}
-
-	inc := resp.Records.Conditions[0]
-
-	display := &conditionDisplay{
-		ID:         inc.ID,
-		Kind:       inc.Kind,
-		Parameters: inc.Parameters,
-		State:      inc.State,
-		Status:     inc.Status,
-	}
-
-	// XXX: seems highly unlikely that we get a response that deserializes cleanly and doesn't
-	// re-serialize.
-	b, err := json.MarshalIndent(display, "", "  ")
-	if err != nil {
-		log.Fatalf("bad json in response: %s", err.Error())
-	}
-
-	return string(b)
+	fmt.Println(mctl.FormatConditionResponse(resp))
 }
 
 func init() {
