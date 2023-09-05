@@ -1,14 +1,15 @@
 module github.com/metal-toolbox/mctl
 
-go 1.19
+go 1.20
 
 require (
 	github.com/adrg/xdg v0.4.0
 	github.com/bmc-toolbox/common v0.0.0-20230220061748-93ff001f4a1d
 	github.com/coreos/go-oidc v2.2.1+incompatible
 	github.com/davecgh/go-spew v1.1.1
-	github.com/google/uuid v1.3.0
+	github.com/google/uuid v1.3.1
 	github.com/metal-toolbox/conditionorc v0.0.4
+	github.com/metal-toolbox/rivets v0.0.0-20230904161107-77d8fb915e76
 	github.com/nirasan/go-oauth-pkce-code-verifier v0.0.0-20220510032225-4f9f17eaec4c
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/pkg/errors v0.9.1
@@ -120,7 +121,7 @@ require (
 	gocloud.dev v0.33.0 // indirect
 	golang.org/x/arch v0.4.0 // indirect
 	golang.org/x/crypto v0.12.0 // indirect
-	golang.org/x/exp v0.0.0-20230811145659-89c5cff77bcb // indirect
+	golang.org/x/exp v0.0.0-20230817173708-d852ddb80c63 // indirect
 	golang.org/x/sys v0.11.0 // indirect
 	golang.org/x/text v0.12.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
