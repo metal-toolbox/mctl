@@ -4,15 +4,20 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"strings"
 	"time"
 
-	bmclibcomm "github.com/bmc-toolbox/common"
 	"github.com/google/uuid"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/pkg/errors"
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 	"golang.org/x/net/context"
+
+	bmclibcomm "github.com/bmc-toolbox/common"
+	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
+	cotypes "github.com/metal-toolbox/conditionorc/pkg/types"
+	rctypes "github.com/metal-toolbox/rivets/condition"
+	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
 var (
@@ -141,4 +146,86 @@ func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, client 
 	}
 
 	return fwSet, nil
+}
+
+type ErrUnexpectedResponse struct {
+	statusCode int
+	message    string
+}
+
+func (e *ErrUnexpectedResponse) Error() string {
+	s := fmt.Sprintf("status code: %d", e.statusCode)
+
+	if e.message != "" {
+		s += " response message: " + e.message
+	}
+
+	return fmt.Sprintf("Unexpected response from Conditions API " + s)
+}
+
+func newErrUnexpectedResponse(statusCode int, message string) error {
+	return &ErrUnexpectedResponse{statusCode, message}
+}
+
+// ConditionFromResponse returns a Condition object from the Condition API ServerResponse object
+//
+// TODO: switch from cotypes.Condition to rivets.Condition
+func ConditionFromResponse(response *coapiv1.ServerResponse) (cotypes.Condition, error) {
+
+	if response.StatusCode != http.StatusOK {
+		return cotypes.Condition{}, newErrUnexpectedResponse(response.StatusCode, response.Message)
+	}
+
+	if response.Records == nil || len(response.Records.Conditions) == 0 {
+		return cotypes.Condition{}, errors.New("no record found for Condition")
+	}
+
+	return *response.Records.Conditions[0], nil
+}
+
+// conditionDisplay is the format in which the condition is printed to the user.
+type conditionDisplay struct {
+	ID         uuid.UUID       `json:"id"`
+	Kind       rctypes.Kind    `json:"kind"`
+	State      rctypes.State   `json:"state"`
+	Parameters json.RawMessage `json:"parameters"`
+	Status     json.RawMessage `json:"status"`
+	UpdatedAt  time.Time       `json:"updated_at"`
+	CreatedAt  time.Time       `json:"created_at"`
+}
+
+// FormatConditionResponse returns a prettyish JSON formatted output that can be printed to stdout.
+func FormatConditionResponse(response *coapiv1.ServerResponse) (string, error) {
+	if response.StatusCode != http.StatusOK {
+		return "", newErrUnexpectedResponse(response.StatusCode, response.Message)
+	}
+
+	if response.Records == nil {
+		return "", errors.New("no records returned")
+	}
+
+	if len(response.Records.Conditions) == 0 {
+		return "", errors.New("no record found for Condition")
+	}
+
+	inc := response.Records.Conditions[0]
+
+	display := &conditionDisplay{
+		ID: inc.ID,
+		// type conversion until the Condition type is fully moved into the rivets lib
+		Kind:       rctypes.Kind(inc.Kind),
+		Parameters: inc.Parameters,
+		// type conversion until the Condition type is fully moved into the rivets lib
+		State:  rctypes.State(inc.State),
+		Status: inc.Status,
+	}
+
+	// XXX: seems highly unlikely that we get a response that deserializes cleanly and doesn't
+	// re-serialize.
+	b, err := json.MarshalIndent(display, "", "  ")
+	if err != nil {
+		return "", errors.Wrap(err, "bad json in response")
+	}
+
+	return string(b), nil
 }
