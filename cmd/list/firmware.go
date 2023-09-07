@@ -10,6 +10,19 @@ import (
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
+	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
+)
+
+type listFirmwareFlags struct {
+	server    string // server UUID
+	vendor    string
+	model     string
+	component string
+	version   string
+}
+
+var (
+	flagsDefinedListFirmware *listFirmwareFlags
 )
 
 // List
@@ -27,7 +40,18 @@ var listFirmware = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		firmware, _, err := client.ListServerComponentFirmware(ctx, nil)
+		modelSlice := make([]string, 0)
+		if flagsDefinedListFirmware.model != "" {
+			modelSlice = append(modelSlice, strings.Split(flagsDefinedListFirmware.model, ",")...)
+		}
+
+		filterParams := serverservice.ComponentFirmwareVersionListParams{
+			Vendor:  flagsDefinedListFirmware.vendor,
+			Model:   modelSlice,
+			Version: flagsDefinedListFirmware.version,
+		}
+
+		firmware, _, err := client.ListServerComponentFirmware(ctx, &filterParams)
 		if err != nil {
 			log.Fatal("serverservice client returned error: ", err)
 		}
@@ -37,6 +61,18 @@ var listFirmware = &cobra.Command{
 			os.Exit(0)
 		}
 
+		// the built in filter only filters out vendor, model, and version, will have to filter out the other columns manually
+		if flagsDefinedListFirmware.server != "" || flagsDefinedListFirmware.component != "" {
+			filteredFirmware := make([]serverservice.ComponentFirmwareVersion, 0)
+			for _, f := range firmware {
+				if (flagsDefinedListFirmware.server == "" || f.UUID.String() == flagsDefinedListFirmware.server) &&
+					(flagsDefinedListFirmware.component == "" || f.Component == flagsDefinedListFirmware.component) {
+					filteredFirmware = append(filteredFirmware, f)
+				}
+			}
+			firmware = filteredFirmware
+		}
+
 		table := tablewriter.NewWriter(os.Stdout)
 		table.SetHeader([]string{"UUID", "Vendor", "Model", "Component", "Version"})
 		for _, f := range firmware {
@@ -44,4 +80,14 @@ var listFirmware = &cobra.Command{
 		}
 		table.Render()
 	},
+}
+
+func init() {
+	flagsDefinedListFirmware = &listFirmwareFlags{}
+
+	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.server, "server", "", "server UUID")
+	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.vendor, "vendor", "", "vendor name")
+	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.model, "model", "", "model name")
+	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.component, "component", "", "component type")
+	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.version, "version", "", "version number")
 }
