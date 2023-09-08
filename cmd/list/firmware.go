@@ -16,7 +16,7 @@ import (
 type listFirmwareFlags struct {
 	server    string // server UUID
 	vendor    string
-	model     string
+	model     []string
 	component string
 	version   string
 }
@@ -40,14 +40,9 @@ var listFirmware = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		modelSlice := make([]string, 0)
-		if flagsDefinedListFirmware.model != "" {
-			modelSlice = append(modelSlice, strings.Split(flagsDefinedListFirmware.model, ",")...)
-		}
-
 		filterParams := serverservice.ComponentFirmwareVersionListParams{
 			Vendor:  flagsDefinedListFirmware.vendor,
-			Model:   modelSlice,
+			Model:   flagsDefinedListFirmware.model,
 			Version: flagsDefinedListFirmware.version,
 		}
 
@@ -87,7 +82,7 @@ func init() {
 
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.server, "server", "", "server UUID")
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.vendor, "vendor", "", "vendor name")
-	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.model, "model", "", "model name")
+	listFirmware.PersistentFlags().StringSliceVar(&flagsDefinedListFirmware.model, "model", make([]string, 0), "list of models seperated by commas")
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.component, "component", "", "component type")
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.version, "version", "", "version number")
 }

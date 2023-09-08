@@ -13,7 +13,7 @@ mctl list firmware [flags]
 ```
       --component string   component type
   -h, --help               help for firmware
-      --model string       model name
+      --model strings      model name
       --server string      server UUID
       --vendor string      vendor name
       --version string     version number
