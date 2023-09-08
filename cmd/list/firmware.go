@@ -82,7 +82,7 @@ func init() {
 
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.server, "server", "", "server UUID")
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.vendor, "vendor", "", "vendor name")
-	listFirmware.PersistentFlags().StringSliceVar(&flagsDefinedListFirmware.model, "model", make([]string, 0), "list of models separated by commas")
+	listFirmware.PersistentFlags().StringSliceVar(&flagsDefinedListFirmware.model, "model", nil, "list of models separated by commas")
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.component, "component", "", "component type")
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.version, "version", "", "version number")
 }
