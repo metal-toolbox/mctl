@@ -11,7 +11,12 @@ mctl list firmware [flags]
 ### Options
 
 ```
-  -h, --help   help for firmware
+      --component string   component type
+  -h, --help               help for firmware
+      --model strings      list of models separated by commas
+      --server string      server UUID
+      --vendor string      vendor name
+      --version string     version number
 ```
 
 ### Options inherited from parent commands
