@@ -41,7 +41,12 @@ func statusCheck(ctx context.Context) {
 		log.Fatalf("querying server conditions: %s", err.Error())
 	}
 
-	fmt.Println(mctl.FormatConditionResponse(resp))
+	s, err := mctl.FormatConditionResponse(resp)
+	if err != nil {
+		log.Fatalf("error formating condition response: %s", err.Error())
+	}
+
+	fmt.Println(s)
 }
 
 func init() {
