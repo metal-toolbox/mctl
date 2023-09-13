@@ -18,7 +18,7 @@ require (
 	github.com/spf13/viper v1.16.0
 	github.com/stretchr/testify v1.8.4
 	github.com/zalando/go-keyring v0.2.1
-	go.hollow.sh/serverservice v0.16.0
+	go.hollow.sh/serverservice v0.16.1
 	golang.org/x/net v0.14.0
 	golang.org/x/oauth2 v0.11.0
 	gopkg.in/square/go-jose.v2 v2.6.0
@@ -107,7 +107,7 @@ require (
 	github.com/volatiletech/null/v8 v8.1.2 // indirect
 	github.com/volatiletech/randomize v0.0.1 // indirect
 	github.com/volatiletech/sqlboiler v3.7.1+incompatible // indirect
-	github.com/volatiletech/sqlboiler/v4 v4.14.2 // indirect
+	github.com/volatiletech/sqlboiler/v4 v4.15.0 // indirect
 	github.com/volatiletech/strmangle v0.0.5 // indirect
 	go.hollow.sh/toolbox v0.6.1 // indirect
 	go.opencensus.io v0.24.0 // indirect
