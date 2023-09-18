@@ -109,7 +109,7 @@ func FirmwareSetIDByVendorModel(ctx context.Context, vendor, model string, clien
 // TODO: move into common library
 func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, client *serverservice.Client) ([]serverservice.ComponentFirmwareSet, error) {
 	// ?attr=sh.hollow.firmware_set.labels~vendor~eq~dell&attr=sh.hollow.firmware_set.labels~model~eq~r750&attr=sh.hollow.firmware_set.labels~latest~eq~false
-	// list latest firmware sets by vendor, model attributes
+	// list latest, default firmware sets by vendor, model attributes
 	fwSetListparams := &serverservice.ComponentFirmwareSetListParams{
 		AttributeListParams: []serverservice.AttributeListParams{
 			{
@@ -126,7 +126,13 @@ func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, client 
 			},
 			{
 				Namespace: FirmwareSetAttributeNS,
-				Keys:      []string{"latest"},
+				Keys:      []string{"latest"}, // latest indicates the most current revision of the firmware set.
+				Operator:  "eq",
+				Value:     "true",
+			},
+			{
+				Namespace: FirmwareSetAttributeNS,
+				Keys:      []string{"default"}, // default indicates the firmware set does not belong to an org/project.
 				Operator:  "eq",
 				Value:     "true",
 			},
