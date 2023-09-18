@@ -26,4 +26,5 @@ mctl create [flags]
 * [mctl](mctl.md)	 - mctl is a CLI utility to interact with metal toolbox services
 * [mctl create firmware](mctl_create_firmware.md)	 - Create firmware
 * [mctl create firmware-set](mctl_create_firmware-set.md)	 - Create a firmware set
+* [mctl create uploadbom](mctl_create_uploadbom.md)	 - Upload Bom File
 

@@ -103,6 +103,13 @@ func validateClientParams(cfg *model.Config) error {
 		}
 	}
 
+	if cfg.BomService != nil {
+		err := validateConfigOIDC(cfg.BomService)
+		if err != nil {
+			return errors.Wrap(err, "bomservice API config")
+		}
+	}
+
 	return nil
 }
 
