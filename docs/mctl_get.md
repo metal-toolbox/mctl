@@ -25,7 +25,9 @@ mctl get [flags]
 ### SEE ALSO
 
 * [mctl](mctl.md)	 - mctl is a CLI utility to interact with metal toolbox services
+* [mctl get aocmacaddress](mctl_get_aocmacaddress.md)	 - Get bom object by aocMacAddr
 * [mctl get bios-config](mctl_get_bios-config.md)	 - Get bios configuration information for a server
+* [mctl get bmcmacaddress](mctl_get_bmcmacaddress.md)	 - Get bom object by bmcMacAddr
 * [mctl get component](mctl_get_component.md)	 - get server components
 * [mctl get condition](mctl_get_condition.md)	 - get server condition
 * [mctl get firmware](mctl_get_firmware.md)	 - Get information for given firmware identifier
