@@ -11,6 +11,7 @@ type (
 const (
 	ServerserviceAPI APIKind = "serverservice"
 	ConditionsAPI    APIKind = "conditions"
+	BomsServiceAPI   APIKind = "bomservice"
 )
 
 // Config struct holds the mctl configuration parameters
@@ -20,6 +21,7 @@ type Config struct {
 	File          string
 	Serverservice *ConfigOIDC `mapstructure:"serverservice_api"`
 	Conditions    *ConfigOIDC `mapstructure:"conditions_api"`
+	BomService    *ConfigOIDC `mapstructure:"bomservice_api"`
 }
 
 type ConfigOIDC struct {
