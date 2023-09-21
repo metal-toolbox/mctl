@@ -25,6 +25,8 @@ func init() {
 	cmdGet.AddCommand(getFirmware)
 	cmdGet.AddCommand(getFirmwareSet)
 	cmdGet.AddCommand(getBiosConfig)
+	cmdGet.AddCommand(getBomInfoByAocMacAddress)
+	cmdGet.AddCommand(getBomInfoByBmcMacAddress)
 
 	cmdGet.PersistentFlags().StringVarP(&output, "output", "o", "json", "{json|text}")
 }
