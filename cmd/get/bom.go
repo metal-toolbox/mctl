@@ -34,10 +34,6 @@ var getBomInfoByMacAddress = &cobra.Command{
 			log.Fatalf("--aoc-mac and --bmc-mac not set")
 		}
 
-		if flagsGetBomByMacAddress.hasAOCMacAddr() && flagsGetBomByMacAddress.hasBMCMacAddr() {
-			log.Fatalf("--aoc-mac and --bmc-mac should not set simutansly")
-		}
-
 		theApp := mctl.MustCreateApp(cmd.Context())
 
 		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice, theApp.Reauth)
@@ -64,4 +60,6 @@ func init() {
 
 	getBomInfoByMacAddress.PersistentFlags().StringVar(&flagsGetBomByMacAddress.aocMacAddr, "aoc-mac", "", "get bom info by aoc mac address")
 	getBomInfoByMacAddress.PersistentFlags().StringVar(&flagsGetBomByMacAddress.bmcMacAddr, "bmc-mac", "", "get bom info by bmc mac address")
+
+	getBomInfoByMacAddress.MarkFlagsMutuallyExclusive("aoc-mac", "bmc-mac")
 }
