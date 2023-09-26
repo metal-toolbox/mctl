@@ -20,7 +20,7 @@ var (
 )
 
 var uploadBomFile = &cobra.Command{
-	Use:   "uploadbom",
+	Use:   "bom",
 	Short: "Upload Bom File",
 	Run: func(cmd *cobra.Command, args []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
