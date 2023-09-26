@@ -40,7 +40,7 @@ var deleteFirmwareSet = &cobra.Command{
 }
 
 func init() {
-	deleteFirmwareSet.PersistentFlags().StringVar(&deleteFWSetFlags.ID, "uuid", "", "UUID of firmware set to be deleted")
+	deleteFirmwareSet.PersistentFlags().StringVarP(&deleteFWSetFlags.ID, "uuid", "u", "", "UUID of firmware set to be deleted")
 
 	if err := deleteFirmwareSet.MarkPersistentFlagRequired("uuid"); err != nil {
 		log.Fatal(err)

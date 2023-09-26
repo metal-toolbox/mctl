@@ -56,9 +56,9 @@ var createFirmware = &cobra.Command{
 func init() {
 	flagsDefinedCreateFirmware = &createFirmwareFlags{}
 
-	createFirmware.PersistentFlags().StringVar(
+	createFirmware.PersistentFlags().StringVarP(
 		&flagsDefinedCreateFirmware.firmwareConfigFile,
-		"from-file", "", "JSON file with firmware configuration data")
+		"from-file", "f", "", "JSON file with firmware configuration data")
 	if err := createFirmware.MarkPersistentFlagRequired("from-file"); err != nil {
 		log.Fatal(err)
 	}
