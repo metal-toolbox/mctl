@@ -15,9 +15,8 @@ import (
 )
 
 type listFirmwareSetFlags struct {
-	vendor  string
-	model   string
-	listAll bool
+	vendor string
+	model  string
 }
 
 var (
@@ -37,13 +36,14 @@ var listFirmwareSet = &cobra.Command{
 		}
 
 		var fwSet []serverservice.ComponentFirmwareSet
-		if flagsDefinedListFwSet.listAll {
-			fwSet, _, err = client.ListServerComponentFirmwareSet(cmd.Context(), &serverservice.ComponentFirmwareSetListParams{})
+
+		if flagsDefinedListFwSet.vendor != "" || flagsDefinedListFwSet.model != "" {
+			fwSet, err = mctl.FirmwareSetByVendorModel(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, client)
 			if err != nil {
 				log.Fatal(err)
 			}
 		} else {
-			fwSet, err = mctl.FirmwareSetByVendorModel(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, client)
+			fwSet, _, err = client.ListServerComponentFirmwareSet(cmd.Context(), &serverservice.ComponentFirmwareSetListParams{})
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -80,5 +80,4 @@ func init() {
 
 	listFirmwareSet.PersistentFlags().StringVar(&flagsDefinedListFwSet.vendor, "vendor", "", "filter by server vendor")
 	listFirmwareSet.PersistentFlags().StringVar(&flagsDefinedListFwSet.model, "model", "", "filter by server model")
-	listFirmwareSet.PersistentFlags().BoolVar(&flagsDefinedListFwSet.listAll, "all", false, "show all firmware sets. By default results are filtered on having labels for vendor, model and latest=true")
 }

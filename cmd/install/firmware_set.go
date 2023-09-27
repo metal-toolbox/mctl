@@ -12,8 +12,9 @@ import (
 	"github.com/spf13/cobra"
 
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
-	cotypes "github.com/metal-toolbox/conditionorc/pkg/types"
+	cptypes "github.com/metal-toolbox/conditionorc/pkg/types" // The condition types package being deprecated for rivets
 	mctl "github.com/metal-toolbox/mctl/cmd"
+	rctypes "github.com/metal-toolbox/rivets/condition"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
@@ -22,6 +23,7 @@ type installFirmwareSetFlags struct {
 	serverID      string
 	forceInstall  bool
 	skipBMCReset  bool
+	dryRun        bool
 }
 
 var (
@@ -61,11 +63,12 @@ func installFwSet(ctx context.Context) {
 		log.Fatal(err)
 	}
 
-	b, _ := json.Marshal(parameters{
+	b, _ := json.Marshal(rctypes.FirmwareInstallTaskParameters{
 		AssetID:               serverID,
 		FirmwareSetID:         fwSetID,
 		ResetBMCBeforeInstall: !flagsDefinedInstallFwSet.skipBMCReset,
 		ForceInstall:          flagsDefinedInstallFwSet.forceInstall,
+		DryRun:                flagsDefinedInstallFwSet.dryRun,
 	})
 
 	co := coapiv1.ConditionCreate{
@@ -73,7 +76,7 @@ func installFwSet(ctx context.Context) {
 		Parameters: json.RawMessage(b),
 	}
 
-	response, err := client.ServerConditionCreate(ctx, serverID, cotypes.FirmwareInstall, co)
+	response, err := client.ServerConditionCreate(ctx, serverID, cptypes.FirmwareInstall, co)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -137,6 +140,7 @@ func init() {
 	installFirmwareSet.PersistentFlags().StringVar(&flagsDefinedInstallFwSet.serverID, "server", "", "server UUID")
 	installFirmwareSet.PersistentFlags().StringVar(&flagsDefinedInstallFwSet.firmwareSetID, "id", "", "firmware set UUID")
 	installFirmwareSet.PersistentFlags().BoolVar(&flagsDefinedInstallFwSet.forceInstall, "force", false, "force install (skips firmware version check)")
+	installFirmwareSet.PersistentFlags().BoolVar(&flagsDefinedInstallFwSet.dryRun, "dry-run", false, "Run install process in dry-run (skips firmware install)")
 	installFirmwareSet.PersistentFlags().BoolVar(&flagsDefinedInstallFwSet.skipBMCReset, "skip-bmc-reset", false, "skip BMC reset before firmware install")
 
 	if err := installFirmwareSet.MarkPersistentFlagRequired("server"); err != nil {

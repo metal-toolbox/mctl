@@ -503,8 +503,10 @@ github.com/metal-toolbox/conditionorc v0.0.4 h1:P3BPeIny4Ry1o4LCMbN6BrhJvJtCY1l2
 github.com/metal-toolbox/conditionorc v0.0.4/go.mod h1:S+xFRw3Baw5FW8TXDNnSSQthiwKwizyUz5fxOvTbimQ=
 github.com/metal-toolbox/hollow-bomservice v0.1.1 h1:Pll/HqF8Dff0jKo9B8ywcF9bfwTBmIIQpWcAWL3mYiM=
 github.com/metal-toolbox/hollow-bomservice v0.1.1/go.mod h1:v37wkZnVs/PTlfF/t6/aoMO48yE9XDCpog8kFr0R/yY=
-github.com/metal-toolbox/rivets v0.0.0-20230904161107-77d8fb915e76 h1:xS2IXYekGv2wXZLxhjzXV28kVB28NkvYngrj58TNUPE=
-github.com/metal-toolbox/rivets v0.0.0-20230904161107-77d8fb915e76/go.mod h1:QlGp4NUmXkSa8lhm/fFlH845kamwiOM7kiIsigVxWlg=
+github.com/metal-toolbox/rivets v0.0.0-20230927052538-1c8ed77bb8ad h1:R887uppEjQVvzXTzKai7RCE1/Ks0Z+1kbPOnn2FC7Cs=
+github.com/metal-toolbox/rivets v0.0.0-20230927052538-1c8ed77bb8ad/go.mod h1:QlGp4NUmXkSa8lhm/fFlH845kamwiOM7kiIsigVxWlg=
+github.com/metal-toolbox/rivets v0.0.0-20230927091114-c7072205b479 h1:qRbkgUl7UZOk5V8UAjB8PG7BX2qjOeKJ7EF+t6sb9jM=
+github.com/metal-toolbox/rivets v0.0.0-20230927091114-c7072205b479/go.mod h1:QlGp4NUmXkSa8lhm/fFlH845kamwiOM7kiIsigVxWlg=
 github.com/microsoft/go-mssqldb v0.17.0/go.mod h1:OkoNGhGEs8EZqchVTtochlXruEhEOaO4S0d2sB5aeGQ=
 github.com/miekg/dns v1.1.26/go.mod h1:bPDLeHnStXmXAq1m/Ch/hvfNHr14JKNPMBo3VZKjuso=
 github.com/miekg/dns v1.1.41/go.mod h1:p6aan82bvRIyn+zDIv9xYNUpwa73JcSh9BKwknJysuI=

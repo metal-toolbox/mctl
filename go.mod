@@ -10,7 +10,7 @@ require (
 	github.com/google/uuid v1.3.1
 	github.com/metal-toolbox/conditionorc v0.0.4
 	github.com/metal-toolbox/hollow-bomservice v0.1.1
-	github.com/metal-toolbox/rivets v0.0.0-20230904161107-77d8fb915e76
+	github.com/metal-toolbox/rivets v0.0.0-20230927091114-c7072205b479
 	github.com/nirasan/go-oauth-pkce-code-verifier v0.0.0-20220510032225-4f9f17eaec4c
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/pkg/errors v0.9.1
