@@ -11,6 +11,7 @@ mctl install firmware-set [flags]
 ### Options
 
 ```
+      --dry-run          Run install process in dry-run (skips firmware install)
       --force            force install (skips firmware version check)
   -h, --help             help for firmware-set
       --id string        firmware set UUID
