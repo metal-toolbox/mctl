@@ -21,7 +21,7 @@ type listFirmwareSetFlags struct {
 }
 
 var (
-	flagsDefinedListFwSet *listFirmwareSetFlags
+	flags *listFirmwareSetFlags
 )
 
 // List
@@ -37,13 +37,30 @@ var listFirmwareSet = &cobra.Command{
 		}
 
 		var fwSet []serverservice.ComponentFirmwareSet
-		if flagsDefinedListFwSet.listAll {
-			fwSet, _, err = client.ListServerComponentFirmwareSet(cmd.Context(), &serverservice.ComponentFirmwareSetListParams{})
+		if flags.listAll {
+			params := &serverservice.ComponentFirmwareSetListParams{}
+			if flags.vendor != "" {
+				params.AttributeListParams = append(params.AttributeListParams, serverservice.AttributeListParams{
+					Namespace: mctl.FirmwareSetAttributeNS,
+					Keys:      []string{"vendor"},
+					Operator:  "eq",
+					Value:     strings.ToLower(flags.vendor),
+				})
+			}
+			if flags.model != "" {
+				params.AttributeListParams = append(params.AttributeListParams, serverservice.AttributeListParams{
+					Namespace: mctl.FirmwareSetAttributeNS,
+					Keys:      []string{"model"},
+					Operator:  "eq",
+					Value:     strings.ToLower(flags.model),
+				})
+			}
+			fwSet, _, err = client.ListServerComponentFirmwareSet(cmd.Context(), params)
 			if err != nil {
 				log.Fatal(err)
 			}
 		} else {
-			fwSet, err = mctl.FirmwareSetByVendorModel(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, client)
+			fwSet, err = mctl.FirmwareSetByVendorModel(cmd.Context(), flags.vendor, flags.model, client)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -76,9 +93,9 @@ var listFirmwareSet = &cobra.Command{
 }
 
 func init() {
-	flagsDefinedListFwSet = &listFirmwareSetFlags{}
+	flags = &listFirmwareSetFlags{}
 
-	listFirmwareSet.PersistentFlags().StringVar(&flagsDefinedListFwSet.vendor, "vendor", "", "filter by server vendor")
-	listFirmwareSet.PersistentFlags().StringVar(&flagsDefinedListFwSet.model, "model", "", "filter by server model")
-	listFirmwareSet.PersistentFlags().BoolVar(&flagsDefinedListFwSet.listAll, "all", false, "show all firmware sets. By default results are filtered on having labels for vendor, model and latest=true")
+	listFirmwareSet.PersistentFlags().StringVar(&flags.vendor, "vendor", "", "filter by server vendor")
+	listFirmwareSet.PersistentFlags().StringVar(&flags.model, "model", "", "filter by server model")
+	listFirmwareSet.PersistentFlags().BoolVar(&flags.listAll, "all", false, "show all firmware sets. By default results are filtered on having labels for vendor, model and latest=true")
 }
