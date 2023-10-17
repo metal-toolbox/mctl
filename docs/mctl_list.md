@@ -25,6 +25,7 @@ mctl list [flags]
 ### SEE ALSO
 
 * [mctl](mctl.md)	 - mctl is a CLI utility to interact with metal toolbox services
+* [mctl list component](mctl_list_component.md)	 - List Components
 * [mctl list condition](mctl_list_condition.md)	 - list server conditions by state
 * [mctl list firmware](mctl_list_firmware.md)	 - List firmware
 * [mctl list firmware-set](mctl_list_firmware-set.md)	 - List firmware
