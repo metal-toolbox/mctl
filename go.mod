@@ -19,7 +19,7 @@ require (
 	github.com/spf13/viper v1.16.0
 	github.com/stretchr/testify v1.8.4
 	github.com/zalando/go-keyring v0.2.1
-	go.hollow.sh/serverservice v0.16.2-0.20230908203150-9089164ea19a
+	go.hollow.sh/serverservice v0.16.2
 	golang.org/x/net v0.15.0
 	golang.org/x/oauth2 v0.11.0
 	gopkg.in/square/go-jose.v2 v2.6.0
