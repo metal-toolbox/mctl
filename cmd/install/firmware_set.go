@@ -18,11 +18,12 @@ import (
 )
 
 type installFirmwareSetFlags struct {
-	firmwareSetID string
-	serverID      string
-	forceInstall  bool
-	skipBMCReset  bool
-	dryRun        bool
+	firmwareSetID         string
+	serverID              string
+	forceInstall          bool
+	skipBMCReset          bool
+	requireHostPoweredOff bool
+	dryRun                bool
 }
 
 var (
@@ -68,6 +69,7 @@ func installFwSet(ctx context.Context) {
 		ResetBMCBeforeInstall: !flagsDefinedInstallFwSet.skipBMCReset,
 		ForceInstall:          flagsDefinedInstallFwSet.forceInstall,
 		DryRun:                flagsDefinedInstallFwSet.dryRun,
+		RequireHostPoweredOff: flagsDefinedInstallFwSet.requireHostPoweredOff,
 	})
 
 	co := coapiv1.ConditionCreate{
@@ -141,6 +143,7 @@ func init() {
 	installFirmwareSet.PersistentFlags().BoolVar(&flagsDefinedInstallFwSet.forceInstall, "force", false, "force install (skips firmware version check)")
 	installFirmwareSet.PersistentFlags().BoolVar(&flagsDefinedInstallFwSet.dryRun, "dry-run", false, "Run install process in dry-run (skips firmware install)")
 	installFirmwareSet.PersistentFlags().BoolVar(&flagsDefinedInstallFwSet.skipBMCReset, "skip-bmc-reset", false, "skip BMC reset before firmware install")
+	installFirmwareSet.PersistentFlags().BoolVar(&flagsDefinedInstallFwSet.requireHostPoweredOff, "require-host-powered-off", false, "require host to be powered off before proceeding install")
 
 	if err := installFirmwareSet.MarkPersistentFlagRequired("server"); err != nil {
 		log.Fatal(err)
