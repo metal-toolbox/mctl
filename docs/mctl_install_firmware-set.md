@@ -11,12 +11,13 @@ mctl install firmware-set [flags]
 ### Options
 
 ```
-      --dry-run          Run install process in dry-run (skips firmware install)
-      --force            force install (skips firmware version check)
-  -h, --help             help for firmware-set
-      --id string        firmware set UUID
-      --server string    server UUID
-      --skip-bmc-reset   skip BMC reset before firmware install
+      --dry-run                    Run install process in dry-run (skips firmware install)
+      --force                      force install (skips firmware version check)
+  -h, --help                       help for firmware-set
+      --id string                  firmware set UUID
+      --require-host-powered-off   require host to be powered off before proceeding install
+      --server string              server UUID
+      --skip-bmc-reset             skip BMC reset before firmware install
 ```
 
 ### Options inherited from parent commands
