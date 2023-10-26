@@ -16,7 +16,7 @@ import (
 type listFirmwareFlags struct {
 	server    string // server UUID
 	vendor    string
-	model     []string
+	models    []string
 	component string
 	version   string
 }
@@ -40,9 +40,18 @@ var listFirmware = &cobra.Command{
 			log.Fatal(err)
 		}
 
+		lowerCasedModels := func(models []string) []string {
+			lowered := []string{}
+			for _, m := range models {
+				lowered = append(lowered, strings.ToLower(m))
+			}
+
+			return lowered
+		}
+
 		filterParams := serverservice.ComponentFirmwareVersionListParams{
-			Vendor:  flagsDefinedListFirmware.vendor,
-			Model:   flagsDefinedListFirmware.model,
+			Vendor:  strings.ToLower(flagsDefinedListFirmware.vendor),
+			Model:   lowerCasedModels(flagsDefinedListFirmware.models),
 			Version: flagsDefinedListFirmware.version,
 		}
 
@@ -82,7 +91,7 @@ func init() {
 
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.server, "server", "", "server UUID")
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.vendor, "vendor", "", "vendor name")
-	listFirmware.PersistentFlags().StringSliceVar(&flagsDefinedListFirmware.model, "model", nil, "list of models separated by commas")
+	listFirmware.PersistentFlags().StringSliceVar(&flagsDefinedListFirmware.models, "models", nil, "one or more comma separated models numbers")
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.component, "component", "", "component type")
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.version, "version", "", "version number")
 }
