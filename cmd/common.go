@@ -15,7 +15,6 @@ import (
 
 	bmclibcomm "github.com/bmc-toolbox/common"
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
-	cotypes "github.com/metal-toolbox/conditionorc/pkg/types"
 	rctypes "github.com/metal-toolbox/rivets/condition"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 )
@@ -174,16 +173,14 @@ func newErrUnexpectedResponse(statusCode int, message string) error {
 }
 
 // ConditionFromResponse returns a Condition object from the Condition API ServerResponse object
-//
-// TODO: switch from cotypes.Condition to rivets.Condition
-func ConditionFromResponse(response *coapiv1.ServerResponse) (cotypes.Condition, error) {
+func ConditionFromResponse(response *coapiv1.ServerResponse) (rctypes.Condition, error) {
 
 	if response.StatusCode != http.StatusOK {
-		return cotypes.Condition{}, newErrUnexpectedResponse(response.StatusCode, response.Message)
+		return rctypes.Condition{}, newErrUnexpectedResponse(response.StatusCode, response.Message)
 	}
 
 	if response.Records == nil || len(response.Records.Conditions) == 0 {
-		return cotypes.Condition{}, errors.New("no record found for Condition")
+		return rctypes.Condition{}, errors.New("no record found for Condition")
 	}
 
 	return *response.Records.Conditions[0], nil

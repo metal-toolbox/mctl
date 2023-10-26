@@ -7,9 +7,9 @@ import (
 
 	"github.com/google/uuid"
 
-	cotypes "github.com/metal-toolbox/conditionorc/pkg/types"
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	rctypes "github.com/metal-toolbox/rivets/condition"
 	"github.com/spf13/cobra"
 )
 
@@ -36,7 +36,7 @@ func statusCheck(ctx context.Context) {
 		log.Fatalf("parsing server id: %s", err.Error())
 	}
 
-	resp, err := client.ServerConditionGet(ctx, serverID, cotypes.FirmwareInstall)
+	resp, err := client.ServerConditionGet(ctx, serverID, rctypes.FirmwareInstall)
 	if err != nil {
 		log.Fatalf("querying server conditions: %s", err.Error())
 	}
