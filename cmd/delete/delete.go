@@ -18,6 +18,5 @@ var deleteCmd = &cobra.Command{
 func init() {
 	cmd.RootCmd.AddCommand(deleteCmd)
 	deleteCmd.AddCommand(deleteFirmwareSet)
-	deleteCmd.AddCommand(deleteCondition)
 	deleteCmd.AddCommand(deleteFirmware)
 }

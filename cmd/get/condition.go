@@ -4,9 +4,9 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	"github.com/metal-toolbox/conditionorc/pkg/types"
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	rctypes "github.com/metal-toolbox/rivets/condition"
 	"github.com/spf13/cobra"
 )
 
@@ -36,7 +36,7 @@ var getCondition = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		response, err := client.ServerConditionGet(cmd.Context(), id, types.ConditionKind(flagsDefinedGetCondition.kind))
+		response, err := client.ServerConditionGet(cmd.Context(), id, rctypes.Kind(flagsDefinedGetCondition.kind))
 		if err != nil {
 			log.Fatal(err)
 		}

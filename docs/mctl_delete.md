@@ -24,7 +24,6 @@ mctl delete [flags]
 ### SEE ALSO
 
 * [mctl](mctl.md)	 - mctl is a CLI utility to interact with metal toolbox services
-* [mctl delete condition](mctl_delete_condition.md)	 - delete server condition
 * [mctl delete firmware](mctl_delete_firmware.md)	 - Delete a firmware object
 * [mctl delete firmware-set](mctl_delete_firmware-set.md)	 - Delete a firmware set
 

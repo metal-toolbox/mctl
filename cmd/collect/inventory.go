@@ -11,7 +11,6 @@ import (
 	"github.com/metal-toolbox/mctl/internal/app"
 
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
-	"github.com/metal-toolbox/conditionorc/pkg/types"
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	rctypes "github.com/metal-toolbox/rivets/condition"
 )
@@ -63,7 +62,7 @@ func collectInventory(ctx context.Context) {
 		log.Fatal(err)
 	}
 
-	response, err := client.ServerConditionCreate(ctx, serverID, types.ConditionKind(rctypes.Inventory), conditionCreate)
+	response, err := client.ServerConditionCreate(ctx, serverID, rctypes.Inventory, conditionCreate)
 	if err != nil {
 		log.Fatal(err)
 	}

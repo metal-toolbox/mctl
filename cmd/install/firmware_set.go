@@ -12,7 +12,6 @@ import (
 	"github.com/spf13/cobra"
 
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
-	cptypes "github.com/metal-toolbox/conditionorc/pkg/types" // The condition types package being deprecated for rivets
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	rctypes "github.com/metal-toolbox/rivets/condition"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
@@ -76,7 +75,7 @@ func installFwSet(ctx context.Context) {
 		Parameters: json.RawMessage(b),
 	}
 
-	response, err := client.ServerConditionCreate(ctx, serverID, cptypes.FirmwareInstall, co)
+	response, err := client.ServerConditionCreate(ctx, serverID, rctypes.FirmwareInstall, co)
 	if err != nil {
 		log.Fatal(err)
 	}

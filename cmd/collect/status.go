@@ -10,7 +10,6 @@ import (
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/spf13/cobra"
 
-	cotypes "github.com/metal-toolbox/conditionorc/pkg/types"
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	rctypes "github.com/metal-toolbox/rivets/condition"
 )
@@ -38,8 +37,7 @@ func statusCheck(ctx context.Context) {
 		log.Fatalf("parsing server id: %s", err.Error())
 	}
 
-	// cotypes to be moved into rivets library
-	resp, err := client.ServerConditionGet(ctx, serverID, cotypes.ConditionKind(rctypes.Inventory))
+	resp, err := client.ServerConditionGet(ctx, serverID, rctypes.Inventory)
 	if err != nil {
 		log.Fatalf("querying server conditions: %s", err.Error())
 	}
