@@ -12,7 +12,7 @@ mctl list [flags]
 
 ```
   -h, --help          help for list
-      --output-json   Output listing as JSON
+  -j, --output-json   Output listing as JSON
 ```
 
 ### Options inherited from parent commands

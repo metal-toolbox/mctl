@@ -23,7 +23,7 @@ mctl list firmware [flags]
 
 ```
       --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
-      --output-json     Output listing as JSON
+  -j, --output-json     Output listing as JSON
       --reauth          re-authenticate with oauth services
 ```
 

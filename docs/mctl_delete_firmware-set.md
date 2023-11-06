@@ -12,7 +12,7 @@ mctl delete firmware-set [flags]
 
 ```
   -h, --help          help for firmware-set
-      --uuid string   UUID of firmware set to be deleted
+  -u, --uuid string   UUID of firmware set to be deleted
 ```
 
 ### Options inherited from parent commands
