@@ -113,7 +113,7 @@ func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, client 
 	if vendor == "" {
 		return []serverservice.ComponentFirmwareSet{}, errors.Wrap(
 			ErrFwSetByVendorModel,
-			fmt.Sprintf("got empty vendor attribute"),
+			"got empty vendor attribute",
 		)
 	}
 
@@ -121,7 +121,7 @@ func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, client 
 	if model == "" {
 		return []serverservice.ComponentFirmwareSet{}, errors.Wrap(
 			ErrFwSetByVendorModel,
-			fmt.Sprintf("got empty model attribute"),
+			"got empty model attribute",
 		)
 	}
 
