@@ -109,6 +109,22 @@ func FirmwareSetIDByVendorModel(ctx context.Context, vendor, model string, clien
 //
 // TODO: move into common library
 func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, client *serverservice.Client) ([]serverservice.ComponentFirmwareSet, error) {
+	vendor = strings.TrimSpace(vendor)
+	if vendor == "" {
+		return []serverservice.ComponentFirmwareSet{}, errors.Wrap(
+			ErrFwSetByVendorModel,
+			fmt.Sprintf("got empty vendor attribute"),
+		)
+	}
+
+	model = strings.TrimSpace(model)
+	if model == "" {
+		return []serverservice.ComponentFirmwareSet{}, errors.Wrap(
+			ErrFwSetByVendorModel,
+			fmt.Sprintf("got empty model attribute"),
+		)
+	}
+
 	// ?attr=sh.hollow.firmware_set.labels~vendor~eq~dell&attr=sh.hollow.firmware_set.labels~model~eq~r750&attr=sh.hollow.firmware_set.labels~latest~eq~false
 	// list latest, default firmware sets by vendor, model attributes
 	fwSetListparams := &serverservice.ComponentFirmwareSetListParams{
