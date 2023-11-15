@@ -11,8 +11,7 @@ mctl collect status --server | -s <server uuid> [flags]
 ### Options
 
 ```
-  -h, --help            help for status
-  -s, --server string   server id (typically a UUID)
+  -h, --help   help for status
 ```
 
 ### Options inherited from parent commands
@@ -20,6 +19,7 @@ mctl collect status --server | -s <server uuid> [flags]
 ```
       --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
       --reauth          re-authenticate with oauth services
+  -s, --server string   server id (typically a UUID)
 ```
 
 ### SEE ALSO

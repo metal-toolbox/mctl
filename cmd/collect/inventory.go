@@ -17,7 +17,6 @@ import (
 )
 
 type collectInventoryFlags struct {
-	serverID                  string
 	skipFirmwareStatusCollect bool
 	skipBiosConfigCollect     bool
 }
@@ -27,9 +26,9 @@ var (
 )
 
 var collectInventoryCmd = &cobra.Command{
-	Use:   "inventory",
+	Use:   "inventory --server | -s <server uuid>",
 	Short: "Collect current server firmware status and bios configuration",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		collectInventory(cmd.Context())
 
 	},
@@ -38,7 +37,7 @@ var collectInventoryCmd = &cobra.Command{
 func collectInventory(ctx context.Context) {
 	theApp := mctl.MustCreateApp(ctx)
 
-	serverID, err := uuid.Parse(flagsDefinedCollectInventory.serverID)
+	serverID, err := uuid.Parse(serverIDStr)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -81,11 +80,8 @@ func init() {
 	flagsDefinedCollectInventory = &collectInventoryFlags{}
 
 	collect.AddCommand(collectInventoryCmd)
-	collectInventoryCmd.PersistentFlags().StringVar(&flagsDefinedCollectInventory.serverID, "server", "", "server UUID")
-	collectInventoryCmd.PersistentFlags().BoolVar(&flagsDefinedCollectInventory.skipFirmwareStatusCollect, "skip-fw-status", false, "Skip firmware status data collection")
-	collectInventoryCmd.PersistentFlags().BoolVar(&flagsDefinedCollectInventory.skipBiosConfigCollect, "skip-bios-config", false, "Skip BIOS configuration data collection")
-
-	if err := collectInventoryCmd.MarkPersistentFlagRequired("server"); err != nil {
-		log.Fatal(err)
-	}
+	collectInventoryCmd.PersistentFlags().BoolVar(&flagsDefinedCollectInventory.skipFirmwareStatusCollect,
+		"skip-fw-status", false, "Skip firmware status data collection")
+	collectInventoryCmd.PersistentFlags().BoolVar(&flagsDefinedCollectInventory.skipBiosConfigCollect,
+		"skip-bios-config", false, "Skip BIOS configuration data collection")
 }
