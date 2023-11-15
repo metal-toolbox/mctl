@@ -222,8 +222,10 @@ func FormatConditionResponse(response *coapiv1.ServerResponse) (string, error) {
 		Kind:       rctypes.Kind(inc.Kind),
 		Parameters: inc.Parameters,
 		// type conversion until the Condition type is fully moved into the rivets lib
-		State:  rctypes.State(inc.State),
-		Status: inc.Status,
+		State:     rctypes.State(inc.State),
+		Status:    inc.Status,
+		UpdatedAt: inc.UpdatedAt,
+		CreatedAt: inc.CreatedAt,
 	}
 
 	// XXX: seems highly unlikely that we get a response that deserializes cleanly and doesn't
