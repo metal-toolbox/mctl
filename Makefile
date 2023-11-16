@@ -1,3 +1,10 @@
+LDFLAG_LOCATION := github.com/metal-toolbox/mctl/internal/version
+GIT_COMMIT  := $(shell git rev-parse --short HEAD)
+GIT_BRANCH  := $(shell git symbolic-ref -q --short HEAD)
+GIT_SUMMARY := $(shell git describe --tags --dirty --always)
+VERSION     := $(shell git describe --tags 2> /dev/null)
+BUILD_DATE  := $(shell date +%s)
+
 .DEFAULT_GOAL := help
 
 ## lint
@@ -13,15 +20,26 @@ build-osx:
 ifeq ($(GO_VERSION), 0)
 	$(error build requies go version 1.17.n or higher)
 endif
-	  GOOS=darwin GOARCH=amd64 go build -o mctl
-
+	  GOOS=darwin GOARCH=amd64 go build -o mctl \
+	   -ldflags \
+		"-X $(LDFLAG_LOCATION).GitCommit=$(GIT_COMMIT) \
+         -X $(LDFLAG_LOCATION).GitBranch=$(GIT_BRANCH) \
+         -X $(LDFLAG_LOCATION).GitSummary=$(GIT_SUMMARY) \
+         -X $(LDFLAG_LOCATION).AppVersion=$(VERSION) \
+         -X $(LDFLAG_LOCATION).BuildDate=$(BUILD_DATE)"
 
 ## Build linux bin
 build-linux:
 ifeq ($(GO_VERSION), 0)
 	$(error build requies go version 1.16.n or higher)
 endif
-	GOOS=linux GOARCH=amd64 go build -o mctl
+	GOOS=linux GOARCH=amd64 go build -o mctl \
+	   -ldflags \
+		"-X $(LDFLAG_LOCATION).GitCommit=$(GIT_COMMIT) \
+         -X $(LDFLAG_LOCATION).GitBranch=$(GIT_BRANCH) \
+         -X $(LDFLAG_LOCATION).GitSummary=$(GIT_SUMMARY) \
+         -X $(LDFLAG_LOCATION).AppVersion=$(VERSION) \
+         -X $(LDFLAG_LOCATION).BuildDate=$(BUILD_DATE)"
 
 ## Generate CLI docs
 gen-docs:
