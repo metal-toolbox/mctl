@@ -1,9 +1,11 @@
 package version
 
+import "runtime"
+
 var (
 	AppVersion string
-	GoVersion  string
 	GitCommit  string
 	GitBranch  string
 	BuildDate  string
+	GoVersion  = runtime.Version()
 )
