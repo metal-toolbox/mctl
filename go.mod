@@ -7,7 +7,7 @@ require (
 	github.com/bmc-toolbox/common v0.0.0-20230717121556-5eb9915a8a5a
 	github.com/coreos/go-oidc v2.2.1+incompatible
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
-	github.com/google/uuid v1.3.1
+	github.com/google/uuid v1.4.0
 	github.com/metal-toolbox/conditionorc v0.1.10
 	github.com/metal-toolbox/hollow-bomservice v0.1.1
 	github.com/metal-toolbox/rivets v0.0.0-20231020103738-10fc2993b885
