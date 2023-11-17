@@ -14,8 +14,6 @@ import (
 	rctypes "github.com/metal-toolbox/rivets/condition"
 )
 
-var serverIDStr string
-
 var inventoryStatus = &cobra.Command{
 	Use:   "status --server | -s <server uuid>",
 	Short: "check the progress of a inventory collection for a server",
@@ -51,12 +49,5 @@ func statusCheck(ctx context.Context) {
 }
 
 func init() {
-	flags := inventoryStatus.Flags()
-	flags.StringVarP(&serverIDStr, "server", "s", "", "server id (typically a UUID)")
-
-	if err := inventoryStatus.MarkFlagRequired("server"); err != nil {
-		log.Fatalf("marking server flag as required: %s", err.Error())
-	}
-
 	collect.AddCommand(inventoryStatus)
 }

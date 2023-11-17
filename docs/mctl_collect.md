@@ -11,7 +11,8 @@ mctl collect [flags]
 ### Options
 
 ```
-  -h, --help   help for collect
+  -h, --help            help for collect
+  -s, --server string   server id (typically a UUID)
 ```
 
 ### Options inherited from parent commands
