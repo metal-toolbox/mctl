@@ -27,4 +27,5 @@ mctl create [flags]
 * [mctl create bom](mctl_create_bom.md)	 - Upload Bom File
 * [mctl create firmware](mctl_create_firmware.md)	 - Create firmware
 * [mctl create firmware-set](mctl_create_firmware-set.md)	 - Create a firmware set
+* [mctl create server-enroll](mctl_create_server-enroll.md)	 - Enroll server and publish conditions
 
