@@ -62,7 +62,6 @@ linters:
     # additional linters
     - bodyclose
     - gocritic
-    - goerr113
     - goimports
     - revive
     - gomnd

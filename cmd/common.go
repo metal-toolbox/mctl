@@ -219,7 +219,7 @@ func FormatConditionResponse(response *coapiv1.ServerResponse, kind rctypes.Kind
 	}
 
 	if inc == nil {
-		return "", errors.New(fmt.Sprintf("response contains no condition of type %s", string(kind)))
+		return "", fmt.Errorf("response contains no condition of type %s", string(kind))
 	}
 
 	display := &conditionDisplay{
