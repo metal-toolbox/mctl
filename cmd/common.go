@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/google/uuid"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/pkg/errors"
@@ -240,4 +241,18 @@ func FormatConditionResponse(response *coapiv1.ServerResponse, kind rctypes.Kind
 	}
 
 	return string(b), nil
+}
+
+func PrintResults(format string, data ...any) {
+	switch format {
+	case "text":
+		spew.Dump(data)
+	case "json", "JSON":
+		b, err := json.MarshalIndent(data, "", "  ")
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Println(string(b))
+	}
 }
