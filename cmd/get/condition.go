@@ -6,14 +6,12 @@ import (
 	"github.com/google/uuid"
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
-	rctypes "github.com/metal-toolbox/rivets/condition"
 	"github.com/spf13/cobra"
 )
 
 type getConditionFlags struct {
 	// server UUID
-	id   string
-	kind string
+	id string
 }
 
 var (
@@ -22,7 +20,7 @@ var (
 
 var getCondition = &cobra.Command{
 	Use:   "condition",
-	Short: "get server condition",
+	Short: "get the last server conditions performed",
 	Run: func(cmd *cobra.Command, args []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
@@ -36,7 +34,7 @@ var getCondition = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		response, err := client.ServerConditionGet(cmd.Context(), id, rctypes.Kind(flagsDefinedGetCondition.kind))
+		response, err := client.ServerConditionStatus(cmd.Context(), id)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -48,14 +46,9 @@ var getCondition = &cobra.Command{
 func init() {
 	flagsDefinedGetCondition = &getConditionFlags{}
 
-	getCondition.PersistentFlags().StringVar(&flagsDefinedGetCondition.id, "server", "", "server UUID")
-	getCondition.PersistentFlags().StringVar(&flagsDefinedGetCondition.kind, "kind", "", "condition kind")
+	getCondition.Flags().StringVarP(&flagsDefinedGetCondition.id, "server", "s", "", "server UUID")
 
-	if err := getCondition.MarkPersistentFlagRequired("server"); err != nil {
-		log.Fatal(err)
-	}
-
-	if err := getCondition.MarkPersistentFlagRequired("kind"); err != nil {
+	if err := getCondition.MarkFlagRequired("server"); err != nil {
 		log.Fatal(err)
 	}
 

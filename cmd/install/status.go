@@ -36,14 +36,14 @@ func statusCheck(ctx context.Context) {
 		log.Fatalf("parsing server id: %s", err.Error())
 	}
 
-	resp, err := client.ServerConditionGet(ctx, serverID, rctypes.FirmwareInstall)
+	resp, err := client.ServerConditionStatus(ctx, serverID)
 	if err != nil {
 		log.Fatalf("querying server conditions: %s", err.Error())
 	}
 
-	s, err := mctl.FormatConditionResponse(resp)
+	s, err := mctl.FormatConditionResponse(resp, rctypes.FirmwareInstall)
 	if err != nil {
-		log.Fatalf("error formating condition response: %s", err.Error())
+		log.Fatalf("condition response error: %s", err.Error())
 	}
 
 	fmt.Println(s)
