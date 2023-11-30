@@ -44,7 +44,7 @@ var getFirmware = &cobra.Command{
 			log.Fatal("serverservice client returned error: ", err)
 		}
 
-		writeResults(firmware)
+		mctl.PrintResults(output, firmware)
 		os.Exit(0)
 	},
 }

@@ -39,7 +39,7 @@ var getCondition = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		writeResults(response)
+		mctl.PrintResults(output, response)
 	},
 }
 

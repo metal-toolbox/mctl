@@ -51,7 +51,7 @@ var getBomInfoByMacAddress = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		writeResults(bomInfo)
+		mctl.PrintResults(output, bomInfo)
 	},
 }
 

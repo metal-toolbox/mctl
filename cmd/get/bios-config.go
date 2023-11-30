@@ -51,7 +51,7 @@ var getBiosConfig = &cobra.Command{
 			os.Exit(0)
 		}
 
-		writeResults(biosCfg[0])
+		mctl.PrintResults(output, biosCfg[0])
 	},
 }
 

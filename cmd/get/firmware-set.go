@@ -64,7 +64,7 @@ var getFirmwareSet = &cobra.Command{
 			}
 		}
 
-		writeResults(firmwareSet)
+		mctl.PrintResults(output, firmwareSet)
 		os.Exit(0)
 	},
 }
