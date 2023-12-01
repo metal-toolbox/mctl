@@ -198,7 +198,7 @@ type conditionDisplay struct {
 }
 
 // FormatConditionResponse returns a prettyish JSON formatted output that can be printed to stdout.
-func FormatConditionResponse(response *coapiv1.ServerResponse) (string, error) {
+func FormatConditionResponse(response *coapiv1.ServerResponse, kind rctypes.Kind) (string, error) {
 	if response.StatusCode != http.StatusOK {
 		return "", newErrUnexpectedResponse(response.StatusCode, response.Message)
 	}
@@ -211,18 +211,25 @@ func FormatConditionResponse(response *coapiv1.ServerResponse) (string, error) {
 		return "", errors.New("no record found for Condition")
 	}
 
-	inc := response.Records.Conditions[0]
+	var inc *rctypes.Condition
+	for _, c := range response.Records.Conditions {
+		if c.Kind == kind {
+			inc = c
+		}
+	}
+
+	if inc == nil {
+		return "", fmt.Errorf("response contains no condition of type %s", string(kind))
+	}
 
 	display := &conditionDisplay{
-		ID: inc.ID,
-		// type conversion until the Condition type is fully moved into the rivets lib
-		Kind:       rctypes.Kind(inc.Kind),
+		ID:         inc.ID,
+		Kind:       inc.Kind,
 		Parameters: inc.Parameters,
-		// type conversion until the Condition type is fully moved into the rivets lib
-		State:     rctypes.State(inc.State),
-		Status:    inc.Status,
-		UpdatedAt: inc.UpdatedAt,
-		CreatedAt: inc.CreatedAt,
+		State:      inc.State,
+		Status:     inc.Status,
+		UpdatedAt:  inc.UpdatedAt,
+		CreatedAt:  inc.CreatedAt,
 	}
 
 	// XXX: seems highly unlikely that we get a response that deserializes cleanly and doesn't

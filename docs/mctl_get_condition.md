@@ -2,7 +2,7 @@
 
 ## mctl get condition
 
-get server condition
+get the last server conditions performed
 
 ```
 mctl get condition [flags]
@@ -12,8 +12,7 @@ mctl get condition [flags]
 
 ```
   -h, --help            help for condition
-      --kind string     condition kind
-      --server string   server UUID
+  -s, --server string   server UUID
 ```
 
 ### Options inherited from parent commands

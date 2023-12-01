@@ -2,7 +2,6 @@ package install
 
 import (
 	"context"
-	"encoding/json"
 	"log"
 	"strings"
 
@@ -11,7 +10,6 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	rctypes "github.com/metal-toolbox/rivets/condition"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
@@ -63,21 +61,16 @@ func installFwSet(ctx context.Context) {
 		log.Fatal(err)
 	}
 
-	b, _ := json.Marshal(rctypes.FirmwareInstallTaskParameters{
+	params := &rctypes.FirmwareInstallTaskParameters{
 		AssetID:               serverID,
 		FirmwareSetID:         fwSetID,
 		ResetBMCBeforeInstall: !flagsDefinedInstallFwSet.skipBMCReset,
 		ForceInstall:          flagsDefinedInstallFwSet.forceInstall,
 		DryRun:                flagsDefinedInstallFwSet.dryRun,
 		RequireHostPoweredOff: flagsDefinedInstallFwSet.requireHostPoweredOff,
-	})
-
-	co := coapiv1.ConditionCreate{
-		Exclusive:  true,
-		Parameters: json.RawMessage(b),
 	}
 
-	response, err := client.ServerConditionCreate(ctx, serverID, rctypes.FirmwareInstall, co)
+	response, err := client.ServerFirmwareInstall(ctx, params)
 	if err != nil {
 		log.Fatal(err)
 	}
