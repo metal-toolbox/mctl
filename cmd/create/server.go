@@ -26,7 +26,7 @@ var (
 )
 
 var serverEnroll = &cobra.Command{
-	Use:   "server-enroll",
+	Use:   "server",
 	Short: "Enroll server and publish conditions",
 	Run: func(cmd *cobra.Command, args []string) {
 		enrollServer(cmd.Context())
