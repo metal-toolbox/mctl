@@ -23,6 +23,7 @@ func init() {
 	list.AddCommand(listFirmware)
 	list.AddCommand(listFirmwareSet)
 	list.AddCommand(listComponent)
+	list.AddCommand(cmdListServer)
 
 	list.PersistentFlags().BoolVar(&outputJSON, "output-json", false, "Output listing as JSON")
 }
