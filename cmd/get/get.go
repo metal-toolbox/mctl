@@ -20,7 +20,7 @@ var cmdGet = &cobra.Command{
 
 func init() {
 	cmd.RootCmd.AddCommand(cmdGet)
-	cmdGet.AddCommand(getComponent)
+	cmdGet.AddCommand(getServer)
 	cmdGet.AddCommand(getCondition)
 	cmdGet.AddCommand(getFirmware)
 	cmdGet.AddCommand(getFirmwareSet)
