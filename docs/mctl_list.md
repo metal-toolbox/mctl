@@ -28,4 +28,5 @@ mctl list [flags]
 * [mctl list component](mctl_list_component.md)	 - List Components
 * [mctl list firmware](mctl_list_firmware.md)	 - List firmware
 * [mctl list firmware-set](mctl_list_firmware-set.md)	 - List firmware
+* [mctl list server](mctl_list_server.md)	 - List servers
 
