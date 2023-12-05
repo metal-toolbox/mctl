@@ -2,7 +2,6 @@ package get
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -27,6 +26,7 @@ type getServerFlags struct {
 	listComponents bool
 	biosconfig     bool
 	table          bool
+	creds          bool
 }
 
 var (
@@ -54,27 +54,29 @@ var getServer = &cobra.Command{
 		}
 
 		withComponents := cmdArgs.listComponents || cmdArgs.component != ""
-		server, err := server(ctx, client, id, withComponents)
+		server, err := server(ctx, client, id, withComponents, cmdArgs.creds)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		switch {
-		case cmdArgs.listComponents:
-			renderComponentListTable(server.Components)
-			os.Exit(0)
-		case cmdArgs.component != "":
-			printComponent(server.Components, cmdArgs.component)
-			os.Exit(0)
-		case cmdArgs.biosconfig:
-			mctl.PrintResults(output, server.BIOSCfg)
-			os.Exit(0)
-		case cmdArgs.table:
-			renderServerTable(server)
+		if cmdArgs.table {
+			switch {
+			case cmdArgs.listComponents:
+				renderComponentListTable(server.Components)
+			case cmdArgs.component != "":
+				printComponent(server.Components, cmdArgs.component)
+			default:
+				renderServerTable(server, cmdArgs.creds)
+			}
+
 			os.Exit(0)
 		}
 
-		fmt.Println("here")
+		if cmdArgs.biosconfig {
+			mctl.PrintResults(output, server.BIOSCfg)
+			os.Exit(0)
+		}
+
 		mctl.PrintResults(output, server)
 	},
 }
@@ -92,14 +94,18 @@ func printComponent(components []*rt.Component, slug string) {
 	mctl.PrintResults(output, got)
 }
 
-func renderServerTable(server *rt.Server) {
+func renderServerTable(server *rt.Server, withCreds bool) {
 	tableServer := tablewriter.NewWriter(os.Stdout)
 	tableServer.Append([]string{"ID", server.ID})
 	tableServer.Append([]string{"Name", server.Name})
 	tableServer.Append([]string{"Model", server.Model})
 	tableServer.Append([]string{"Vendor", server.Vendor})
 	tableServer.Append([]string{"Serial", server.Serial})
-	tableServer.Append([]string{"BMC", server.BMCAddress})
+	tableServer.Append([]string{"BMCAddr", server.BMCAddress})
+	if withCreds {
+		tableServer.Append([]string{"BMCUser", server.BMCUser})
+		tableServer.Append([]string{"BMCPassword", server.BMCPassword})
+	}
 	tableServer.Append([]string{"Facility", server.Facility})
 	tableServer.Append([]string{"Reported", humanize.Time(server.UpdatedAt)})
 
@@ -146,7 +152,7 @@ func renderComponentListTable(components []*rt.Component) {
 	table.Render()
 }
 
-func server(ctx context.Context, client *ss.Client, id uuid.UUID, withComponents bool) (*rt.Server, error) {
+func server(ctx context.Context, client *ss.Client, id uuid.UUID, withComponents, withCreds bool) (*rt.Server, error) {
 	server, _, err := client.Get(ctx, id)
 	if err != nil {
 		return nil, err
@@ -157,6 +163,12 @@ func server(ctx context.Context, client *ss.Client, id uuid.UUID, withComponents
 		var err error
 		cserver.Components, err = components(ctx, client, id)
 		if err != nil {
+			return nil, err
+		}
+	}
+
+	if withCreds {
+		if err := mctl.ServerBMCCredentials(ctx, client, cserver); err != nil {
 			return nil, err
 		}
 	}
@@ -187,9 +199,10 @@ func init() {
 	cmdPFlags := getServer.PersistentFlags()
 
 	cmdPFlags.StringVar(&cmdArgs.id, "id", "", "server UUID")
-	cmdPFlags.StringVar(&cmdArgs.component, "component", "c", "component slug")
+	cmdPFlags.StringVar(&cmdArgs.component, "component", "", "list component on server by slug (drive/nic/cpu..)")
 	cmdPFlags.BoolVarP(&cmdArgs.listComponents, "list-components", "l", false, "include component data")
 	cmdPFlags.BoolVarP(&cmdArgs.biosconfig, "bioscfg", "b", false, "print bios configuration")
+	cmdPFlags.BoolVar(&cmdArgs.creds, "creds", false, "include BMC credentials in result")
 	cmdPFlags.BoolVarP(&cmdArgs.table, "table", "t", false, "format output in a table")
 
 	if err := getServer.MarkPersistentFlagRequired("id"); err != nil {
