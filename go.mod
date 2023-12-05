@@ -7,17 +7,17 @@ require (
 	github.com/bmc-toolbox/common v0.0.0-20230717121556-5eb9915a8a5a
 	github.com/coreos/go-oidc v2.2.1+incompatible
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
+	github.com/dustin/go-humanize v1.0.0
 	github.com/google/uuid v1.4.0
 	github.com/metal-toolbox/conditionorc v1.0.1
 	github.com/metal-toolbox/hollow-bomservice v0.1.1
-	github.com/metal-toolbox/rivets v0.1.1
+	github.com/metal-toolbox/rivets v0.1.2-0.20231205111941-e56a202376cc
 	github.com/nirasan/go-oauth-pkce-code-verifier v0.0.0-20220510032225-4f9f17eaec4c
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/pkg/errors v0.9.1
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.17.0
-	github.com/stretchr/testify v1.8.4
 	github.com/zalando/go-keyring v0.2.1
 	go.hollow.sh/serverservice v0.16.2
 	golang.org/x/net v0.19.0
@@ -104,6 +104,7 @@ require (
 	github.com/spf13/afero v1.11.0 // indirect
 	github.com/spf13/cast v1.6.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/tealeg/xlsx v1.0.5 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
