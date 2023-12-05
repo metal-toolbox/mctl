@@ -17,6 +17,7 @@ import (
 	bmclibcomm "github.com/bmc-toolbox/common"
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
 	rctypes "github.com/metal-toolbox/rivets/condition"
+	rt "github.com/metal-toolbox/rivets/types"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
@@ -255,4 +256,18 @@ func PrintResults(format string, data ...any) {
 
 		fmt.Println(string(b))
 	}
+}
+
+// Query server BMC credentials and update the given server object
+func ServerBMCCredentials(ctx context.Context, client *serverservice.Client, server *rt.Server) error {
+	cred, _, err := client.GetCredential(ctx, uuid.MustParse(server.ID), serverservice.ServerCredentialTypeBMC)
+	if err != nil {
+		// nolint:goerr113 // error is readable when formatted
+		return fmt.Errorf("error in credential lookup for: %s, err: %s", server.ID, err.Error())
+	}
+
+	server.BMCUser = cred.Username
+	server.BMCPassword = cred.Password
+
+	return nil
 }
