@@ -63,12 +63,15 @@ var getServer = &cobra.Command{
 			switch {
 			case cmdArgs.listComponents:
 				renderComponentListTable(server.Components)
-			case cmdArgs.component != "":
-				printComponent(server.Components, cmdArgs.component)
 			default:
 				renderServerTable(server, cmdArgs.creds)
 			}
 
+			os.Exit(0)
+		}
+
+		if cmdArgs.component != "" {
+			printComponent(server.Components, cmdArgs.component)
 			os.Exit(0)
 		}
 
