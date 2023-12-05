@@ -12,7 +12,8 @@ mctl get server [flags]
 
 ```
   -b, --bioscfg            print bios configuration
-      --component string   component slug (default "c")
+      --component string   list component on server by slug (drive/nic/cpu..)
+      --creds              include BMC credentials in result
   -h, --help               help for server
       --id string          server UUID
   -l, --list-components    include component data
