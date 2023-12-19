@@ -47,7 +47,6 @@ func enrollServer(ctx context.Context) {
 	}
 
 	conditionCreate := coapiv1.ConditionCreate{
-		Exclusive:  false,
 		Parameters: params,
 	}
 
