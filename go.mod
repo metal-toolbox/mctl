@@ -9,7 +9,7 @@ require (
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
 	github.com/dustin/go-humanize v1.0.0
 	github.com/google/uuid v1.4.0
-	github.com/metal-toolbox/conditionorc v1.0.1
+	github.com/metal-toolbox/conditionorc v1.0.2
 	github.com/metal-toolbox/hollow-bomservice v0.1.1
 	github.com/metal-toolbox/rivets v0.1.2-0.20231205111941-e56a202376cc
 	github.com/nirasan/go-oauth-pkce-code-verifier v0.0.0-20220510032225-4f9f17eaec4c
