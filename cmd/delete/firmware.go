@@ -5,10 +5,11 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	mctl "github.com/metal-toolbox/mctl/cmd"
-	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/spf13/cobra"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
+
+	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
 )
 
 type deleteFirmwareFlags struct {
@@ -47,9 +48,6 @@ var deleteFirmware = &cobra.Command{
 func init() {
 	flagsDefinedDeleteFirmware = &deleteFirmwareFlags{}
 
-	deleteFirmware.PersistentFlags().StringVarP(&flagsDefinedDeleteFirmware.id, "firmware-id", "f", "", "UUID of firmware object to be deleted")
-
-	if err := deleteFirmware.MarkPersistentFlagRequired("firmware-id"); err != nil {
-		log.Fatal(err)
-	}
+	mctl.AddFirmwareFlag(deleteFirmware, &flagsDefinedDeleteFirmware.id)
+	mctl.RequireFlag(deleteFirmware, mctl.FirmwareFlag)
 }

@@ -33,7 +33,7 @@ mctl completion fish [flags]
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -c, --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
       --reauth          re-authenticate with oauth services
 ```
 

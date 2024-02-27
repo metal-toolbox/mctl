@@ -5,11 +5,12 @@ import (
 	"log"
 
 	"github.com/google/uuid"
+	"github.com/spf13/cobra"
+	ss "go.hollow.sh/serverservice/pkg/api/v1"
+
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/pkg/model"
-	"github.com/spf13/cobra"
-	ss "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
 var (
@@ -67,17 +68,11 @@ var createFirmwareSet = &cobra.Command{
 func init() {
 	definedfirmwareSetFlags = &mctl.FirmwareSetFlags{}
 
-	createFirmwareSet.PersistentFlags().StringSliceVar(&definedfirmwareSetFlags.AddFirmwareUUIDs, "firmware-uuids", []string{}, "comma separated list of UUIDs of firmware to be included in the set to be created")
-	createFirmwareSet.PersistentFlags().StringVar(&definedfirmwareSetFlags.FirmwareSetName, "name", "", "A name for the firmware set")
-	createFirmwareSet.PersistentFlags().StringToStringVar(&definedfirmwareSetFlags.Labels, "labels", nil, "Labels to assign to the firmware set - 'vendor=foo,model=bar'")
+	mctl.AddFirmwareIDsFlag(createFirmwareSet, &definedfirmwareSetFlags.AddFirmwareUUIDs)
+	mctl.AddNameFlag(createFirmwareSet, &definedfirmwareSetFlags.FirmwareSetName, "A name for the firmware set")
+	mctl.AddLabelsFlag(createFirmwareSet, &definedfirmwareSetFlags.Labels,
+		"Labels to assign to the firmware set - 'vendor=foo,model=bar'")
 
-	// mark flags as required
-	if err := createFirmwareSet.MarkPersistentFlagRequired("firmware-uuids"); err != nil {
-		log.Fatal(err)
-	}
-
-	if err := createFirmwareSet.MarkPersistentFlagRequired("name"); err != nil {
-		log.Fatal(err)
-	}
-
+	mctl.RequireFlag(createFirmwareSet, mctl.FirmwareIDsFlag)
+	mctl.RequireFlag(createFirmwareSet, mctl.NameFlag)
 }

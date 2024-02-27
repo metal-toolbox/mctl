@@ -7,10 +7,11 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	mctl "github.com/metal-toolbox/mctl/cmd"
-	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/spf13/cobra"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
+
+	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
 )
 
 type getBiosConfigFlags struct {
@@ -81,9 +82,6 @@ func biosConfigFromNamespaces(ctx context.Context, serverID uuid.UUID, client *s
 func init() {
 	flagsDefinedGetBiosConfig = &getBiosConfigFlags{}
 
-	getBiosConfig.PersistentFlags().StringVar(&flagsDefinedGetBiosConfig.serverID, "server", "", "server UUID")
-
-	if err := getBiosConfig.MarkPersistentFlagRequired("server"); err != nil {
-		log.Fatal(err)
-	}
+	mctl.AddServerFlag(getBiosConfig, &flagsDefinedGetBiosConfig.serverID)
+	mctl.RequireFlag(getBiosConfig, mctl.ServerFlag)
 }

@@ -5,24 +5,24 @@
 Enroll server and publish conditions
 
 ```
-mctl create server [flags]
+mctl create server -a ADDRESS -u USERNAME -p PASSWORD --facility FACILITY [flags]
 ```
 
 ### Options
 
 ```
-      --facility string    facility of the server
-  -h, --help               help for server
-      --ip string          ip of the server
-      --pwd string         password of the server
-      --server-id string   server id to be created. New id will be created if null.
-      --user string        username of the server
+  -a, --address string    [required] ip address of the server
+      --facility string   [required] facility name
+  -h, --help              help for server
+  -p, --password string   [required] password of the user
+  -s, --server string     ID of the server
+  -u, --username string   [required] username of the user
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -c, --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
       --reauth          re-authenticate with oauth services
 ```
 

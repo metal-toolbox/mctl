@@ -6,16 +6,22 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-
-	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/spf13/cobra"
 
-	mctl "github.com/metal-toolbox/mctl/cmd"
 	rctypes "github.com/metal-toolbox/rivets/condition"
+
+	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
 )
 
+type inventoryStatusParams struct {
+	serverID string
+}
+
+var inventoryStatusFlags *inventoryStatusParams
+
 var inventoryStatus = &cobra.Command{
-	Use:   "status --server | -s <server uuid>",
+	Use:   "status",
 	Short: "check the progress of a inventory collection for a server",
 	Run: func(cmd *cobra.Command, _ []string) {
 		statusCheck(cmd.Context())
@@ -30,7 +36,7 @@ func statusCheck(ctx context.Context) {
 		log.Fatal(err)
 	}
 
-	serverID, err := uuid.Parse(serverIDStr)
+	serverID, err := uuid.Parse(inventoryStatusFlags.serverID)
 	if err != nil {
 		log.Fatalf("parsing server id: %s", err.Error())
 	}
@@ -49,5 +55,8 @@ func statusCheck(ctx context.Context) {
 }
 
 func init() {
-	collect.AddCommand(inventoryStatus)
+	inventoryStatusFlags = &inventoryStatusParams{}
+
+	mctl.AddServerFlag(inventoryStatus, &inventoryStatusFlags.serverID)
+	mctl.RequireFlag(inventoryStatus, mctl.ServerFlag)
 }

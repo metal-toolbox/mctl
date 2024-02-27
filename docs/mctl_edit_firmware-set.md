@@ -5,24 +5,24 @@
 Edit a firmware set
 
 ```
-mctl edit firmware-set [flags]
+mctl edit firmware-set --set-id SETID [flags]
 ```
 
 ### Options
 
 ```
-      --add-firmware-uuids strings      UUIDs of firmware to be added to the set
-  -h, --help                            help for firmware-set
-      --labels stringToString           Labels to assign to the firmware set - 'vendor=foo,model=bar' (default [])
-      --name string                     Update name for the firmware set
-      --remove-firmware-uuids strings   UUIDs of firmware to be removed from the set
-      --uuid string                     UUID of firmware set to be edited
+      --add-firmware-ids strings      comma separated list of firmware IDs to be added
+  -h, --help                          help for firmware-set
+  -l, --labels stringToString         Labels to assign to the firmware set - 'vendor=foo,model=bar' (default [])
+  -n, --name string                   New name of the firmware set
+      --remove-firmware-ids strings   comma separated list of firmware IDs to be removed
+      --set-id string                 [required] ID of the firmware set
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -c, --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
       --reauth          re-authenticate with oauth services
 ```
 

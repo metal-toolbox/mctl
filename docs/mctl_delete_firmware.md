@@ -5,20 +5,20 @@
 Delete a firmware object
 
 ```
-mctl delete firmware [flags]
+mctl delete firmware -f FIRMWARE [flags]
 ```
 
 ### Options
 
 ```
-  -f, --firmware-id string   UUID of firmware object to be deleted
-  -h, --help                 help for firmware
+  -f, --firmware string   [required] ID of the firmware
+  -h, --help              help for firmware
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -c, --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
       --reauth          re-authenticate with oauth services
 ```
 

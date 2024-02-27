@@ -5,10 +5,11 @@ import (
 	"log"
 	"os"
 
-	mctl "github.com/metal-toolbox/mctl/cmd"
-	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/spf13/cobra"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
+
+	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
 )
 
 // Create
@@ -55,11 +56,8 @@ var createFirmware = &cobra.Command{
 
 func init() {
 	flagsDefinedCreateFirmware = &createFirmwareFlags{}
+	usage := "JSON file with firmware configuration data"
 
-	createFirmware.PersistentFlags().StringVar(
-		&flagsDefinedCreateFirmware.firmwareConfigFile,
-		"from-file", "", "JSON file with firmware configuration data")
-	if err := createFirmware.MarkPersistentFlagRequired("from-file"); err != nil {
-		log.Fatal(err)
-	}
+	mctl.AddFromFileFlag(createFirmware, &flagsDefinedCreateFirmware.firmwareConfigFile, usage)
+	mctl.RequireFlag(createFirmware, mctl.FromFileFlag)
 }

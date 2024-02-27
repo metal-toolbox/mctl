@@ -5,27 +5,27 @@
 Get server information
 
 ```
-mctl get server [flags]
+mctl get server -s SERVER [flags]
 ```
 
 ### Options
 
 ```
-  -b, --bioscfg            print bios configuration
-      --component string   list component on server by slug (drive/nic/cpu..)
-      --creds              include BMC credentials in result
-  -h, --help               help for server
-      --id string          server UUID
-  -l, --list-components    include component data
-  -t, --table              format output in a table
+      --bios-config       print bios configuration
+  -h, --help              help for server
+      --list-components   include component data
+  -s, --server string     [required] ID of the server
+      --slug string       list component on server by slug (drive/nic/cpu..)
+      --table             format output in a table
+      --with-creds        include credentials
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
-  -o, --output string   {json|text} (default "json")
-      --reauth          re-authenticate with oauth services
+  -c, --config string       config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -o, --output outputType   {json|text} (default json)
+      --reauth              re-authenticate with oauth services
 ```
 
 ### SEE ALSO

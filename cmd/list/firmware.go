@@ -6,11 +6,12 @@ import (
 	"os"
 	"strings"
 
-	mctl "github.com/metal-toolbox/mctl/cmd"
-	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
+
+	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
 )
 
 type listFirmwareFlags struct {
@@ -60,7 +61,7 @@ var listFirmware = &cobra.Command{
 			log.Fatal("serverservice client returned error: ", err)
 		}
 
-		if outputJSON {
+		if output == mctl.OutputTypeJSON.String() {
 			printJSON(firmware)
 			os.Exit(0)
 		}

@@ -4,9 +4,10 @@ import (
 	"log"
 	"os"
 
+	"github.com/spf13/cobra"
+
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
-	"github.com/spf13/cobra"
 )
 
 // Create Bom informations.
@@ -46,11 +47,8 @@ var uploadBomFile = &cobra.Command{
 
 func init() {
 	flagsUploadBomFileFlags = &uploadBomFileFlags{}
+	usage := "xlsx file with BOM information"
 
-	uploadBomFile.PersistentFlags().StringVar(
-		&flagsUploadBomFileFlags.bomXlsxFile,
-		"from-xlsx-file", "", "Xlsx file with bom informations")
-	if err := uploadBomFile.MarkPersistentFlagRequired("from-xlsx-file"); err != nil {
-		log.Fatal(err)
-	}
+	mctl.AddFromFileFlag(uploadBomFile, &flagsUploadBomFileFlags.bomXlsxFile, usage)
+	mctl.RequireFlag(uploadBomFile, mctl.FromFileFlag)
 }

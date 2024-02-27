@@ -6,13 +6,15 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
+
 	rctypes "github.com/metal-toolbox/rivets/condition"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
+
+	mctl "github.com/metal-toolbox/mctl/cmd"
 )
 
 type installFirmwareSetFlags struct {
@@ -130,15 +132,15 @@ func firmwareSetForInstall(ctx context.Context, client *serverservice.Client, se
 func init() {
 	flagsDefinedInstallFwSet = &installFirmwareSetFlags{}
 
-	install.AddCommand(installFirmwareSet)
-	installFirmwareSet.PersistentFlags().StringVar(&flagsDefinedInstallFwSet.serverID, "server", "", "server UUID")
-	installFirmwareSet.PersistentFlags().StringVar(&flagsDefinedInstallFwSet.firmwareSetID, "id", "", "firmware set UUID")
-	installFirmwareSet.PersistentFlags().BoolVar(&flagsDefinedInstallFwSet.forceInstall, "force", false, "force install (skips firmware version check)")
-	installFirmwareSet.PersistentFlags().BoolVar(&flagsDefinedInstallFwSet.dryRun, "dry-run", false, "Run install process in dry-run (skips firmware install)")
-	installFirmwareSet.PersistentFlags().BoolVar(&flagsDefinedInstallFwSet.skipBMCReset, "skip-bmc-reset", false, "skip BMC reset before firmware install")
-	installFirmwareSet.PersistentFlags().BoolVar(&flagsDefinedInstallFwSet.requireHostPoweredOff, "require-host-powered-off", false, "require host to be powered off before proceeding install")
+	mctl.AddServerFlag(installFirmwareSet, &flagsDefinedInstallFwSet.serverID)
+	mctl.AddFirmwareSetFlag(installFirmwareSet, &flagsDefinedInstallFwSet.firmwareSetID)
+	mctl.AddForceFlag(installFirmwareSet, &flagsDefinedInstallFwSet.forceInstall,
+		"force install (skips firmware version check)")
+	mctl.AddDryRunFlag(installFirmwareSet, &flagsDefinedInstallFwSet.dryRun,
+		"Run install process in dry-run (skips firmware install)")
+	mctl.AddSkipBmcResetFlag(installFirmwareSet, &flagsDefinedInstallFwSet.skipBMCReset)
+	mctl.AddPowerOffRequiredFlag(installFirmwareSet, &flagsDefinedInstallFwSet.requireHostPoweredOff,
+		"require host to be powered off before proceeding install")
 
-	if err := installFirmwareSet.MarkPersistentFlagRequired("server"); err != nil {
-		log.Fatal(err)
-	}
+	mctl.RequireFlag(installFirmwareSet, mctl.ServerFlag)
 }

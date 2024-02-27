@@ -3,10 +3,11 @@ package get
 import (
 	"log"
 
-	mctl "github.com/metal-toolbox/mctl/cmd"
-	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/spf13/cobra"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
+
+	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
 )
 
 type getBomInfoByBmcMacAddressFlags struct {
@@ -58,8 +59,8 @@ var getBomInfoByMacAddress = &cobra.Command{
 func init() {
 	flagsGetBomByMacAddress = &getBomInfoByBmcMacAddressFlags{}
 
-	getBomInfoByMacAddress.PersistentFlags().StringVar(&flagsGetBomByMacAddress.aocMacAddr, "aoc-mac", "", "get bom info by aoc mac address")
-	getBomInfoByMacAddress.PersistentFlags().StringVar(&flagsGetBomByMacAddress.bmcMacAddr, "bmc-mac", "", "get bom info by bmc mac address")
+	mctl.AddMacAOCFlag(getBomInfoByMacAddress, &flagsGetBomByMacAddress.aocMacAddr)
+	mctl.AddMacBMCFlag(getBomInfoByMacAddress, &flagsGetBomByMacAddress.bmcMacAddr)
 
-	getBomInfoByMacAddress.MarkFlagsMutuallyExclusive("aoc-mac", "bmc-mac")
+	mctl.MutuallyExclusiveFlags(getBomInfoByMacAddress, mctl.MacAOCFlag, mctl.MacBMCFlag)
 }

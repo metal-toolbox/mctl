@@ -11,14 +11,14 @@ mctl list [flags]
 ### Options
 
 ```
-  -h, --help          help for list
-      --output-json   Output listing as JSON
+  -h, --help                help for list
+  -o, --output outputType   {json|text} (default json)
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -c, --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
       --reauth          re-authenticate with oauth services
 ```
 

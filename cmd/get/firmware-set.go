@@ -8,11 +8,12 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	mctl "github.com/metal-toolbox/mctl/cmd"
-	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
+
+	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
 )
 
 type getFirmwareSetFlags struct {
@@ -40,8 +41,7 @@ var getFirmwareSet = &cobra.Command{
 		}
 
 		if flagsDefinedGetFirmwareSet.id == "" && flagsDefinedGetFirmwareSet.serverID == "" {
-			//nolint:errcheck // returns nil
-			cmd.Help()
+			_ = cmd.Help()
 			os.Exit(1)
 		}
 
@@ -113,9 +113,8 @@ func firmwareSetForServer(ctx context.Context, client *serverservice.Client, ser
 func init() {
 	flagsDefinedGetFirmwareSet = &getFirmwareSetFlags{}
 
-	getFirmwareSet.PersistentFlags().StringVar(&flagsDefinedGetFirmwareSet.id, "id", "", "firmware set UUID")
-	getFirmwareSet.PersistentFlags().StringVar(&flagsDefinedGetFirmwareSet.serverID, "server", "", "server UUID")
+	mctl.AddServerFlag(getFirmwareSet, &flagsDefinedGetFirmwareSet.serverID)
+	mctl.AddFirmwareSetFlag(getFirmwareSet, &flagsDefinedGetFirmwareSet.id)
 
-	getFirmwareSet.MarkFlagsMutuallyExclusive("id", "server")
-
+	mctl.RequireFlag(getFirmwareSet, mctl.ServerFlag)
 }

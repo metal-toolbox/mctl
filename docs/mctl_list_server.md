@@ -11,25 +11,25 @@ mctl list server [flags]
 ### Options
 
 ```
-      --bmcerrors         list servers with BMC errors
-      --creds             list BMC credentials in 
-      --facility string   filter by facility code
+      --facility string   facility name
   -h, --help              help for server
       --limit int         limit results returned (default 10)
-      --model string      filter by server model
+  -m, --model string      filter by model
       --page int          limit results to page (for use with --limit)
-      --records           only print record count matching filters
       --serial string     filter by server serial
-      --table             print records in a table format
-      --vendor string     filter by server vendor
+      --table             format output in a table
+  -v, --vendor string     filter by vendor
+      --with-bmc-errors   include BMC errors
+      --with-creds        include credentials
+      --with-records      print record count found with pagination info and return
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
-      --output-json     Output listing as JSON
-      --reauth          re-authenticate with oauth services
+  -c, --config string       config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -o, --output outputType   {json|text} (default json)
+      --reauth              re-authenticate with oauth services
 ```
 
 ### SEE ALSO

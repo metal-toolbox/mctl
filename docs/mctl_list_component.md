@@ -5,7 +5,7 @@
 List Components
 
 ```
-mctl list component [flags]
+mctl list component --slug SLUG [flags]
 ```
 
 ### Options
@@ -13,19 +13,19 @@ mctl list component [flags]
 ```
   -h, --help            help for component
       --limit int       limit results returned (default 10)
-      --model string    filter by one or more component models
+  -m, --model string    filter by model
       --page int        limit results to page (for use with --limit)
-      --records         print record count found with pagination info and return
-      --slug string     filter by component slug (nic/drive/bmc/bios...)
-      --vendor string   filter by component vendor
+      --slug string     [required] filter by component slug (nic/drive/bmc/bios...)
+  -v, --vendor string   filter by vendor
+      --with-records    print record count found with pagination info and return
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
-      --output-json     Output listing as JSON
-      --reauth          re-authenticate with oauth services
+  -c, --config string       config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -o, --output outputType   {json|text} (default json)
+      --reauth              re-authenticate with oauth services
 ```
 
 ### SEE ALSO

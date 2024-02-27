@@ -11,17 +11,17 @@ mctl get bom [flags]
 ### Options
 
 ```
-      --aoc-mac string   get bom info by aoc mac address
-      --bmc-mac string   get bom info by bmc mac address
+      --aoc-mac string   aoc mac address
+      --bmc-mac string   bmc mac address
   -h, --help             help for bom
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
-  -o, --output string   {json|text} (default "json")
-      --reauth          re-authenticate with oauth services
+  -c, --config string       config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -o, --output outputType   {json|text} (default json)
+      --reauth              re-authenticate with oauth services
 ```
 
 ### SEE ALSO

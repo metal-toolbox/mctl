@@ -46,9 +46,6 @@ func deleteServer(ctx context.Context) {
 func init() {
 	serverDeleteFlags = &serverDeleteParams{}
 
-	serverDelete.PersistentFlags().StringVar(&serverDeleteFlags.serverID, "server-id", "", "server id to be deleted")
-
-	if err := serverDelete.MarkPersistentFlagRequired("server-id"); err != nil {
-		log.Fatal(err)
-	}
+	mctl.AddServerFlag(serverDelete, &serverDeleteFlags.serverID)
+	mctl.RequireFlag(serverDelete, mctl.ServerFlag)
 }

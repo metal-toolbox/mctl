@@ -5,20 +5,20 @@
 Delete a firmware set
 
 ```
-mctl delete firmware-set [flags]
+mctl delete firmware-set --set-id SETID [flags]
 ```
 
 ### Options
 
 ```
-  -h, --help          help for firmware-set
-      --uuid string   UUID of firmware set to be deleted
+  -h, --help            help for firmware-set
+      --set-id string   [required] ID of the firmware set
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -c, --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
       --reauth          re-authenticate with oauth services
 ```
 
