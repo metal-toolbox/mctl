@@ -6,11 +6,11 @@ import (
 	"log"
 
 	"github.com/google/uuid"
+	rctypes "github.com/metal-toolbox/rivets/condition"
+	"github.com/spf13/cobra"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
-	rctypes "github.com/metal-toolbox/rivets/condition"
-	"github.com/spf13/cobra"
 )
 
 var serverIDStr string
@@ -50,12 +50,6 @@ func statusCheck(ctx context.Context) {
 }
 
 func init() {
-	flags := installStatus.Flags()
-	flags.StringVarP(&serverIDStr, "server", "s", "", "server id (typically a UUID)")
-
-	if err := installStatus.MarkFlagRequired("server"); err != nil {
-		log.Fatalf("marking server flag as required: %s", err.Error())
-	}
-
-	install.AddCommand(installStatus)
+	mctl.AddServerFlag(installStatus, &serverIDStr)
+	mctl.RequireFlag(installStatus, mctl.ServerFlag)
 }

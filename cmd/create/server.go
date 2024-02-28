@@ -5,12 +5,11 @@ import (
 	"encoding/json"
 	"log"
 
+	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
 	"github.com/spf13/cobra"
 
-	"github.com/metal-toolbox/mctl/internal/app"
-
-	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
 	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
 )
 
 type serverEnrollParams struct {
@@ -72,25 +71,14 @@ func enrollServer(ctx context.Context) {
 func init() {
 	serverEnrollFlags = &serverEnrollParams{}
 
-	serverEnroll.PersistentFlags().StringVar(&serverEnrollFlags.serverID, "server-id", "", "server id to be created. New id will be created if null.")
-	serverEnroll.PersistentFlags().StringVar(&serverEnrollFlags.facility, "facility", "", "facility of the server")
-	serverEnroll.PersistentFlags().StringVar(&serverEnrollFlags.ip, "ip", "", "ip of the server")
-	serverEnroll.PersistentFlags().StringVar(&serverEnrollFlags.username, "user", "", "username of the server")
-	serverEnroll.PersistentFlags().StringVar(&serverEnrollFlags.password, "pwd", "", "password of the server")
+	mctl.AddBMCAddressFlag(serverEnroll, &serverEnrollFlags.ip)
+	mctl.AddBMCUsernameFlag(serverEnroll, &serverEnrollFlags.username)
+	mctl.AddBMCPasswordFlag(serverEnroll, &serverEnrollFlags.password)
+	mctl.AddFacilityFlag(serverEnroll, &serverEnrollFlags.facility)
+	mctl.AddServerFlag(serverEnroll, &serverEnrollFlags.serverID)
 
-	if err := serverEnroll.MarkPersistentFlagRequired("facility"); err != nil {
-		log.Fatal(err)
-	}
-
-	if err := serverEnroll.MarkPersistentFlagRequired("ip"); err != nil {
-		log.Fatal(err)
-	}
-
-	if err := serverEnroll.MarkPersistentFlagRequired("user"); err != nil {
-		log.Fatal(err)
-	}
-
-	if err := serverEnroll.MarkPersistentFlagRequired("pwd"); err != nil {
-		log.Fatal(err)
-	}
+	mctl.RequireFlag(serverEnroll, mctl.BMCAddressFlag)
+	mctl.RequireFlag(serverEnroll, mctl.BMCUsernameFlag)
+	mctl.RequireFlag(serverEnroll, mctl.BMCPasswordFlag)
+	mctl.RequireFlag(serverEnroll, mctl.FacilityFlag)
 }

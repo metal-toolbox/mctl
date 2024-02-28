@@ -12,16 +12,16 @@ mctl list firmware-set [flags]
 
 ```
   -h, --help            help for firmware-set
-      --model string    filter by server model
-      --vendor string   filter by server vendor
+  -m, --model string    filter by model
+  -v, --vendor string   filter by vendor
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
-      --output-json     Output listing as JSON
-      --reauth          re-authenticate with oauth services
+  -c, --config string       config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -o, --output outputType   {json|text} (default json)
+      --reauth              re-authenticate with oauth services
 ```
 
 ### SEE ALSO

@@ -5,13 +5,14 @@
 Collect current server firmware status and bios configuration
 
 ```
-mctl collect inventory --server | -s <server uuid> [flags]
+mctl collect inventory -s SERVER [flags]
 ```
 
 ### Options
 
 ```
   -h, --help               help for inventory
+  -s, --server string      [required] ID of the server
       --skip-bios-config   Skip BIOS configuration data collection
       --skip-fw-status     Skip firmware status data collection
 ```
@@ -19,9 +20,8 @@ mctl collect inventory --server | -s <server uuid> [flags]
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -c, --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
       --reauth          re-authenticate with oauth services
-  -s, --server string   server id (typically a UUID)
 ```
 
 ### SEE ALSO

@@ -5,20 +5,20 @@
 Create firmware
 
 ```
-mctl create firmware [flags]
+mctl create firmware -F FROMFILE [flags]
 ```
 
 ### Options
 
 ```
-      --from-file string   JSON file with firmware configuration data
+  -F, --from-file string   [required] JSON file with firmware configuration data
   -h, --help               help for firmware
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -c, --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
       --reauth          re-authenticate with oauth services
 ```
 

@@ -6,14 +6,14 @@ import (
 	"os"
 	"strings"
 
-	mctl "github.com/metal-toolbox/mctl/cmd"
-	"github.com/metal-toolbox/mctl/internal/app"
-	"github.com/olekukonko/tablewriter"
-	"github.com/spf13/cobra"
-
 	rts "github.com/metal-toolbox/rivets/serverservice"
 	rt "github.com/metal-toolbox/rivets/types"
+	"github.com/olekukonko/tablewriter"
+	"github.com/spf13/cobra"
 	ss "go.hollow.sh/serverservice/pkg/api/v1"
+
+	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
 )
 
 type listServerFlags struct {
@@ -193,14 +193,14 @@ func attributeParamsFromFlags(fl *listServerFlags) []ss.AttributeListParams {
 func init() {
 	fdlServer = &listServerFlags{}
 
-	cmdListServer.PersistentFlags().BoolVar(&fdlServer.records, "records", false, "only print record count matching filters")
-	cmdListServer.PersistentFlags().BoolVar(&fdlServer.table, "table", false, "print records in a table format")
-	cmdListServer.PersistentFlags().BoolVar(&fdlServer.bmcerrors, "bmcerrors", false, "list servers with BMC errors")
-	cmdListServer.PersistentFlags().BoolVar(&fdlServer.creds, "creds", false, "list BMC credentials in ")
-	cmdListServer.PersistentFlags().StringVar(&fdlServer.vendor, "vendor", "", "filter by server vendor")
-	cmdListServer.PersistentFlags().StringVar(&fdlServer.model, "model", "", "filter by server model")
-	cmdListServer.PersistentFlags().StringVar(&fdlServer.facility, "facility", "", "filter by facility code")
-	cmdListServer.PersistentFlags().StringVar(&fdlServer.serial, "serial", "", "filter by server serial")
-	cmdListServer.PersistentFlags().IntVar(&fdlServer.page, "page", 0, "limit results to page (for use with --limit)")
-	cmdListServer.PersistentFlags().IntVar(&fdlServer.limit, "limit", 10, "limit results returned") // nolint:gomnd // value is obvious as is
+	mctl.AddWithRecordsFlag(cmdListServer, &fdlServer.records)
+	mctl.AddVendorFlag(cmdListServer, &fdlServer.vendor)
+	mctl.AddModelFlag(cmdListServer, &fdlServer.model)
+	mctl.AddFacilityFlag(cmdListServer, &fdlServer.facility)
+	mctl.AddPageFlag(cmdListServer, &fdlServer.page)
+	mctl.AddPageLimitFlag(cmdListServer, &fdlServer.limit)
+	mctl.AddWithBMCErrorsFlag(cmdListServer, &fdlServer.bmcerrors)
+	mctl.AddWithCredsFlag(cmdListServer, &fdlServer.creds)
+	mctl.AddPrintTableFlag(cmdListServer, &fdlServer.table)
+	mctl.AddServerSerialFlag(cmdListServer, &fdlServer.serial)
 }

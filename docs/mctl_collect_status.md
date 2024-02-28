@@ -5,21 +5,21 @@
 check the progress of a inventory collection for a server
 
 ```
-mctl collect status --server | -s <server uuid> [flags]
+mctl collect status -s SERVER [flags]
 ```
 
 ### Options
 
 ```
-  -h, --help   help for status
+  -h, --help            help for status
+  -s, --server string   [required] ID of the server
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -c, --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
       --reauth          re-authenticate with oauth services
-  -s, --server string   server id (typically a UUID)
 ```
 
 ### SEE ALSO

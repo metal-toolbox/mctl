@@ -5,20 +5,20 @@
 check the progress of a firmware install on a server
 
 ```
-mctl install status --server | -s <server uuid> [flags]
+mctl install status --server | -s <server uuid> -s SERVER [flags]
 ```
 
 ### Options
 
 ```
   -h, --help            help for status
-  -s, --server string   server id (typically a UUID)
+  -s, --server string   [required] ID of the server
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -c, --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
       --reauth          re-authenticate with oauth services
 ```
 

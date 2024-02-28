@@ -5,13 +5,13 @@ import (
 	"os"
 	"strings"
 
+	"github.com/olekukonko/tablewriter"
+	"github.com/spf13/cobra"
+	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
+
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/pkg/model"
-	"github.com/olekukonko/tablewriter"
-	"github.com/spf13/cobra"
-
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
 type listFirmwareSetFlags struct {
@@ -49,7 +49,7 @@ var listFirmwareSet = &cobra.Command{
 			}
 		}
 
-		if outputJSON {
+		if output == mctl.OutputTypeJSON.String() {
 			printJSON(fwSet)
 			os.Exit(0)
 		}
@@ -78,6 +78,6 @@ var listFirmwareSet = &cobra.Command{
 func init() {
 	flagsDefinedListFwSet = &listFirmwareSetFlags{}
 
-	listFirmwareSet.PersistentFlags().StringVar(&flagsDefinedListFwSet.vendor, "vendor", "", "filter by server vendor")
-	listFirmwareSet.PersistentFlags().StringVar(&flagsDefinedListFwSet.model, "model", "", "filter by server model")
+	mctl.AddModelFlag(listFirmwareSet, &flagsDefinedListFwSet.model)
+	mctl.AddVendorFlag(listFirmwareSet, &flagsDefinedListFwSet.vendor)
 }

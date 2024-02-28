@@ -5,22 +5,22 @@
 Get information for given firmware identifier
 
 ```
-mctl get firmware [flags]
+mctl get firmware -f FIRMWARE [flags]
 ```
 
 ### Options
 
 ```
-  -f, --firmware-id string   firmware UUID
-  -h, --help                 help for firmware
+  -f, --firmware string   [required] ID of the firmware
+  -h, --help              help for firmware
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
-  -o, --output string   {json|text} (default "json")
-      --reauth          re-authenticate with oauth services
+  -c, --config string       config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -o, --output outputType   {json|text} (default json)
+      --reauth              re-authenticate with oauth services
 ```
 
 ### SEE ALSO

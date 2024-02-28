@@ -5,11 +5,12 @@ import (
 	"log"
 
 	"github.com/google/uuid"
+	"github.com/spf13/cobra"
+	ss "go.hollow.sh/serverservice/pkg/api/v1"
+
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/pkg/model"
-	"github.com/spf13/cobra"
-	ss "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
 var (
@@ -96,16 +97,12 @@ var editFirmwareSet = &cobra.Command{
 }
 
 func init() {
-	cmdFlags := editFirmwareSet.PersistentFlags()
-	cmdFlags.StringVar(&editFWSetFlags.ID, "uuid", "", "UUID of firmware set to be edited")
-	cmdFlags.StringVar(&editFWSetFlags.FirmwareSetName, "name", "", "Update name for the firmware set")
-	cmdFlags.StringToStringVar(&editFWSetFlags.Labels, "labels", nil, "Labels to assign to the firmware set - 'vendor=foo,model=bar'")
+	mctl.AddFirmwareSetFlag(editFirmwareSet, &editFWSetFlags.ID)
+	mctl.AddNameFlag(editFirmwareSet, &editFWSetFlags.ID, "New name of the firmware set")
+	mctl.AddLabelsFlag(editFirmwareSet, &editFWSetFlags.Labels,
+		"Labels to assign to the firmware set - 'vendor=foo,model=bar'")
+	mctl.AddFirmwareAddIDsFlag(editFirmwareSet, &editFWSetFlags.AddFirmwareUUIDs)
+	mctl.AddFirmwareRemoveIDsFlag(editFirmwareSet, &editFWSetFlags.RemoveFirmwareUUIDs)
 
-	if err := editFirmwareSet.MarkPersistentFlagRequired("uuid"); err != nil {
-		log.Fatal(err)
-	}
-
-	cmdFlags.StringSliceVar(&editFWSetFlags.RemoveFirmwareUUIDs, "remove-firmware-uuids", []string{}, "UUIDs of firmware to be removed from the set")
-	cmdFlags.StringSliceVar(&editFWSetFlags.AddFirmwareUUIDs, "add-firmware-uuids", []string{}, "UUIDs of firmware to be added to the set")
-
+	mctl.RequireFlag(editFirmwareSet, mctl.FirmwareSetFlag)
 }

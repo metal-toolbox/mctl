@@ -5,24 +5,24 @@
 Enroll server and publish conditions
 
 ```
-mctl create server [flags]
+mctl create server -a BMCADDR -u BMCUSER -p BMCPASS --facility FACILITY [flags]
 ```
 
 ### Options
 
 ```
-      --facility string    facility of the server
-  -h, --help               help for server
-      --ip string          ip of the server
-      --pwd string         password of the server
-      --server-id string   server id to be created. New id will be created if null.
-      --user string        username of the server
+  -a, --bmc-addr string   [required] address of the bmc
+  -p, --bmc-pass string   [required] password of the bmc user
+  -u, --bmc-user string   [required] username of the bmc user
+      --facility string   [required] facility name
+  -h, --help              help for server
+  -s, --server string     ID of the server
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -c, --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
       --reauth          re-authenticate with oauth services
 ```
 

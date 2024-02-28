@@ -5,22 +5,22 @@
 get the last server conditions performed
 
 ```
-mctl get condition [flags]
+mctl get condition -s SERVER [flags]
 ```
 
 ### Options
 
 ```
   -h, --help            help for condition
-  -s, --server string   server UUID
+  -s, --server string   [required] ID of the server
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
-  -o, --output string   {json|text} (default "json")
-      --reauth          re-authenticate with oauth services
+  -c, --config string       config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -o, --output outputType   {json|text} (default json)
+      --reauth              re-authenticate with oauth services
 ```
 
 ### SEE ALSO

@@ -4,9 +4,10 @@ import (
 	"log"
 
 	"github.com/google/uuid"
+	"github.com/spf13/cobra"
+
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
-	"github.com/spf13/cobra"
 )
 
 type getConditionFlags struct {
@@ -46,10 +47,6 @@ var getCondition = &cobra.Command{
 func init() {
 	flagsDefinedGetCondition = &getConditionFlags{}
 
-	getCondition.Flags().StringVarP(&flagsDefinedGetCondition.id, "server", "s", "", "server UUID")
-
-	if err := getCondition.MarkFlagRequired("server"); err != nil {
-		log.Fatal(err)
-	}
-
+	mctl.AddServerFlag(getCondition, &flagsDefinedGetCondition.id)
+	mctl.RequireFlag(getCondition, mctl.ServerFlag)
 }

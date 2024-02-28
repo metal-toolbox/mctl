@@ -8,14 +8,15 @@ import (
 	"github.com/google/uuid"
 	"github.com/spf13/cobra"
 
-	"github.com/metal-toolbox/mctl/internal/app"
-
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
-	mctl "github.com/metal-toolbox/mctl/cmd"
 	rctypes "github.com/metal-toolbox/rivets/condition"
+
+	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
 )
 
 type collectInventoryFlags struct {
+	serverID                  string
 	skipFirmwareStatusCollect bool
 	skipBiosConfigCollect     bool
 }
@@ -25,7 +26,7 @@ var (
 )
 
 var collectInventoryCmd = &cobra.Command{
-	Use:   "inventory --server | -s <server uuid>",
+	Use:   "inventory",
 	Short: "Collect current server firmware status and bios configuration",
 	Run: func(cmd *cobra.Command, _ []string) {
 		collectInventory(cmd.Context())
@@ -36,7 +37,7 @@ var collectInventoryCmd = &cobra.Command{
 func collectInventory(ctx context.Context) {
 	theApp := mctl.MustCreateApp(ctx)
 
-	serverID, err := uuid.Parse(serverIDStr)
+	serverID, err := uuid.Parse(flagsDefinedCollectInventory.serverID)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -77,9 +78,9 @@ func collectInventory(ctx context.Context) {
 func init() {
 	flagsDefinedCollectInventory = &collectInventoryFlags{}
 
-	collect.AddCommand(collectInventoryCmd)
-	collectInventoryCmd.PersistentFlags().BoolVar(&flagsDefinedCollectInventory.skipFirmwareStatusCollect,
-		"skip-fw-status", false, "Skip firmware status data collection")
-	collectInventoryCmd.PersistentFlags().BoolVar(&flagsDefinedCollectInventory.skipBiosConfigCollect,
-		"skip-bios-config", false, "Skip BIOS configuration data collection")
+	mctl.AddServerFlag(collectInventoryCmd, &flagsDefinedCollectInventory.serverID)
+	mctl.AddSkipFWStatusFlag(collectInventoryCmd, &flagsDefinedCollectInventory.skipFirmwareStatusCollect)
+	mctl.AddSkipBiosConfigFlag(collectInventoryCmd, &flagsDefinedCollectInventory.skipBiosConfigCollect)
+
+	mctl.RequireFlag(collectInventoryCmd, mctl.ServerFlag)
 }

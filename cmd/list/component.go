@@ -4,10 +4,11 @@ import (
 	"log"
 	"os"
 
-	mctl "github.com/metal-toolbox/mctl/cmd"
-	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/spf13/cobra"
 	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
+
+	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
 )
 
 type listComponentFlags struct {
@@ -81,14 +82,12 @@ var listComponent = &cobra.Command{
 func init() {
 	flagsListComponent = &listComponentFlags{}
 
-	listComponent.PersistentFlags().BoolVar(&flagsListComponent.records, "records", false, "print record count found with pagination info and return")
-	listComponent.PersistentFlags().StringVar(&flagsListComponent.slug, "slug", "", "filter by component slug (nic/drive/bmc/bios...)")
-	listComponent.PersistentFlags().StringVar(&flagsListComponent.vendor, "vendor", "", "filter by component vendor")
-	listComponent.PersistentFlags().StringVar(&flagsListComponent.model, "model", "", "filter by one or more component models")
-	listComponent.PersistentFlags().IntVar(&flagsListComponent.page, "page", 0, "limit results to page (for use with --limit)")
-	listComponent.PersistentFlags().IntVar(&flagsListComponent.limit, "limit", 10, "limit results returned") // nolint:gomnd // value is obvious as is
+	mctl.AddWithRecordsFlag(listComponent, &flagsListComponent.records)
+	mctl.AddSlugFlag(listComponent, &flagsListComponent.slug, "filter by component slug (nic/drive/bmc/bios...)")
+	mctl.AddVendorFlag(listComponent, &flagsListComponent.vendor)
+	mctl.AddModelFlag(listComponent, &flagsListComponent.model)
+	mctl.AddPageFlag(listComponent, &flagsListComponent.page)
+	mctl.AddPageLimitFlag(listComponent, &flagsListComponent.limit)
 
-	if err := listComponent.MarkPersistentFlagRequired("slug"); err != nil {
-		log.Fatal(err)
-	}
+	mctl.RequireFlag(listComponent, mctl.SlugFlag)
 }

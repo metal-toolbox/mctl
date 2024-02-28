@@ -6,9 +6,10 @@ import (
 	"os"
 
 	"github.com/google/uuid"
+	"github.com/spf13/cobra"
+
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
-	"github.com/spf13/cobra"
 )
 
 type getFirmwareFlags struct {
@@ -52,9 +53,6 @@ var getFirmware = &cobra.Command{
 func init() {
 	flagsDefinedGetFirmware = &getFirmwareFlags{}
 
-	getFirmware.PersistentFlags().StringVarP(&flagsDefinedGetFirmware.id, "firmware-id", "f", "", "firmware UUID")
-
-	if err := getFirmware.MarkPersistentFlagRequired("firmware-id"); err != nil {
-		log.Fatal(err)
-	}
+	mctl.AddFirmwareFlag(getFirmware, &flagsDefinedGetFirmware.id)
+	mctl.RequireFlag(getFirmware, mctl.FirmwareFlag)
 }

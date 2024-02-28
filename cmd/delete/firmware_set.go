@@ -5,9 +5,10 @@ import (
 	"log"
 
 	"github.com/google/uuid"
+	"github.com/spf13/cobra"
+
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
-	"github.com/spf13/cobra"
 )
 
 var (
@@ -40,9 +41,6 @@ var deleteFirmwareSet = &cobra.Command{
 }
 
 func init() {
-	deleteFirmwareSet.PersistentFlags().StringVar(&deleteFWSetFlags.ID, "uuid", "", "UUID of firmware set to be deleted")
-
-	if err := deleteFirmwareSet.MarkPersistentFlagRequired("uuid"); err != nil {
-		log.Fatal(err)
-	}
+	mctl.AddFirmwareSetFlag(deleteFirmwareSet, &deleteFWSetFlags.ID)
+	mctl.RequireFlag(deleteFirmwareSet, mctl.FirmwareSetFlag)
 }

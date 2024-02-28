@@ -5,20 +5,20 @@
 Upload Bom File
 
 ```
-mctl create bom [flags]
+mctl create bom -F FROMFILE [flags]
 ```
 
 ### Options
 
 ```
-      --from-xlsx-file string   Xlsx file with bom informations
-  -h, --help                    help for bom
+  -F, --from-file string   [required] xlsx file with BOM information
+  -h, --help               help for bom
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -c, --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
       --reauth          re-authenticate with oauth services
 ```
 

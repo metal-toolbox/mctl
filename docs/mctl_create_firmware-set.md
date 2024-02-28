@@ -5,22 +5,22 @@
 Create a firmware set
 
 ```
-mctl create firmware-set [flags]
+mctl create firmware-set -U FIRMWAREIDS -n NAME [flags]
 ```
 
 ### Options
 
 ```
-      --firmware-uuids strings   comma separated list of UUIDs of firmware to be included in the set to be created
-  -h, --help                     help for firmware-set
-      --labels stringToString    Labels to assign to the firmware set - 'vendor=foo,model=bar' (default [])
-      --name string              A name for the firmware set
+  -U, --firmware-ids strings    [required] comma separated list of firmware IDs
+  -h, --help                    help for firmware-set
+  -l, --labels stringToString   Labels to assign to the firmware set - 'vendor=foo,model=bar' (default [])
+  -n, --name string             [required] A name for the firmware set
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -c, --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
       --reauth          re-authenticate with oauth services
 ```
 

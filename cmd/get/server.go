@@ -9,14 +9,15 @@ import (
 
 	"github.com/dustin/go-humanize"
 	"github.com/google/uuid"
-	mctl "github.com/metal-toolbox/mctl/cmd"
-	"github.com/metal-toolbox/mctl/internal/app"
 	rts "github.com/metal-toolbox/rivets/serverservice"
 	rt "github.com/metal-toolbox/rivets/types"
 	"github.com/olekukonko/tablewriter"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	ss "go.hollow.sh/serverservice/pkg/api/v1"
+
+	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
 )
 
 type getServerFlags struct {
@@ -199,16 +200,12 @@ func components(ctx context.Context, c *ss.Client, id uuid.UUID) ([]*rt.Componen
 func init() {
 	cmdArgs = &getServerFlags{}
 
-	cmdPFlags := getServer.PersistentFlags()
+	mctl.AddServerFlag(getServer, &cmdArgs.id)
+	mctl.AddSlugFlag(getServer, &cmdArgs.component, "list component on server by slug (drive/nic/cpu..)")
+	mctl.AddWithCredsFlag(getServer, &cmdArgs.creds)
+	mctl.AddPrintTableFlag(getServer, &cmdArgs.table)
+	mctl.AddBIOSConfigFlag(getServer, &cmdArgs.biosconfig)
+	mctl.AddListComponentsFlag(getServer, &cmdArgs.listComponents)
 
-	cmdPFlags.StringVar(&cmdArgs.id, "id", "", "server UUID")
-	cmdPFlags.StringVar(&cmdArgs.component, "component", "", "list component on server by slug (drive/nic/cpu..)")
-	cmdPFlags.BoolVarP(&cmdArgs.listComponents, "list-components", "l", false, "include component data")
-	cmdPFlags.BoolVarP(&cmdArgs.biosconfig, "bioscfg", "b", false, "print bios configuration")
-	cmdPFlags.BoolVar(&cmdArgs.creds, "creds", false, "include BMC credentials in result")
-	cmdPFlags.BoolVarP(&cmdArgs.table, "table", "t", false, "format output in a table")
-
-	if err := getServer.MarkPersistentFlagRequired("id"); err != nil {
-		log.Fatal(err)
-	}
+	mctl.RequireFlag(getServer, mctl.ServerFlag)
 }

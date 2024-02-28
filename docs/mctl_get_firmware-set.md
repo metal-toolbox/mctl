@@ -5,23 +5,23 @@
 Get information for given firmware set identifier
 
 ```
-mctl get firmware-set [flags]
+mctl get firmware-set -s SERVER [flags]
 ```
 
 ### Options
 
 ```
   -h, --help            help for firmware-set
-      --id string       firmware set UUID
-      --server string   server UUID
+  -s, --server string   [required] ID of the server
+      --set-id string   ID of the firmware set
 ```
 
 ### Options inherited from parent commands
 
 ```
-      --config string   config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
-  -o, --output string   {json|text} (default "json")
-      --reauth          re-authenticate with oauth services
+  -c, --config string       config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
+  -o, --output outputType   {json|text} (default json)
+      --reauth              re-authenticate with oauth services
 ```
 
 ### SEE ALSO

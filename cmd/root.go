@@ -45,6 +45,6 @@ func Execute() {
 }
 
 func init() {
-	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $XDG_CONFIG_HOME/mctl/config.yml)")
-	RootCmd.PersistentFlags().BoolVar(&reAuth, "reauth", false, "re-authenticate with oauth services")
+	AddConfigFileFlag(RootCmd, &cfgFile)
+	AddReAuthFlag(RootCmd, &reAuth)
 }
