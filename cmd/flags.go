@@ -25,9 +25,9 @@ var (
 	NameFlag             = &flagDetails{name: "name", short: "n"}
 	LabelsFlag           = &flagDetails{name: "labels", short: "l"}
 	FacilityFlag         = &flagDetails{name: "facility"}
-	AddressFlag          = &flagDetails{name: "address", short: "a"}
-	UsernameFlag         = &flagDetails{name: "username", short: "u"}
-	PasswordFlag         = &flagDetails{name: "password", short: "p"}
+	BMCAddressFlag       = &flagDetails{name: "bmc-addr", short: "a"}
+	BMCUsernameFlag      = &flagDetails{name: "bmc-user", short: "u"}
+	BMCPasswordFlag      = &flagDetails{name: "bmc-pass", short: "p"}
 	FirmwareFlag         = &flagDetails{name: "firmware", short: "f"}
 	FirmwareSetFlag      = &flagDetails{name: "set-id"}
 	FirmwareAddFlag      = &flagDetails{name: "add-firmware-ids"}
@@ -155,16 +155,16 @@ func AddFacilityFlag(cmd *cobra.Command, ptr *string) {
 	cmd.PersistentFlags().StringVar(ptr, FacilityFlag.name, "", "facility name")
 }
 
-func AddAddressFlag(cmd *cobra.Command, ptr *string) {
-	cmd.PersistentFlags().StringVarP(ptr, AddressFlag.name, AddressFlag.short, "", "ip address of the server")
+func AddBMCAddressFlag(cmd *cobra.Command, ptr *string) {
+	cmd.PersistentFlags().StringVarP(ptr, BMCAddressFlag.name, BMCAddressFlag.short, "", "address of the bmc")
 }
 
-func AddUsernameFlag(cmd *cobra.Command, ptr *string) {
-	cmd.PersistentFlags().StringVarP(ptr, UsernameFlag.name, UsernameFlag.short, "", "username of the user")
+func AddBMCUsernameFlag(cmd *cobra.Command, ptr *string) {
+	cmd.PersistentFlags().StringVarP(ptr, BMCUsernameFlag.name, BMCUsernameFlag.short, "", "username of the bmc user")
 }
 
-func AddPasswordFlag(cmd *cobra.Command, ptr *string) {
-	cmd.PersistentFlags().StringVarP(ptr, PasswordFlag.name, PasswordFlag.short, "", "password of the user")
+func AddBMCPasswordFlag(cmd *cobra.Command, ptr *string) {
+	cmd.PersistentFlags().StringVarP(ptr, BMCPasswordFlag.name, BMCPasswordFlag.short, "", "password of the bmc user")
 }
 
 func AddFirmwareFlag(cmd *cobra.Command, ptr *string) {

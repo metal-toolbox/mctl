@@ -71,14 +71,14 @@ func enrollServer(ctx context.Context) {
 func init() {
 	serverEnrollFlags = &serverEnrollParams{}
 
-	mctl.AddAddressFlag(serverEnroll, &serverEnrollFlags.ip)
-	mctl.AddUsernameFlag(serverEnroll, &serverEnrollFlags.username)
-	mctl.AddPasswordFlag(serverEnroll, &serverEnrollFlags.password)
+	mctl.AddBMCAddressFlag(serverEnroll, &serverEnrollFlags.ip)
+	mctl.AddBMCUsernameFlag(serverEnroll, &serverEnrollFlags.username)
+	mctl.AddBMCPasswordFlag(serverEnroll, &serverEnrollFlags.password)
 	mctl.AddFacilityFlag(serverEnroll, &serverEnrollFlags.facility)
 	mctl.AddServerFlag(serverEnroll, &serverEnrollFlags.serverID)
 
-	mctl.RequireFlag(serverEnroll, mctl.AddressFlag)
-	mctl.RequireFlag(serverEnroll, mctl.UsernameFlag)
-	mctl.RequireFlag(serverEnroll, mctl.PasswordFlag)
+	mctl.RequireFlag(serverEnroll, mctl.BMCAddressFlag)
+	mctl.RequireFlag(serverEnroll, mctl.BMCUsernameFlag)
+	mctl.RequireFlag(serverEnroll, mctl.BMCPasswordFlag)
 	mctl.RequireFlag(serverEnroll, mctl.FacilityFlag)
 }
