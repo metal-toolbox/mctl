@@ -5,18 +5,18 @@
 Enroll server and publish conditions
 
 ```
-mctl create server -a ADDRESS -u USERNAME -p PASSWORD --facility FACILITY [flags]
+mctl create server -a BMCADDR -u BMCUSER -p BMCPASS --facility FACILITY [flags]
 ```
 
 ### Options
 
 ```
-  -a, --address string    [required] ip address of the server
+  -a, --bmc-addr string   [required] address of the bmc
+  -p, --bmc-pass string   [required] password of the bmc user
+  -u, --bmc-user string   [required] username of the bmc user
       --facility string   [required] facility name
   -h, --help              help for server
-  -p, --password string   [required] password of the user
   -s, --server string     ID of the server
-  -u, --username string   [required] username of the user
 ```
 
 ### Options inherited from parent commands
