@@ -15,42 +15,44 @@ type flagDetails struct {
 }
 
 var (
-	ConfigFileFlag       = &flagDetails{name: "config", short: "c"}
-	ReAuthFlag           = &flagDetails{name: "reauth"}
-	ServerFlag           = &flagDetails{name: "server", short: "s"}
-	SkipFWStatusFlag     = &flagDetails{name: "skip-fw-status"}
-	SkipBiosConfigFlag   = &flagDetails{name: "skip-bios-config"}
-	FromFileFlag         = &flagDetails{name: "from-file", short: "F"}
-	FirmwareIDsFlag      = &flagDetails{name: "firmware-ids", short: "U"}
-	NameFlag             = &flagDetails{name: "name", short: "n"}
-	LabelsFlag           = &flagDetails{name: "labels", short: "l"}
-	FacilityFlag         = &flagDetails{name: "facility"}
-	BMCAddressFlag       = &flagDetails{name: "bmc-addr", short: "a"}
-	BMCUsernameFlag      = &flagDetails{name: "bmc-user", short: "u"}
-	BMCPasswordFlag      = &flagDetails{name: "bmc-pass", short: "p"}
-	FirmwareFlag         = &flagDetails{name: "firmware", short: "f"}
-	FirmwareSetFlag      = &flagDetails{name: "set-id"}
-	FirmwareAddFlag      = &flagDetails{name: "add-firmware-ids"}
-	FirmwareRemoveFlag   = &flagDetails{name: "remove-firmware-ids"}
-	MacAOCFlag           = &flagDetails{name: "aoc-mac"}
-	MacBMCFlag           = &flagDetails{name: "bmc-mac"}
-	OutputFlag           = &flagDetails{name: "output", short: "o"}
-	ForceFlag            = &flagDetails{name: "force"}
-	DryRunFlag           = &flagDetails{name: "dry-run"}
-	SkipBmcResetFlag     = &flagDetails{name: "skip-bmc-reset"}
-	PowerOffRequiredFlag = &flagDetails{name: "power-off-required"}
-	ModelFlag            = &flagDetails{name: "model", short: "m"}
-	VendorFlag           = &flagDetails{name: "vendor", short: "v"}
-	SlugFlag             = &flagDetails{name: "slug"}
-	WithRecordsFlag      = &flagDetails{name: "with-records"}
-	PageFlag             = &flagDetails{name: "page"}
-	LimitFlag            = &flagDetails{name: "limit"}
-	WithBMCErrorsFlag    = &flagDetails{name: "with-bmc-errors"}
-	WithCredsFlag        = &flagDetails{name: "with-creds"}
-	PrintTableFlag       = &flagDetails{name: "table", short: "t"}
-	BiosConfigFlag       = &flagDetails{name: "bios-config"}
-	ListComponentsFlag   = &flagDetails{name: "list-components"}
-	ServerSerialFlag     = &flagDetails{name: "serial"}
+	ConfigFileFlag                    = &flagDetails{name: "config", short: "c"}
+	ReAuthFlag                        = &flagDetails{name: "reauth"}
+	ServerFlag                        = &flagDetails{name: "server", short: "s"}
+	SkipFWStatusFlag                  = &flagDetails{name: "skip-fw-status"}
+	SkipBiosConfigFlag                = &flagDetails{name: "skip-bios-config"}
+	FromFileFlag                      = &flagDetails{name: "from-file", short: "F"}
+	FirmwareIDsFlag                   = &flagDetails{name: "firmware-ids", short: "U"}
+	NameFlag                          = &flagDetails{name: "name", short: "n"}
+	LabelsFlag                        = &flagDetails{name: "labels", short: "l"}
+	FacilityFlag                      = &flagDetails{name: "facility"}
+	BMCAddressFlag                    = &flagDetails{name: "bmc-addr", short: "a"}
+	BMCUsernameFlag                   = &flagDetails{name: "bmc-user", short: "u"}
+	BMCPasswordFlag                   = &flagDetails{name: "bmc-pass", short: "p"}
+	FirmwareFlag                      = &flagDetails{name: "firmware", short: "f"}
+	FirmwareSetFlag                   = &flagDetails{name: "set-id"}
+	FirmwareAddFlag                   = &flagDetails{name: "add-firmware-ids"}
+	FirmwareRemoveFlag                = &flagDetails{name: "remove-firmware-ids"}
+	MacAOCFlag                        = &flagDetails{name: "aoc-mac"}
+	MacBMCFlag                        = &flagDetails{name: "bmc-mac"}
+	OutputFlag                        = &flagDetails{name: "output", short: "o"}
+	ForceFlag                         = &flagDetails{name: "force"}
+	DryRunFlag                        = &flagDetails{name: "dry-run"}
+	SkipBmcResetFlag                  = &flagDetails{name: "skip-bmc-reset"}
+	PowerOffRequiredFlag              = &flagDetails{name: "power-off-required"}
+	ModelFlag                         = &flagDetails{name: "model", short: "m"}
+	VendorFlag                        = &flagDetails{name: "vendor", short: "v"}
+	SlugFlag                          = &flagDetails{name: "slug"}
+	WithRecordsFlag                   = &flagDetails{name: "with-records"}
+	PageFlag                          = &flagDetails{name: "page"}
+	LimitFlag                         = &flagDetails{name: "limit"}
+	WithBMCErrorsFlag                 = &flagDetails{name: "with-bmc-errors"}
+	WithCredsFlag                     = &flagDetails{name: "with-creds"}
+	PrintTableFlag                    = &flagDetails{name: "table", short: "t"}
+	BiosConfigFlag                    = &flagDetails{name: "bios-config"}
+	ListComponentsFlag                = &flagDetails{name: "list-components"}
+	ServerSerialFlag                  = &flagDetails{name: "serial"}
+	ServerActionPowerActionFlag       = &flagDetails{name: "action"}
+	ServerActionPowerActionStatusFlag = &flagDetails{name: "action-status"}
 
 	OutputTypeJSON outputType = "json"
 	OutputTypeText outputType = "text"
@@ -263,4 +265,22 @@ func AddListComponentsFlag(cmd *cobra.Command, ptr *bool) {
 
 func AddServerSerialFlag(cmd *cobra.Command, ptr *string) {
 	cmd.PersistentFlags().StringVar(ptr, ServerSerialFlag.name, "", "filter by server serial")
+}
+
+func AddServerPowerActionFlag(cmd *cobra.Command, ptr *string, params []string) {
+	cmd.PersistentFlags().StringVar(
+		ptr,
+		ServerActionPowerActionFlag.name,
+		"",
+		fmt.Sprintf("run a server power action [%s]", strings.Join(params, "|")),
+	)
+}
+
+func AddServerPowerActionStatusFlag(cmd *cobra.Command, ptr *bool) {
+	cmd.PersistentFlags().BoolVar(
+		ptr,
+		ServerActionPowerActionStatusFlag.name,
+		false,
+		"Query the last power action status/response",
+	)
 }
