@@ -23,5 +23,6 @@ mctl is a CLI utility to interact with metal toolbox services
 * [mctl get](mctl_get.md)	 - Get resource
 * [mctl install](mctl_install.md)	 - Install actions
 * [mctl list](mctl_list.md)	 - List resources
+* [mctl power](mctl_power.md)	 - Execute server/bmc power and next boot commands: on,off,cycle,reset,soft,status,bmc-reset
 * [mctl version](mctl_version.md)	 - Print mctl version
 
