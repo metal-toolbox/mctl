@@ -22,8 +22,11 @@ import (
 )
 
 var powerCmd = &cobra.Command{
-	Use:   "power",
-	Short: "Execute server/bmc power and next boot commands: " + strings.Join(serverPowerActions, ","),
+	Use: "power",
+	Short: fmt.Sprintf(
+		"Execute server/bmc power, set next-boot commands: [%s]",
+		strings.Join(serverPowerActions, "|"),
+	),
 	Run: func(cmd *cobra.Command, args []string) {
 		powerAction(cmd.Context())
 	},
