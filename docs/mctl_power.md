@@ -2,7 +2,7 @@
 
 ## mctl power
 
-Execute server/bmc power and next boot commands: on,off,cycle,reset,soft,status,bmc-reset
+Execute server/bmc power, set next-boot commands: [on|off|cycle|reset|soft|status|bmc-reset]
 
 ```
 mctl power -s SERVER [flags]
