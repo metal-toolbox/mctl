@@ -114,6 +114,16 @@ func MutuallyExclusiveFlags(cmd *cobra.Command, flags ...*flagDetails) {
 	cmd.MarkFlagsMutuallyExclusive(flagNames...)
 }
 
+func RequireOneFlag(cmd *cobra.Command, flags ...*flagDetails) {
+	flagNames := make([]string, len(flags))
+
+	for i, f := range flags {
+		flagNames[i] = f.name
+	}
+
+	cmd.MarkFlagsOneRequired(flagNames...)
+}
+
 func AddConfigFileFlag(cmd *cobra.Command, ptr *string) {
 	cmd.PersistentFlags().StringVarP(ptr, ConfigFileFlag.name, ConfigFileFlag.short, "",
 		"config file (default is $XDG_CONFIG_HOME/mctl/config.yml)")

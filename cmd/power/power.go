@@ -144,7 +144,6 @@ func init() {
 	mctl.AddServerPowerActionFlag(powerCmd, &flagsDefinedPowerAction.parameter, serverPowerActions)
 	mctl.AddServerPowerActionStatusFlag(powerCmd, &queryActionStatus)
 	mctl.MutuallyExclusiveFlags(powerCmd, mctl.ServerActionPowerActionFlag, mctl.ServerActionPowerActionStatusFlag)
-	powerCmd.MarkFlagsOneRequired("action", "action-status")
-
+	mctl.RequireOneFlag(powerCmd, mctl.ServerActionPowerActionFlag, mctl.ServerActionPowerActionStatusFlag)
 	mctl.RequireFlag(powerCmd, mctl.ServerFlag)
 }
