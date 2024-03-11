@@ -518,8 +518,6 @@ github.com/metal-toolbox/conditionorc v1.0.3 h1:HRmRL45sOimHR+SH+l03Q210vMV/2kQS
 github.com/metal-toolbox/conditionorc v1.0.3/go.mod h1:0SEoLbqOV7w1DyddKXGJVViGQ7kXgUft62Z5qzATlLw=
 github.com/metal-toolbox/hollow-bomservice v0.1.1 h1:Pll/HqF8Dff0jKo9B8ywcF9bfwTBmIIQpWcAWL3mYiM=
 github.com/metal-toolbox/hollow-bomservice v0.1.1/go.mod h1:v37wkZnVs/PTlfF/t6/aoMO48yE9XDCpog8kFr0R/yY=
-github.com/metal-toolbox/rivets v0.2.2 h1:+PM1l+Ebpfioog4iqIZq13BLdcM7vP5Tq2OoaPQx0ts=
-github.com/metal-toolbox/rivets v0.2.2/go.mod h1:XYcHa0lsKG3jYKImcCfjtHkjTNewLGonzozOC5IcdKk=
 github.com/metal-toolbox/rivets v0.2.3-0.20240301133759-998585ed03cb h1:wnSLU7ACl/oozuGsqWtqL59595MdIrSj+TyMS37SxJE=
 github.com/metal-toolbox/rivets v0.2.3-0.20240301133759-998585ed03cb/go.mod h1:XYcHa0lsKG3jYKImcCfjtHkjTNewLGonzozOC5IcdKk=
 github.com/microsoft/go-mssqldb v0.17.0/go.mod h1:OkoNGhGEs8EZqchVTtochlXruEhEOaO4S0d2sB5aeGQ=
@@ -791,8 +789,8 @@ golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4/go.mod h1:IxCIyHEi3zRg3s0
 golang.org/x/crypto v0.0.0-20220511200225-c6db032c6c88/go.mod h1:IxCIyHEi3zRg3s0A5j5BB6A9Jmi73HwBIUl50j+osU4=
 golang.org/x/crypto v0.0.0-20220826181053-bd7e27e6170d/go.mod h1:IxCIyHEi3zRg3s0A5j5BB6A9Jmi73HwBIUl50j+osU4=
 golang.org/x/crypto v0.6.0/go.mod h1:OFC/31mSvZgRz0V1QTNCzfAI1aIRzbiufJtkMIlEp58=
-golang.org/x/crypto v0.16.0 h1:mMMrFzRSCF0GvB7Ne27XVtVAaXLrPmgPC7/v0tkwHaY=
-golang.org/x/crypto v0.16.0/go.mod h1:gCAAfMLgwOJRpTjQ2zCCt2OcSfYMTeZVSRtQlPC7Nq4=
+golang.org/x/crypto v0.17.0 h1:r8bRNjWL3GshPW3gkd+RpvzWrZAwPS49OmTGZ/uhM4k=
+golang.org/x/crypto v0.17.0/go.mod h1:gCAAfMLgwOJRpTjQ2zCCt2OcSfYMTeZVSRtQlPC7Nq4=
 golang.org/x/exp v0.0.0-20190121172915-509febef88a4/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
 golang.org/x/exp v0.0.0-20190306152737-a1d7652674e8/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
 golang.org/x/exp v0.0.0-20190510132918-efd6b22b2522/go.mod h1:ZjyILWgesfNpC6sMxTJOJm9Kp84zZh5NQWvqDGG3Qr8=
