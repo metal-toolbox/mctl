@@ -152,8 +152,9 @@ github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dnaeon/go-vcr v1.1.0/go.mod h1:M7tiix8f0r6mKKJ3Yq/kqU1OYf3MnfmBWVbPx/yU9ko=
 github.com/dnaeon/go-vcr v1.2.0/go.mod h1:R4UdLID7HZT3taECzJs4YgbbH6PIGXB6W/sc5OLb6RQ=
-github.com/dustin/go-humanize v1.0.0 h1:VSnTsYCnlFHaM2/igO1h6X3HA71jcobQuxemgkq4zYo=
 github.com/dustin/go-humanize v1.0.0/go.mod h1:HtrtbFcZ19U5GC7JDqmcUSB87Iq5E25KnS6fMYU6eOk=
+github.com/dustin/go-humanize v1.0.1 h1:GzkhY7T5VNhEkwH0PVJgjz+fX1rhBrR7pRT3mDkpeCY=
+github.com/dustin/go-humanize v1.0.1/go.mod h1:Mu1zIs6XwVuF/gI1OepvI0qD18qycQx+mFykh5fBlto=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=
@@ -518,8 +519,6 @@ github.com/metal-toolbox/conditionorc v1.0.3 h1:HRmRL45sOimHR+SH+l03Q210vMV/2kQS
 github.com/metal-toolbox/conditionorc v1.0.3/go.mod h1:0SEoLbqOV7w1DyddKXGJVViGQ7kXgUft62Z5qzATlLw=
 github.com/metal-toolbox/hollow-bomservice v0.1.1 h1:Pll/HqF8Dff0jKo9B8ywcF9bfwTBmIIQpWcAWL3mYiM=
 github.com/metal-toolbox/hollow-bomservice v0.1.1/go.mod h1:v37wkZnVs/PTlfF/t6/aoMO48yE9XDCpog8kFr0R/yY=
-github.com/metal-toolbox/rivets v0.2.2 h1:+PM1l+Ebpfioog4iqIZq13BLdcM7vP5Tq2OoaPQx0ts=
-github.com/metal-toolbox/rivets v0.2.2/go.mod h1:XYcHa0lsKG3jYKImcCfjtHkjTNewLGonzozOC5IcdKk=
 github.com/metal-toolbox/rivets v0.2.3-0.20240301133759-998585ed03cb h1:wnSLU7ACl/oozuGsqWtqL59595MdIrSj+TyMS37SxJE=
 github.com/metal-toolbox/rivets v0.2.3-0.20240301133759-998585ed03cb/go.mod h1:XYcHa0lsKG3jYKImcCfjtHkjTNewLGonzozOC5IcdKk=
 github.com/microsoft/go-mssqldb v0.17.0/go.mod h1:OkoNGhGEs8EZqchVTtochlXruEhEOaO4S0d2sB5aeGQ=
