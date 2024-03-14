@@ -415,8 +415,9 @@ github.com/jackc/pgproto3/v2 v2.0.0-rc3/go.mod h1:ryONWYqW6dqSg1Lw6vXNMXoBJhpzvW
 github.com/jackc/pgproto3/v2 v2.0.0-rc3.0.20190831210041-4c03ce451f29/go.mod h1:ryONWYqW6dqSg1Lw6vXNMXoBJhpzvWKnT95C46ckYeM=
 github.com/jackc/pgproto3/v2 v2.0.6/go.mod h1:WfJCnwN3HIg9Ish/j3sgWXnAfK8A9Y0bwXYU5xKaEdA=
 github.com/jackc/pgproto3/v2 v2.1.1/go.mod h1:WfJCnwN3HIg9Ish/j3sgWXnAfK8A9Y0bwXYU5xKaEdA=
-github.com/jackc/pgproto3/v2 v2.3.2 h1:7eY55bdBeCz1F2fTzSz69QC+pG46jYq9/jtSPiJ5nn0=
 github.com/jackc/pgproto3/v2 v2.3.2/go.mod h1:WfJCnwN3HIg9Ish/j3sgWXnAfK8A9Y0bwXYU5xKaEdA=
+github.com/jackc/pgproto3/v2 v2.3.3 h1:1HLSx5H+tXR9pW3in3zaztoEwQYRC9SQaYUHjTSUOag=
+github.com/jackc/pgproto3/v2 v2.3.3/go.mod h1:WfJCnwN3HIg9Ish/j3sgWXnAfK8A9Y0bwXYU5xKaEdA=
 github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b/go.mod h1:vsD4gTJCa9TptPL8sPkXrLZ+hDuNrZCnj29CQpr4X1E=
 github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a h1:bbPeKD0xmW/Y25WS6cokEszi5g+S0QxI/d45PkRi7Nk=
 github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a/go.mod h1:5TJZWKEWniPve33vlWYSoGYefn3gLQRzjfDlhSJ9ZKM=
@@ -518,8 +519,6 @@ github.com/metal-toolbox/conditionorc v1.0.3 h1:HRmRL45sOimHR+SH+l03Q210vMV/2kQS
 github.com/metal-toolbox/conditionorc v1.0.3/go.mod h1:0SEoLbqOV7w1DyddKXGJVViGQ7kXgUft62Z5qzATlLw=
 github.com/metal-toolbox/hollow-bomservice v0.1.1 h1:Pll/HqF8Dff0jKo9B8ywcF9bfwTBmIIQpWcAWL3mYiM=
 github.com/metal-toolbox/hollow-bomservice v0.1.1/go.mod h1:v37wkZnVs/PTlfF/t6/aoMO48yE9XDCpog8kFr0R/yY=
-github.com/metal-toolbox/rivets v0.2.2 h1:+PM1l+Ebpfioog4iqIZq13BLdcM7vP5Tq2OoaPQx0ts=
-github.com/metal-toolbox/rivets v0.2.2/go.mod h1:XYcHa0lsKG3jYKImcCfjtHkjTNewLGonzozOC5IcdKk=
 github.com/metal-toolbox/rivets v0.2.3-0.20240301133759-998585ed03cb h1:wnSLU7ACl/oozuGsqWtqL59595MdIrSj+TyMS37SxJE=
 github.com/metal-toolbox/rivets v0.2.3-0.20240301133759-998585ed03cb/go.mod h1:XYcHa0lsKG3jYKImcCfjtHkjTNewLGonzozOC5IcdKk=
 github.com/microsoft/go-mssqldb v0.17.0/go.mod h1:OkoNGhGEs8EZqchVTtochlXruEhEOaO4S0d2sB5aeGQ=
