@@ -97,6 +97,4 @@ func init() {
 	listFirmware.PersistentFlags().StringSliceVar(&flagsDefinedListFirmware.models, "models", nil, "one or more comma separated models numbers")
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.component, "component", "", "component type")
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.version, "version", "", "version number")
-	// nolint:gomnd // default param is clear as defined
-	listFirmware.PersistentFlags().IntVar(&flagsDefinedListFirmware.limit, "limit", 100, "set result set limit")
 }
