@@ -6,6 +6,7 @@ import (
 	"os"
 
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
+
 	"github.com/spf13/cobra"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
