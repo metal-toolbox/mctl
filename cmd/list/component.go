@@ -4,8 +4,8 @@ import (
 	"log"
 	"os"
 
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	"github.com/spf13/cobra"
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
@@ -29,21 +29,21 @@ var (
 var listComponent = &cobra.Command{
 	Use:   "component",
 	Short: "List Components",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		ctx := cmd.Context()
 		theApp := mctl.MustCreateApp(ctx)
 
-		client, err := app.NewServerserviceClient(ctx, theApp.Config.Serverservice, theApp.Reauth)
+		client, err := app.NewFleetDBAPIClient(ctx, theApp.Config.FleetDBAPI, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		lp := &serverservice.ServerComponentListParams{
+		lp := &fleetdbapi.ServerComponentListParams{
 			ServerComponentType: flagsListComponent.slug,
 			Vendor:              flagsListComponent.vendor,
 			Serial:              flagsListComponent.serial,
 			Model:               flagsListComponent.model,
-			Pagination: &serverservice.PaginationParams{
+			Pagination: &fleetdbapi.PaginationParams{
 				Limit:   flagsListComponent.limit,
 				Page:    flagsListComponent.page,
 				Preload: false,
@@ -52,7 +52,7 @@ var listComponent = &cobra.Command{
 
 		components, res, err := client.ListComponents(ctx, lp)
 		if err != nil {
-			log.Fatal("serverservice query returned error: " + err.Error())
+			log.Fatal("fleetdb API query returned error: " + err.Error())
 		}
 
 		if flagsListComponent.records {

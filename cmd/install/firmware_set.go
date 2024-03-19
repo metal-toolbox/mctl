@@ -11,8 +11,8 @@ import (
 
 	"github.com/metal-toolbox/mctl/internal/app"
 
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	rctypes "github.com/metal-toolbox/rivets/condition"
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 )
@@ -48,9 +48,9 @@ func installFwSet(ctx context.Context) {
 		log.Fatal(err)
 	}
 
-	ssclient, err := app.NewServerserviceClient(ctx, theApp.Config.Serverservice, theApp.Reauth)
+	ssclient, err := app.NewFleetDBAPIClient(ctx, theApp.Config.FleetDBAPI, theApp.Reauth)
 	if err != nil {
-		log.Fatal(errors.Wrap(err, "serverservice client init error"))
+		log.Fatal(errors.Wrap(err, "fleetdb API client init error"))
 	}
 
 	fwSetID, err := firmwareSetForInstall(ctx, ssclient, serverID)
@@ -85,7 +85,7 @@ func installFwSet(ctx context.Context) {
 	log.Printf("status=%d msg=%s conditionID=%s", response.StatusCode, response.Message, condition.ID)
 }
 
-func firmwareSetForInstall(ctx context.Context, client *serverservice.Client, serverID uuid.UUID) (fwSetID uuid.UUID, err error) {
+func firmwareSetForInstall(ctx context.Context, client *fleetdbapi.Client, serverID uuid.UUID) (fwSetID uuid.UUID, err error) {
 	errInvalidFwSetID := errors.New("invalid firmware set ID")
 	errNoVendorAttrs := errors.New("unable to determine server vendor, model attributes")
 

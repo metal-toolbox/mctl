@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"log"
 
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 )
 
-func findAttribute(ns string, attributes []serverservice.Attributes) *serverservice.Attributes {
+func findAttribute(ns string, attributes []fleetdbapi.Attributes) *fleetdbapi.Attributes {
 	for _, attribute := range attributes {
 		if attribute.Namespace == ns {
 			return &attribute

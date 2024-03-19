@@ -6,14 +6,13 @@ import (
 	"os"
 	"strings"
 
-	rts "github.com/metal-toolbox/rivets/serverservice"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
+	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
+	rfleetdb "github.com/metal-toolbox/rivets/fleetdb"
 	rt "github.com/metal-toolbox/rivets/types"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
-	ss "go.hollow.sh/serverservice/pkg/api/v1"
-
-	mctl "github.com/metal-toolbox/mctl/cmd"
-	"github.com/metal-toolbox/mctl/internal/app"
 )
 
 type listServerFlags struct {
@@ -37,19 +36,21 @@ var (
 var cmdListServer = &cobra.Command{
 	Use:   "server",
 	Short: "List servers",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		ctx := cmd.Context()
 		theApp := mctl.MustCreateApp(ctx)
 
-		client, err := app.NewServerserviceClient(ctx, theApp.Config.Serverservice, theApp.Reauth)
+		client, err := app.NewFleetDBAPIClient(ctx, theApp.Config.FleetDBAPI, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		lsp := &ss.ServerListParams{
+		lsp := &fleetdbapi.
+			ServerListParams{
 			FacilityCode:        fdlServer.facility,
 			AttributeListParams: attributeParamsFromFlags(fdlServer),
-			PaginationParams: &ss.PaginationParams{
+			PaginationParams: &fleetdbapi.
+				PaginationParams{
 				Limit:   fdlServer.limit,
 				Page:    fdlServer.page,
 				Preload: false,
@@ -89,7 +90,7 @@ var cmdListServer = &cobra.Command{
 		rtServers := make([]*rt.Server, 0, len(servers))
 		for _, s := range servers {
 			s := s
-			rtServers = append(rtServers, rts.ConvertServer(&s))
+			rtServers = append(rtServers, rfleetdb.ConvertServer(&s))
 		}
 
 		if fdlServer.creds {
@@ -138,15 +139,18 @@ func serversTable(servers []*rt.Server, fl *listServerFlags) {
 	table.Render()
 }
 
-func attributeParamsFromFlags(fl *listServerFlags) []ss.AttributeListParams {
-	alp := []ss.AttributeListParams{}
+func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.
+	AttributeListParams {
+	alp := []fleetdbapi.
+		AttributeListParams{}
 
 	// match by vendor, model attributes
 	if fl.vendor != "" {
 		alp = append(
 			alp,
-			ss.AttributeListParams{
-				Namespace: rts.ServerAttributeNSVendor,
+			fleetdbapi.
+				AttributeListParams{
+				Namespace: rfleetdb.ServerAttributeNSVendor,
 				Keys:      []string{"vendor"},
 				Operator:  "eq",
 				Value:     strings.ToLower(fdlServer.vendor),
@@ -157,8 +161,9 @@ func attributeParamsFromFlags(fl *listServerFlags) []ss.AttributeListParams {
 	if fl.model != "" {
 		alp = append(
 			alp,
-			ss.AttributeListParams{
-				Namespace: rts.ServerAttributeNSVendor,
+			fleetdbapi.
+				AttributeListParams{
+				Namespace: rfleetdb.ServerAttributeNSVendor,
 				Keys:      []string{"model"},
 				Operator:  "like",
 				Value:     strings.ToLower(fdlServer.model),
@@ -169,8 +174,9 @@ func attributeParamsFromFlags(fl *listServerFlags) []ss.AttributeListParams {
 	if fl.serial != "" {
 		alp = append(
 			alp,
-			ss.AttributeListParams{
-				Namespace: rts.ServerAttributeNSVendor,
+			fleetdbapi.
+				AttributeListParams{
+				Namespace: rfleetdb.ServerAttributeNSVendor,
 				Keys:      []string{"serial"},
 				Operator:  "eq",
 				Value:     strings.ToLower(fdlServer.serial),
@@ -181,8 +187,9 @@ func attributeParamsFromFlags(fl *listServerFlags) []ss.AttributeListParams {
 	if fl.bmcerrors {
 		alp = append(
 			alp,
-			ss.AttributeListParams{
-				Namespace: rts.ServerNSBMCErrorsAttribute,
+			fleetdbapi.
+				AttributeListParams{
+				Namespace: rfleetdb.ServerNSBMCErrorsAttribute,
 			},
 		)
 	}

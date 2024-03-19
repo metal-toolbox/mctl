@@ -6,9 +6,9 @@ import (
 	"os"
 	"strings"
 
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
@@ -30,13 +30,13 @@ var (
 var listFirmware = &cobra.Command{
 	Use:   "firmware",
 	Short: "List firmware",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
 		ctx, cancel := context.WithTimeout(cmd.Context(), mctl.CmdTimeout)
 		defer cancel()
 
-		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice, theApp.Reauth)
+		client, err := app.NewFleetDBAPIClient(cmd.Context(), theApp.Config.FleetDBAPI, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -50,7 +50,7 @@ var listFirmware = &cobra.Command{
 			return lowered
 		}
 
-		filterParams := serverservice.ComponentFirmwareVersionListParams{
+		filterParams := fleetdbapi.ComponentFirmwareVersionListParams{
 			Vendor:  strings.ToLower(flagsDefinedListFirmware.vendor),
 			Model:   lowerCasedModels(flagsDefinedListFirmware.models),
 			Version: flagsDefinedListFirmware.version,
@@ -58,7 +58,7 @@ var listFirmware = &cobra.Command{
 
 		firmware, _, err := client.ListServerComponentFirmware(ctx, &filterParams)
 		if err != nil {
-			log.Fatal("serverservice client returned error: ", err)
+			log.Fatal("fleetdb API client returned error: ", err)
 		}
 
 		if output == mctl.OutputTypeJSON.String() {
@@ -68,7 +68,7 @@ var listFirmware = &cobra.Command{
 
 		// the built in filter only filters out vendor, model, and version, will have to filter out the other columns manually
 		if flagsDefinedListFirmware.server != "" || flagsDefinedListFirmware.component != "" {
-			filteredFirmware := make([]serverservice.ComponentFirmwareVersion, 0)
+			filteredFirmware := make([]fleetdbapi.ComponentFirmwareVersion, 0)
 			for _, f := range firmware {
 				if (flagsDefinedListFirmware.server == "" || f.UUID.String() == flagsDefinedListFirmware.server) &&
 					(flagsDefinedListFirmware.component == "" || f.Component == flagsDefinedListFirmware.component) {

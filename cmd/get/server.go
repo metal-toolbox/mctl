@@ -9,12 +9,12 @@ import (
 
 	"github.com/dustin/go-humanize"
 	"github.com/google/uuid"
-	rts "github.com/metal-toolbox/rivets/serverservice"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
+	rfleetdb "github.com/metal-toolbox/rivets/fleetdb"
 	rt "github.com/metal-toolbox/rivets/types"
 	"github.com/olekukonko/tablewriter"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	ss "go.hollow.sh/serverservice/pkg/api/v1"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
@@ -38,13 +38,13 @@ var (
 var getServer = &cobra.Command{
 	Use:   "server",
 	Short: "Get server information",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		ctx, cancel := context.WithTimeout(cmd.Context(), cmdTimeout)
 		defer cancel()
 
 		theApp := mctl.MustCreateApp(ctx)
 
-		client, err := app.NewServerserviceClient(ctx, theApp.Config.Serverservice, theApp.Reauth)
+		client, err := app.NewFleetDBAPIClient(ctx, theApp.Config.FleetDBAPI, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -156,13 +156,13 @@ func renderComponentListTable(components []*rt.Component) {
 	table.Render()
 }
 
-func server(ctx context.Context, client *ss.Client, id uuid.UUID, withComponents, withCreds bool) (*rt.Server, error) {
+func server(ctx context.Context, client *fleetdbapi.Client, id uuid.UUID, withComponents, withCreds bool) (*rt.Server, error) {
 	server, _, err := client.Get(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	cserver := rts.ConvertServer(server)
+	cserver := rfleetdb.ConvertServer(server)
 	if withComponents {
 		var err error
 		cserver.Components, err = components(ctx, client, id)
@@ -180,8 +180,8 @@ func server(ctx context.Context, client *ss.Client, id uuid.UUID, withComponents
 	return cserver, nil
 }
 
-func components(ctx context.Context, c *ss.Client, id uuid.UUID) ([]*rt.Component, error) {
-	params := &ss.PaginationParams{}
+func components(ctx context.Context, c *fleetdbapi.Client, id uuid.UUID) ([]*rt.Component, error) {
+	params := &fleetdbapi.PaginationParams{}
 
 	components, resp, err := c.GetComponents(ctx, id, params)
 	if err != nil {
@@ -194,7 +194,7 @@ func components(ctx context.Context, c *ss.Client, id uuid.UUID) ([]*rt.Componen
 		return nil, errors.New("too many components -- add pagination")
 	}
 
-	return rts.ConvertComponents(components), nil
+	return rfleetdb.ConvertComponents(components), nil
 }
 
 func init() {

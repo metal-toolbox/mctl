@@ -5,9 +5,9 @@ import (
 	"os"
 	"strings"
 
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
@@ -27,15 +27,15 @@ var (
 var listFirmwareSet = &cobra.Command{
 	Use:   "firmware-set",
 	Short: "List firmware",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
-		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice, theApp.Reauth)
+		client, err := app.NewFleetDBAPIClient(cmd.Context(), theApp.Config.FleetDBAPI, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		var fwSet []serverservice.ComponentFirmwareSet
+		var fwSet []fleetdbapi.ComponentFirmwareSet
 
 		if flagsDefinedListFwSet.vendor != "" || flagsDefinedListFwSet.model != "" {
 			fwSet, err = mctl.FirmwareSetByVendorModel(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, client)
@@ -43,7 +43,7 @@ var listFirmwareSet = &cobra.Command{
 				log.Fatal(err)
 			}
 		} else {
-			fwSet, _, err = client.ListServerComponentFirmwareSet(cmd.Context(), &serverservice.ComponentFirmwareSetListParams{})
+			fwSet, _, err = client.ListServerComponentFirmwareSet(cmd.Context(), &fleetdbapi.ComponentFirmwareSetListParams{})
 			if err != nil {
 				log.Fatal(err)
 			}

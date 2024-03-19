@@ -16,9 +16,9 @@ import (
 
 	bmclibcomm "github.com/bmc-toolbox/common"
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	rctypes "github.com/metal-toolbox/rivets/condition"
 	rt "github.com/metal-toolbox/rivets/types"
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
 var (
@@ -44,13 +44,13 @@ func MustCreateApp(ctx context.Context) *app.App {
 	return mctl
 }
 
-func AttributeFromLabels(ns string, labels map[string]string) (*serverservice.Attributes, error) {
+func AttributeFromLabels(ns string, labels map[string]string) (*fleetdbapi.Attributes, error) {
 	data, err := json.Marshal(labels)
 	if err != nil {
 		return nil, errors.Wrap(ErrAttributeFromLabel, err.Error())
 	}
 
-	return &serverservice.Attributes{
+	return &fleetdbapi.Attributes{
 		Namespace: ns,
 		Data:      data,
 	}, nil
@@ -59,7 +59,7 @@ func AttributeFromLabels(ns string, labels map[string]string) (*serverservice.At
 // AttributeByNamespace returns the serverservice attribute in the slice that matches the namespace
 //
 // TODO: move into common library and share with Alloy
-func AttributeByNamespace(ns string, attributes []serverservice.Attributes) *serverservice.Attributes {
+func AttributeByNamespace(ns string, attributes []fleetdbapi.Attributes) *fleetdbapi.Attributes {
 	for _, attribute := range attributes {
 		if attribute.Namespace == ns {
 			return &attribute
@@ -72,7 +72,7 @@ func AttributeByNamespace(ns string, attributes []serverservice.Attributes) *ser
 // VendorModelFromAttrs unpacks the attributes payload to return the vendor, model attributes for a server
 //
 // TODO: move into common library and share with Alloy
-func VendorModelFromAttrs(attrs []serverservice.Attributes) (vendor, model string) {
+func VendorModelFromAttrs(attrs []fleetdbapi.Attributes) (vendor, model string) {
 	attr := AttributeByNamespace(ServerVendorAttributeNS, attrs)
 	if attr == nil {
 		return "", ""
@@ -89,7 +89,7 @@ func VendorModelFromAttrs(attrs []serverservice.Attributes) (vendor, model strin
 // FirmwareSetIDByVendorModel returns the firmware set ID matched by the vendor, model attributes
 //
 // TODO: move into common library
-func FirmwareSetIDByVendorModel(ctx context.Context, vendor, model string, client *serverservice.Client) (uuid.UUID, error) {
+func FirmwareSetIDByVendorModel(ctx context.Context, vendor, model string, client *fleetdbapi.Client) (uuid.UUID, error) {
 	fwSet, err := FirmwareSetByVendorModel(ctx, vendor, model, client)
 	if err != nil {
 		return uuid.Nil, err
@@ -108,10 +108,10 @@ func FirmwareSetIDByVendorModel(ctx context.Context, vendor, model string, clien
 // FirmwareSetByVendorModel returns the firmware set matched by the vendor, model attributes
 //
 // TODO: move into common library
-func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, client *serverservice.Client) ([]serverservice.ComponentFirmwareSet, error) {
+func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, client *fleetdbapi.Client) ([]fleetdbapi.ComponentFirmwareSet, error) {
 	vendor = strings.TrimSpace(vendor)
 	if vendor == "" {
-		return []serverservice.ComponentFirmwareSet{}, errors.Wrap(
+		return []fleetdbapi.ComponentFirmwareSet{}, errors.Wrap(
 			ErrFwSetByVendorModel,
 			"got empty vendor attribute",
 		)
@@ -119,7 +119,7 @@ func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, client 
 
 	model = strings.TrimSpace(model)
 	if model == "" {
-		return []serverservice.ComponentFirmwareSet{}, errors.Wrap(
+		return []fleetdbapi.ComponentFirmwareSet{}, errors.Wrap(
 			ErrFwSetByVendorModel,
 			"got empty model attribute",
 		)
@@ -127,8 +127,8 @@ func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, client 
 
 	// ?attr=sh.hollow.firmware_set.labels~vendor~eq~dell&attr=sh.hollow.firmware_set.labels~model~eq~r750&attr=sh.hollow.firmware_set.labels~latest~eq~false
 	// list latest, default firmware sets by vendor, model attributes
-	fwSetListparams := &serverservice.ComponentFirmwareSetListParams{
-		AttributeListParams: []serverservice.AttributeListParams{
+	fwSetListparams := &fleetdbapi.ComponentFirmwareSetListParams{
+		AttributeListParams: []fleetdbapi.AttributeListParams{
 			{
 				Namespace: FirmwareSetAttributeNS,
 				Keys:      []string{"vendor"},
@@ -158,11 +158,11 @@ func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, client 
 
 	fwSet, _, err := client.ListServerComponentFirmwareSet(ctx, fwSetListparams)
 	if err != nil {
-		return []serverservice.ComponentFirmwareSet{}, errors.Wrap(ErrFwSetByVendorModel, err.Error())
+		return []fleetdbapi.ComponentFirmwareSet{}, errors.Wrap(ErrFwSetByVendorModel, err.Error())
 	}
 
 	if len(fwSet) == 0 {
-		return []serverservice.ComponentFirmwareSet{}, errors.Wrap(
+		return []fleetdbapi.ComponentFirmwareSet{}, errors.Wrap(
 			ErrFwSetByVendorModel,
 			fmt.Sprintf("no fw sets identified for vendor: %s, model: %s", vendor, model),
 		)
@@ -275,8 +275,8 @@ func PrintResults(format string, data ...any) {
 }
 
 // Query server BMC credentials and update the given server object
-func ServerBMCCredentials(ctx context.Context, client *serverservice.Client, server *rt.Server) error {
-	cred, _, err := client.GetCredential(ctx, uuid.MustParse(server.ID), serverservice.ServerCredentialTypeBMC)
+func ServerBMCCredentials(ctx context.Context, client *fleetdbapi.Client, server *rt.Server) error {
+	cred, _, err := client.GetCredential(ctx, uuid.MustParse(server.ID), fleetdbapi.ServerCredentialTypeBMC)
 	if err != nil {
 		// nolint:goerr113 // error is readable when formatted
 		return fmt.Errorf("error in credential lookup for: %s, err: %s", server.ID, err.Error())
