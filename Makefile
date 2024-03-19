@@ -11,6 +11,10 @@ BUILD_DATE  := $(shell date +%s)
 lint:
 	golangci-lint run --config .golangci.yml
 
+## lint-fix - auto fix lint errors - for the linters that support auto fix
+lint-fix:
+	golangci-lint run --config .golangci.yml --fix
+
 ## Go test
 test:
 	CGO_ENABLED=0 go test -timeout 1m -v -covermode=atomic ./...
