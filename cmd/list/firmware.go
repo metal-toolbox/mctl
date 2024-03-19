@@ -20,6 +20,7 @@ type listFirmwareFlags struct {
 	models    []string
 	component string
 	version   string
+	limit     int
 }
 
 var (
@@ -51,9 +52,10 @@ var listFirmware = &cobra.Command{
 		}
 
 		filterParams := fleetdbapi.ComponentFirmwareVersionListParams{
-			Vendor:  strings.ToLower(flagsDefinedListFirmware.vendor),
-			Model:   lowerCasedModels(flagsDefinedListFirmware.models),
-			Version: flagsDefinedListFirmware.version,
+			Vendor:     strings.ToLower(flagsDefinedListFirmware.vendor),
+			Model:      lowerCasedModels(flagsDefinedListFirmware.models),
+			Version:    flagsDefinedListFirmware.version,
+			Pagination: &fleetdbapi.PaginationParams{Limit: flagsDefinedListFirmware.limit},
 		}
 
 		firmware, _, err := client.ListServerComponentFirmware(ctx, &filterParams)
@@ -95,4 +97,6 @@ func init() {
 	listFirmware.PersistentFlags().StringSliceVar(&flagsDefinedListFirmware.models, "models", nil, "one or more comma separated models numbers")
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.component, "component", "", "component type")
 	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.version, "version", "", "version number")
+	// nolint:gomnd // default param is clear as defined
+	listFirmware.PersistentFlags().IntVar(&flagsDefinedListFirmware.limit, "limit", 100, "set result set limit")
 }

@@ -45,8 +45,7 @@ var cmdListServer = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		lsp := &fleetdbapi.
-			ServerListParams{
+		lsp := &fleetdbapi.ServerListParams{
 			FacilityCode:        fdlServer.facility,
 			AttributeListParams: attributeParamsFromFlags(fdlServer),
 			PaginationParams: &fleetdbapi.
@@ -139,17 +138,14 @@ func serversTable(servers []*rt.Server, fl *listServerFlags) {
 	table.Render()
 }
 
-func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.
-	AttributeListParams {
-	alp := []fleetdbapi.
-		AttributeListParams{}
+func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.AttributeListParams {
+	alp := []fleetdbapi.AttributeListParams{}
 
 	// match by vendor, model attributes
 	if fl.vendor != "" {
 		alp = append(
 			alp,
-			fleetdbapi.
-				AttributeListParams{
+			fleetdbapi.AttributeListParams{
 				Namespace: rfleetdb.ServerAttributeNSVendor,
 				Keys:      []string{"vendor"},
 				Operator:  "eq",
@@ -161,8 +157,7 @@ func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.
 	if fl.model != "" {
 		alp = append(
 			alp,
-			fleetdbapi.
-				AttributeListParams{
+			fleetdbapi.AttributeListParams{
 				Namespace: rfleetdb.ServerAttributeNSVendor,
 				Keys:      []string{"model"},
 				Operator:  "like",
@@ -174,8 +169,7 @@ func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.
 	if fl.serial != "" {
 		alp = append(
 			alp,
-			fleetdbapi.
-				AttributeListParams{
+			fleetdbapi.AttributeListParams{
 				Namespace: rfleetdb.ServerAttributeNSVendor,
 				Keys:      []string{"serial"},
 				Operator:  "eq",
@@ -187,8 +181,7 @@ func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.
 	if fl.bmcerrors {
 		alp = append(
 			alp,
-			fleetdbapi.
-				AttributeListParams{
+			fleetdbapi.AttributeListParams{
 				Namespace: rfleetdb.ServerNSBMCErrorsAttribute,
 			},
 		)
