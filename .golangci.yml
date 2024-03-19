@@ -25,10 +25,6 @@ linters-settings:
     min-occurrences: 2
   depguard:
     list-type: blacklist
-    packages:
-      # logging is allowed only by logutils.Log, logrus
-      # is allowed to use only in logutils package
-      - github.com/sirupsen/logrus
   misspell:
     locale: US
     auto-fix: true
