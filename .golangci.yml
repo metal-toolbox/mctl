@@ -42,6 +42,7 @@ linters-settings:
       - style
       - experimental
     disabled-checks:
+      - whyNoLint
       - wrapperFunc
   gofumpt:
     extra-rules: true
@@ -81,7 +82,7 @@ linters:
     - reassign
     - whitespace
     - exportloopref
-    - whyNoLint
+
   enable-all: false
   disable-all: true
 
