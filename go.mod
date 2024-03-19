@@ -12,7 +12,7 @@ require (
 	github.com/dustin/go-humanize v1.0.1
 	github.com/google/uuid v1.6.0
 	github.com/metal-toolbox/bomservice v0.1.5
-	github.com/metal-toolbox/conditionorc v1.0.5-0.20240318173711-f2a27ea97c15
+	github.com/metal-toolbox/conditionorc v1.0.5
 	github.com/metal-toolbox/fleetdb v0.16.9
 	github.com/metal-toolbox/rivets v1.0.1
 	github.com/nirasan/go-oauth-pkce-code-verifier v0.0.0-20220510032225-4f9f17eaec4c
