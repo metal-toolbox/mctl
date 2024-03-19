@@ -34,7 +34,7 @@ var (
 var installFirmwareSet = &cobra.Command{
 	Use:   "firmware-set",
 	Short: "Install firmware set",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		installFwSet(cmd.Context())
 
 	},

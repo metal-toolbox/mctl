@@ -9,7 +9,7 @@ import (
 var edit = &cobra.Command{
 	Use:   "edit",
 	Short: "Edit resources",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		_ = cmd.Help()
 	},
 }

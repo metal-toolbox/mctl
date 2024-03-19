@@ -3,12 +3,12 @@ package power
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
 	"strings"
 
 	"github.com/google/uuid"
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"golang.org/x/exp/slices"
 
@@ -27,7 +27,7 @@ var powerCmd = &cobra.Command{
 		"Execute server/bmc power, set next-boot commands: [%s]",
 		strings.Join(serverPowerActions, "|"),
 	),
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		powerAction(cmd.Context())
 	},
 }
@@ -48,6 +48,8 @@ var (
 		"status",
 		"bmc-reset",
 	}
+
+	errInvalidAction = errors.New("invalid power action requested")
 )
 
 type powerActionFlags struct {
@@ -117,7 +119,7 @@ func actionStatus(ctx context.Context, serverID uuid.UUID, c *client.Client) {
 func paramsFromFlags(f *powerActionFlags) (*rctypes.ServerControlTaskParameters, error) {
 	actionParam := strings.ToLower(f.parameter)
 	if !slices.Contains(serverPowerActions, actionParam) {
-		return nil, errors.New("invalid power action requested: " + actionParam)
+		return nil, errors.Wrap(errInvalidAction, actionParam)
 	}
 
 	var action rctypes.ServerControlAction

@@ -22,7 +22,7 @@ var (
 var getCondition = &cobra.Command{
 	Use:   "condition",
 	Short: "get the last server conditions performed",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
 		client, err := app.NewConditionsClient(cmd.Context(), theApp.Config.Conditions, theApp.Reauth)

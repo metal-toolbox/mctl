@@ -12,7 +12,7 @@ import (
 var create = &cobra.Command{
 	Use:   "create",
 	Short: "Create resources",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(_ *cobra.Command, _ []string) {
 		commands := []string{"firmware", "firmware-set", "bom"}
 		log.Fatal("A valid create command parameter was expected: " + strings.Join(commands, ", "))
 	},

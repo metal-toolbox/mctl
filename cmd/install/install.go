@@ -9,7 +9,7 @@ import (
 var install = &cobra.Command{
 	Use:   "install",
 	Short: "Install actions",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		_ = cmd.Help()
 	},
 }

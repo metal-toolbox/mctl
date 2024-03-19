@@ -13,7 +13,7 @@ var (
 var list = &cobra.Command{
 	Use:   "list",
 	Short: "List resources",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		_ = cmd.Help()
 	},
 }

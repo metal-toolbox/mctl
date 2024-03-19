@@ -72,7 +72,6 @@ func collectInventory(ctx context.Context) {
 	}
 
 	log.Printf("status=%d msg=%s conditionID=%s", response.StatusCode, response.Message, condition.ID)
-
 }
 
 func init() {
