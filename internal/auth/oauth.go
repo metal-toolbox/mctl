@@ -85,7 +85,7 @@ func (a *authenticator) getOAuth2Token(ctx context.Context) (*oauth2.Token, erro
 		return nil, err
 	}
 
-	token, err := a.authCodePKCE(oauthConfig, a.audienceEndpoint)
+	token, err := a.authCodePKCE(ctx, oauthConfig, a.audienceEndpoint)
 	if err != nil {
 		return nil, err
 	}
@@ -190,7 +190,7 @@ func (a *authenticator) keyringStoreToken(token *oauth2.Token) error {
 
 // authCodePKCE starts a server and listens for an oauth2 callback and will
 // return the API token to the caller
-func (a *authenticator) authCodePKCE(oauthConfig *oauth2.Config, audience string) (*oauth2.Token, error) {
+func (a *authenticator) authCodePKCE(ctx context.Context, oauthConfig *oauth2.Config, audience string) (*oauth2.Token, error) {
 	tc := make(chan *oauth2.Token)
 
 	// nolint:gomnd // state string is limited to 20 random characters
@@ -203,7 +203,7 @@ func (a *authenticator) authCodePKCE(oauthConfig *oauth2.Config, audience string
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/identity/callback", func(w http.ResponseWriter, r *http.Request) {
-		c.handlePKCECallback(w, r, tc)
+		c.handlePKCECallback(ctx, w, r, tc)
 	})
 
 	// nolint:gomnd // read header timeout is set to 30s
@@ -235,7 +235,7 @@ func (a *authenticator) authCodePKCE(oauthConfig *oauth2.Config, audience string
 
 	token := <-tc
 
-	ctx, cancel := context.WithTimeout(context.Background(), callbackTimeout)
+	ctx, cancel := context.WithTimeout(ctx, callbackTimeout)
 	defer cancel()
 
 	if err := server.Shutdown(ctx); err != nil {
@@ -262,7 +262,7 @@ type authClient struct {
 	state        string
 }
 
-func (c *authClient) handlePKCECallback(w http.ResponseWriter, r *http.Request, tc chan *oauth2.Token) {
+func (c *authClient) handlePKCECallback(ctx context.Context, w http.ResponseWriter, r *http.Request, tc chan *oauth2.Token) {
 	state := r.URL.Query().Get("state")
 	if state != c.state {
 		log.Printf("ERROR: oauth state doesn't match")
@@ -272,7 +272,7 @@ func (c *authClient) handlePKCECallback(w http.ResponseWriter, r *http.Request, 
 
 	code := r.URL.Query().Get("code")
 
-	token, err := c.oauthConfig.Exchange(context.Background(), code,
+	token, err := c.oauthConfig.Exchange(ctx, code,
 		oauth2.SetAuthURLParam("code_verifier", c.codeVerifier.String()),
 	)
 
