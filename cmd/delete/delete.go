@@ -9,7 +9,7 @@ import (
 var deleteCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Delete resources",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		_ = cmd.Help()
 	},
 }

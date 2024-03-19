@@ -11,7 +11,7 @@ import (
 var cmdVersion = &cobra.Command{
 	Use:   "version",
 	Short: "Print mctl version",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(_ *cobra.Command, _ []string) {
 		fmt.Println("mctl -- brought to you by Fleet Services")
 		fmt.Printf(
 			"version: %s\ncommit: %s\nbranch: %s\ngo version: %s\nbuilt-on: %s",

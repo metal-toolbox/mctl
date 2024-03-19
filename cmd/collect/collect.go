@@ -9,7 +9,7 @@ import (
 var collect = &cobra.Command{
 	Use:   "collect",
 	Short: "Collect current server firmware status and bios configuration",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		_ = cmd.Help()
 	},
 }

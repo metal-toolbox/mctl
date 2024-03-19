@@ -22,7 +22,7 @@ var (
 var serverDelete = &cobra.Command{
 	Use:   "server",
 	Short: "Delete server from fleetDB",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		deleteServer(cmd.Context())
 	},
 }
@@ -40,7 +40,6 @@ func deleteServer(ctx context.Context) {
 		log.Fatal(err)
 	}
 	log.Printf("status=%d\nmsg=%s\nserverID=%v", response.StatusCode, response.Message, response.Records.ServerID)
-
 }
 
 func init() {

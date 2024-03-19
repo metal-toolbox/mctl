@@ -58,6 +58,10 @@ var (
 	OutputTypeText outputType = "text"
 )
 
+var (
+	errOutputType = errors.New("unsupported output type")
+)
+
 type outputType string
 
 func (o *outputType) String() string {
@@ -76,7 +80,7 @@ func (o *outputType) Set(value string) error {
 		*o = outputType(value)
 		return nil
 	default:
-		return errors.New("unsupported output type")
+		return errOutputType
 	}
 }
 

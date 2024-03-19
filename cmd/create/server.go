@@ -27,7 +27,7 @@ var (
 var serverEnroll = &cobra.Command{
 	Use:   "server",
 	Short: "Enroll server and publish conditions",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		enrollServer(cmd.Context())
 	},
 }
@@ -65,7 +65,6 @@ func enrollServer(ctx context.Context) {
 	}
 
 	log.Printf("status=%d\nmsg=%s\nconditionID=%s\nserverID=%v", response.StatusCode, response.Message, condition.ID, response.Records.ServerID)
-
 }
 
 func init() {

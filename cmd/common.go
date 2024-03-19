@@ -192,7 +192,6 @@ func newErrUnexpectedResponse(statusCode int, message string) error {
 
 // ConditionFromResponse returns a Condition object from the Condition API ServerResponse object
 func ConditionFromResponse(response *coapiv1.ServerResponse) (rctypes.Condition, error) {
-
 	if response.StatusCode != http.StatusOK {
 		return rctypes.Condition{}, newErrUnexpectedResponse(response.StatusCode, response.Message)
 	}
@@ -222,11 +221,13 @@ func FormatConditionResponse(response *coapiv1.ServerResponse, kind rctypes.Kind
 	}
 
 	if response.Records == nil {
-		return "", errors.New("no records returned")
+		err := errors.New("no records returned")
+		return "", err
 	}
 
 	if len(response.Records.Conditions) == 0 {
-		return "", errors.New("no record found for Condition")
+		err := errors.New("no record found for Condition")
+		return "", err
 	}
 
 	var inc *rctypes.Condition
@@ -237,7 +238,8 @@ func FormatConditionResponse(response *coapiv1.ServerResponse, kind rctypes.Kind
 	}
 
 	if inc == nil {
-		return "", fmt.Errorf("response contains no condition of type %s", string(kind))
+		err := errors.New("response contains no condition of type: " + string(kind))
+		return "", err
 	}
 
 	display := &conditionDisplay{
