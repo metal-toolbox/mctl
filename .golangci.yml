@@ -81,6 +81,7 @@ linters:
     - reassign
     - whitespace
     - exportloopref
+    - whyNoLint
   enable-all: false
   disable-all: true
 
