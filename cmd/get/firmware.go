@@ -24,13 +24,13 @@ var (
 var getFirmware = &cobra.Command{
 	Use:   "firmware",
 	Short: "Get information for given firmware identifier",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
 		ctx, cancel := context.WithTimeout(cmd.Context(), mctl.CmdTimeout)
 		defer cancel()
 
-		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice, theApp.Reauth)
+		client, err := app.NewFleetDBAPIClient(cmd.Context(), theApp.Config.FleetDBAPI, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -42,7 +42,7 @@ var getFirmware = &cobra.Command{
 
 		firmware, _, err := client.GetServerComponentFirmware(ctx, fwID)
 		if err != nil {
-			log.Fatal("serverservice client returned error: ", err)
+			log.Fatal("fleetdb API client returned error: ", err)
 		}
 
 		mctl.PrintResults(output, firmware)

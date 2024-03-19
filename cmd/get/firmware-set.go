@@ -8,9 +8,9 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
@@ -29,13 +29,13 @@ var (
 var getFirmwareSet = &cobra.Command{
 	Use:   "firmware-set",
 	Short: "Get information for given firmware set identifier",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
 		ctx, cancel := context.WithTimeout(cmd.Context(), mctl.CmdTimeout)
 		defer cancel()
 
-		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice, theApp.Reauth)
+		client, err := app.NewFleetDBAPIClient(cmd.Context(), theApp.Config.FleetDBAPI, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -45,12 +45,12 @@ var getFirmwareSet = &cobra.Command{
 			os.Exit(1)
 		}
 
-		var firmwareSet *serverservice.ComponentFirmwareSet
+		var firmwareSet *fleetdbapi.ComponentFirmwareSet
 
 		if flagsDefinedGetFirmwareSet.serverID != "" {
 			firmwareSet, err = firmwareSetForServer(ctx, client, flagsDefinedGetFirmwareSet.serverID)
 			if err != nil {
-				log.Fatal("serverservice client returned error: ", err)
+				log.Fatal("fleetdb API client returned error: ", err)
 			}
 		} else {
 			fwsID, err := uuid.Parse(flagsDefinedGetFirmwareSet.id)
@@ -60,7 +60,7 @@ var getFirmwareSet = &cobra.Command{
 
 			firmwareSet, _, err = client.GetServerComponentFirmwareSet(ctx, fwsID)
 			if err != nil {
-				log.Fatal("serverservice client returned error: ", err)
+				log.Fatal("fleetdb API client returned error: ", err)
 			}
 		}
 
@@ -69,7 +69,7 @@ var getFirmwareSet = &cobra.Command{
 	},
 }
 
-func firmwareSetForServer(ctx context.Context, client *serverservice.Client, serverID string) (*serverservice.ComponentFirmwareSet, error) {
+func firmwareSetForServer(ctx context.Context, client *fleetdbapi.Client, serverID string) (*fleetdbapi.ComponentFirmwareSet, error) {
 	errNoVendorAttrs := errors.New("unable to determine server vendor, model attributes")
 	errNotFound := errors.New("no firmware sets identified for server")
 

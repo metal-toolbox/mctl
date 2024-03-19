@@ -5,8 +5,8 @@ import (
 	"log"
 
 	"github.com/google/uuid"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	"github.com/spf13/cobra"
-	ss "go.hollow.sh/serverservice/pkg/api/v1"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
@@ -20,10 +20,10 @@ var (
 var editFirmwareSet = &cobra.Command{
 	Use:   "firmware-set",
 	Short: "Edit a firmware set",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
-		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice, theApp.Reauth)
+		client, err := app.NewFleetDBAPIClient(cmd.Context(), theApp.Config.FleetDBAPI, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -33,12 +33,12 @@ var editFirmwareSet = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		payload := ss.ComponentFirmwareSetRequest{
+		payload := fleetdbapi.ComponentFirmwareSetRequest{
 			ID:                     id,
 			ComponentFirmwareUUIDs: []string{},
 		}
 
-		var attrs *ss.Attributes
+		var attrs *fleetdbapi.Attributes
 		var payloadUpdated bool
 
 		if len(editFWSetFlags.Labels) > 0 {
@@ -47,7 +47,7 @@ var editFirmwareSet = &cobra.Command{
 				log.Fatal(err)
 			}
 
-			payload.Attributes = []ss.Attributes{*attrs}
+			payload.Attributes = []fleetdbapi.Attributes{*attrs}
 			payloadUpdated = true
 
 		}
@@ -64,7 +64,7 @@ var editFirmwareSet = &cobra.Command{
 			}
 		}
 
-		if len(editFWSetFlags.FirmwareSetName) > 0 {
+		if editFWSetFlags.FirmwareSetName != "" {
 			payload.Name = editFWSetFlags.FirmwareSetName
 			payloadUpdated = true
 		}

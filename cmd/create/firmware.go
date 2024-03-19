@@ -5,8 +5,8 @@ import (
 	"log"
 	"os"
 
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	"github.com/spf13/cobra"
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
@@ -25,15 +25,15 @@ var (
 var createFirmware = &cobra.Command{
 	Use:   "firmware",
 	Short: "Create firmware",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
-		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice, theApp.Reauth)
+		client, err := app.NewFleetDBAPIClient(cmd.Context(), theApp.Config.FleetDBAPI, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		var firmwares []*serverservice.ComponentFirmwareVersion
+		var firmwares []*fleetdbapi.ComponentFirmwareVersion
 		fbytes, err := os.ReadFile(flagsDefinedCreateFirmware.firmwareConfigFile)
 		if err != nil {
 			log.Fatal(err)

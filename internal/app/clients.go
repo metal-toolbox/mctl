@@ -3,12 +3,12 @@ package app
 import (
 	"context"
 
+	bomclient "github.com/metal-toolbox/bomservice/pkg/api/v1/client"
 	co "github.com/metal-toolbox/conditionorc/pkg/api/v1/client"
-	bomclient "github.com/metal-toolbox/hollow-bomservice/pkg/api/v1/client"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	"github.com/metal-toolbox/mctl/internal/auth"
 	"github.com/metal-toolbox/mctl/pkg/model"
 	"github.com/pkg/errors"
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 )
 
 var (
@@ -17,27 +17,27 @@ var (
 	ErrNilConfig     = errors.New("no configuration defined")
 )
 
-func NewServerserviceClient(ctx context.Context, cfg *model.ConfigOIDC, reauth bool) (*serverservice.Client, error) {
+func NewFleetDBAPIClient(ctx context.Context, cfg *model.ConfigOIDC, reauth bool) (*fleetdbapi.Client, error) {
 	accessToken := "fake"
 
 	if cfg == nil {
-		return nil, errors.Wrap(ErrNilConfig, "missing serverservice API client configuration")
+		return nil, errors.Wrap(ErrNilConfig, "missing fleetdb API API client configuration")
 	}
 
 	if cfg.Disable {
-		return serverservice.NewClientWithToken(
+		return fleetdbapi.NewClientWithToken(
 			accessToken,
 			cfg.Endpoint,
 			nil,
 		)
 	}
 
-	token, err := auth.AccessToken(ctx, model.ServerserviceAPI, cfg, reauth)
+	token, err := auth.AccessToken(ctx, model.FleetDBAPI, cfg, reauth)
 	if err != nil {
-		return nil, errors.Wrap(ErrAuth, string(model.ServerserviceAPI)+err.Error())
+		return nil, errors.Wrap(ErrAuth, string(model.FleetDBAPI)+err.Error())
 	}
 
-	return serverservice.NewClientWithToken(
+	return fleetdbapi.NewClientWithToken(
 		token,
 		cfg.Endpoint,
 		nil,

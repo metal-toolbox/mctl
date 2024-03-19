@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	"github.com/spf13/cobra"
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
@@ -26,13 +26,13 @@ var (
 var getBiosConfig = &cobra.Command{
 	Use:   "bios-config",
 	Short: "Get bios configuration information for a server",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
 		ctx, cancel := context.WithTimeout(cmd.Context(), mctl.CmdTimeout)
 		defer cancel()
 
-		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice, theApp.Reauth)
+		client, err := app.NewFleetDBAPIClient(cmd.Context(), theApp.Config.FleetDBAPI, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -57,7 +57,7 @@ var getBiosConfig = &cobra.Command{
 }
 
 // returns bios configuration data
-func biosConfigFromNamespaces(ctx context.Context, serverID uuid.UUID, client *serverservice.Client) ([]serverservice.VersionedAttributes, error) {
+func biosConfigFromNamespaces(ctx context.Context, serverID uuid.UUID, client *fleetdbapi.Client) ([]fleetdbapi.VersionedAttributes, error) {
 	namespaces := []string{
 		"sh.hollow.alloy.inband.bios_configuration",
 		"sh.hollow.alloy.outofband.bios_configuration",

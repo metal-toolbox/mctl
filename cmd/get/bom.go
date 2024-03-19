@@ -3,8 +3,8 @@ package get
 import (
 	"log"
 
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	"github.com/spf13/cobra"
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
@@ -30,19 +30,19 @@ var (
 var getBomInfoByMacAddress = &cobra.Command{
 	Use:   "bom",
 	Short: "Get bom object by AOC or BMC Addr",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		if !flagsGetBomByMacAddress.hasAOCMacAddr() && !flagsGetBomByMacAddress.hasBMCMacAddr() {
 			log.Fatalf("--aoc-mac and --bmc-mac not set")
 		}
 
 		theApp := mctl.MustCreateApp(cmd.Context())
 
-		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice, theApp.Reauth)
+		client, err := app.NewFleetDBAPIClient(cmd.Context(), theApp.Config.FleetDBAPI, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		var bomInfo *serverservice.Bom
+		var bomInfo *fleetdbapi.Bom
 		if flagsGetBomByMacAddress.hasAOCMacAddr() {
 			bomInfo, _, err = client.GetBomInfoByAOCMacAddr(cmd.Context(), flagsGetBomByMacAddress.aocMacAddr)
 		} else {

@@ -90,9 +90,9 @@ func loadConfig(cfgFile string) (*model.Config, error) {
 
 // validateClientParams checks required downstream service configuration parameters are present
 func validateClientParams(cfg *model.Config) error {
-	if cfg.Serverservice != nil {
-		if err := validateConfigOIDC(cfg.Serverservice); err != nil {
-			return errors.Wrap(err, "serverservice API config")
+	if cfg.FleetDBAPI != nil {
+		if err := validateConfigOIDC(cfg.FleetDBAPI); err != nil {
+			return errors.Wrap(err, "fleetdb API API config")
 		}
 	}
 

@@ -5,8 +5,8 @@ import (
 	"log"
 
 	"github.com/google/uuid"
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	"github.com/spf13/cobra"
-	serverservice "go.hollow.sh/serverservice/pkg/api/v1"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
@@ -23,10 +23,10 @@ var (
 var deleteFirmware = &cobra.Command{
 	Use:   "firmware",
 	Short: "Delete a firmware object",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
-		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice, theApp.Reauth)
+		client, err := app.NewFleetDBAPIClient(cmd.Context(), theApp.Config.FleetDBAPI, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -36,7 +36,7 @@ var deleteFirmware = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		_, err = client.DeleteServerComponentFirmware(cmd.Context(), serverservice.ComponentFirmwareVersion{UUID: id})
+		_, err = client.DeleteServerComponentFirmware(cmd.Context(), fleetdbapi.ComponentFirmwareVersion{UUID: id})
 		if err != nil {
 			log.Fatal(err)
 		}

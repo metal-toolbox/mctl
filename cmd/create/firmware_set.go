@@ -6,8 +6,8 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/spf13/cobra"
-	ss "go.hollow.sh/serverservice/pkg/api/v1"
 
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/pkg/model"
@@ -20,27 +20,27 @@ var (
 var createFirmwareSet = &cobra.Command{
 	Use:   "firmware-set",
 	Short: "Create a firmware set",
-	Run: func(cmd *cobra.Command, args []string) {
+	Run: func(cmd *cobra.Command, _ []string) {
 		theApp := mctl.MustCreateApp(cmd.Context())
 
-		client, err := app.NewServerserviceClient(cmd.Context(), theApp.Config.Serverservice, theApp.Reauth)
+		client, err := app.NewFleetDBAPIClient(cmd.Context(), theApp.Config.FleetDBAPI, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		payload := ss.ComponentFirmwareSetRequest{
+		payload := fleetdbapi.ComponentFirmwareSetRequest{
 			Name:                   definedfirmwareSetFlags.FirmwareSetName,
 			ComponentFirmwareUUIDs: []string{},
 		}
 
-		var attrs *ss.Attributes
+		var attrs *fleetdbapi.Attributes
 		if len(definedfirmwareSetFlags.Labels) > 0 {
 			attrs, err = mctl.AttributeFromLabels(model.AttributeNSFirmwareSetLabels, definedfirmwareSetFlags.Labels)
 			if err != nil {
 				log.Fatal(err)
 			}
 
-			payload.Attributes = []ss.Attributes{*attrs}
+			payload.Attributes = []fleetdbapi.Attributes{*attrs}
 		}
 
 		for _, id := range definedfirmwareSetFlags.AddFirmwareUUIDs {
