@@ -33,6 +33,11 @@ var listComponent = &cobra.Command{
 		ctx := cmd.Context()
 		theApp := mctl.MustCreateApp(ctx)
 
+		if flagsListComponent.limit > fleetdbapi.MaxPaginationSize {
+			log.Printf("Notice: Limit was set above max, setting limit to %d. If you want to list more than %d components, please use '--page` to index individual pages", fleetdbapi.MaxPaginationSize, fleetdbapi.MaxPaginationSize)
+			flagsListComponent.limit = fleetdbapi.MaxPaginationSize
+		}
+
 		client, err := app.NewFleetDBAPIClient(ctx, theApp.Config.FleetDBAPI, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)

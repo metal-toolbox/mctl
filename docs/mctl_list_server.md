@@ -13,7 +13,7 @@ mctl list server [flags]
 ```
       --facility string   facility name
   -h, --help              help for server
-      --limit int         limit results returned (default 10)
+      --limit int         limit results returned. Max value is 1000 (hard limit set in fleetdb). To list more than 1000, you must query each page (with '--page') individually (default 10)
   -m, --model string      filter by model
       --page int          limit results to page (for use with --limit)
       --serial string     filter by server serial
