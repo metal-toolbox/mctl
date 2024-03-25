@@ -29,7 +29,7 @@ type listServerFlags struct {
 }
 
 var (
-	fdlServer *listServerFlags
+	flagsListServer *listServerFlags
 )
 
 // List
@@ -40,18 +40,23 @@ var cmdListServer = &cobra.Command{
 		ctx := cmd.Context()
 		theApp := mctl.MustCreateApp(ctx)
 
+		if flagsListServer.limit > fleetdbapi.MaxPaginationSize {
+			log.Printf("Notice: Limit was set above max, setting limit to %d. If you want to list more than %d servers, please use '--page` to index individual pages", fleetdbapi.MaxPaginationSize, fleetdbapi.MaxPaginationSize)
+			flagsListServer.limit = fleetdbapi.MaxPaginationSize
+		}
+
 		client, err := app.NewFleetDBAPIClient(ctx, theApp.Config.FleetDBAPI, theApp.Reauth)
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		lsp := &fleetdbapi.ServerListParams{
-			FacilityCode:        fdlServer.facility,
-			AttributeListParams: attributeParamsFromFlags(fdlServer),
+			FacilityCode:        flagsListServer.facility,
+			AttributeListParams: attributeParamsFromFlags(flagsListServer),
 			PaginationParams: &fleetdbapi.
 				PaginationParams{
-				Limit:   fdlServer.limit,
-				Page:    fdlServer.page,
+				Limit:   flagsListServer.limit,
+				Page:    flagsListServer.page,
 				Preload: false,
 			},
 		}
@@ -61,7 +66,7 @@ var cmdListServer = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		if fdlServer.records {
+		if flagsListServer.records {
 			d := struct {
 				CurrentPage      int
 				Limit            int
@@ -92,7 +97,7 @@ var cmdListServer = &cobra.Command{
 			rtServers = append(rtServers, rfleetdb.ConvertServer(&s))
 		}
 
-		if fdlServer.creds {
+		if flagsListServer.creds {
 			for idx := range rtServers {
 				if err := mctl.ServerBMCCredentials(ctx, client, rtServers[idx]); err != nil {
 					log.Fatal(err)
@@ -100,8 +105,8 @@ var cmdListServer = &cobra.Command{
 			}
 		}
 
-		if fdlServer.table {
-			serversTable(rtServers, fdlServer)
+		if flagsListServer.table {
+			serversTable(rtServers, flagsListServer)
 			os.Exit(0)
 		}
 
@@ -149,7 +154,7 @@ func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.AttributeListPar
 				Namespace: rfleetdb.ServerAttributeNSVendor,
 				Keys:      []string{"vendor"},
 				Operator:  "eq",
-				Value:     strings.ToLower(fdlServer.vendor),
+				Value:     strings.ToLower(flagsListServer.vendor),
 			},
 		)
 	}
@@ -161,7 +166,7 @@ func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.AttributeListPar
 				Namespace: rfleetdb.ServerAttributeNSVendor,
 				Keys:      []string{"model"},
 				Operator:  "like",
-				Value:     strings.ToLower(fdlServer.model),
+				Value:     strings.ToLower(flagsListServer.model),
 			},
 		)
 	}
@@ -173,7 +178,7 @@ func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.AttributeListPar
 				Namespace: rfleetdb.ServerAttributeNSVendor,
 				Keys:      []string{"serial"},
 				Operator:  "eq",
-				Value:     strings.ToLower(fdlServer.serial),
+				Value:     strings.ToLower(flagsListServer.serial),
 			},
 		)
 	}
@@ -191,16 +196,16 @@ func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.AttributeListPar
 }
 
 func init() {
-	fdlServer = &listServerFlags{}
+	flagsListServer = &listServerFlags{}
 
-	mctl.AddWithRecordsFlag(cmdListServer, &fdlServer.records)
-	mctl.AddVendorFlag(cmdListServer, &fdlServer.vendor)
-	mctl.AddModelFlag(cmdListServer, &fdlServer.model)
-	mctl.AddFacilityFlag(cmdListServer, &fdlServer.facility)
-	mctl.AddPageFlag(cmdListServer, &fdlServer.page)
-	mctl.AddPageLimitFlag(cmdListServer, &fdlServer.limit)
-	mctl.AddWithBMCErrorsFlag(cmdListServer, &fdlServer.bmcerrors)
-	mctl.AddWithCredsFlag(cmdListServer, &fdlServer.creds)
-	mctl.AddPrintTableFlag(cmdListServer, &fdlServer.table)
-	mctl.AddServerSerialFlag(cmdListServer, &fdlServer.serial)
+	mctl.AddWithRecordsFlag(cmdListServer, &flagsListServer.records)
+	mctl.AddVendorFlag(cmdListServer, &flagsListServer.vendor)
+	mctl.AddModelFlag(cmdListServer, &flagsListServer.model)
+	mctl.AddFacilityFlag(cmdListServer, &flagsListServer.facility)
+	mctl.AddPageFlag(cmdListServer, &flagsListServer.page)
+	mctl.AddPageLimitFlag(cmdListServer, &flagsListServer.limit)
+	mctl.AddWithBMCErrorsFlag(cmdListServer, &flagsListServer.bmcerrors)
+	mctl.AddWithCredsFlag(cmdListServer, &flagsListServer.creds)
+	mctl.AddPrintTableFlag(cmdListServer, &flagsListServer.table)
+	mctl.AddServerSerialFlag(cmdListServer, &flagsListServer.serial)
 }
