@@ -6,6 +6,7 @@ import (
 	"log"
 	"strings"
 
+	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	"github.com/spf13/cobra"
 )
 
@@ -254,7 +255,9 @@ func AddPageFlag(cmd *cobra.Command, ptr *int) {
 
 func AddPageLimitFlag(cmd *cobra.Command, ptr *int) {
 	defaultLimit := 10
-	cmd.PersistentFlags().IntVar(ptr, LimitFlag.name, defaultLimit, "limit results returned")
+	usage := fmt.Sprintf("limit results returned. Max value is %d (hard limit set in fleetdb), so to list more than %d, you must query each page (with '--page') individually", fleetdbapi.MaxPaginationSize, fleetdbapi.MaxPaginationSize)
+
+	cmd.PersistentFlags().IntVar(ptr, LimitFlag.name, defaultLimit, usage)
 }
 
 func AddWithBMCErrorsFlag(cmd *cobra.Command, ptr *bool) {
