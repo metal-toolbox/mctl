@@ -53,6 +53,6 @@ var getFirmware = &cobra.Command{
 func init() {
 	flagsDefinedGetFirmware = &getFirmwareFlags{}
 
-	mctl.AddFirmwareFlag(getFirmware, &flagsDefinedGetFirmware.id)
-	mctl.RequireFlag(getFirmware, mctl.FirmwareFlag)
+	mctl.AddFirmwareIDFlag(getFirmware, &flagsDefinedGetFirmware.id)
+	mctl.RequireFlag(getFirmware, mctl.FirmwareIDFlag)
 }
