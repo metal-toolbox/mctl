@@ -5,14 +5,14 @@
 Delete a firmware object
 
 ```
-mctl delete firmware -f FIRMWARE [flags]
+mctl delete firmware -f FIRMWAREID [flags]
 ```
 
 ### Options
 
 ```
-  -f, --firmware string   [required] ID of the firmware
-  -h, --help              help for firmware
+  -f, --firmware-id string   [required] ID of the firmware
+  -h, --help                 help for firmware
 ```
 
 ### Options inherited from parent commands

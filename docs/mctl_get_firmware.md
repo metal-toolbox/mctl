@@ -5,14 +5,14 @@
 Get information for given firmware identifier
 
 ```
-mctl get firmware -f FIRMWARE [flags]
+mctl get firmware -f FIRMWAREID [flags]
 ```
 
 ### Options
 
 ```
-  -f, --firmware string   [required] ID of the firmware
-  -h, --help              help for firmware
+  -f, --firmware-id string   [required] ID of the firmware
+  -h, --help                 help for firmware
 ```
 
 ### Options inherited from parent commands

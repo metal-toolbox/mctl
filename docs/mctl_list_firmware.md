@@ -11,12 +11,14 @@ mctl list firmware [flags]
 ### Options
 
 ```
-      --component string   component type
-  -h, --help               help for firmware
-      --models strings     one or more comma separated models numbers
-      --server string      server UUID
-      --vendor string      vendor name
-      --version string     version number
+      --component string          the component type or slug (bmc|bios|nic..)
+  -V, --firmware-version string   firmware version
+  -h, --help                      help for firmware
+      --limit int                 limit results returned (default 10)
+  -m, --model string              filter by model
+      --page int                  limit results to page (for use with --limit)
+  -s, --server string             ID of the server
+  -v, --vendor string             filter by vendor
 ```
 
 ### Options inherited from parent commands
