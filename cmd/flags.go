@@ -33,7 +33,8 @@ var (
 	BMCAddressFlag                    = &flagDetails{name: "bmc-addr", short: "a"}
 	BMCUsernameFlag                   = &flagDetails{name: "bmc-user", short: "u"}
 	BMCPasswordFlag                   = &flagDetails{name: "bmc-pass", short: "p"}
-	FirmwareFlag                      = &flagDetails{name: "firmware", short: "f"}
+	FirmwareIDFlag                    = &flagDetails{name: "firmware-id", short: "f"}
+	FirmwareVersionFlag               = &flagDetails{name: "firmware-version", short: "V"}
 	FirmwareSetFlag                   = &flagDetails{name: "set-id"}
 	FirmwareAddFlag                   = &flagDetails{name: "add-firmware-ids"}
 	FirmwareRemoveFlag                = &flagDetails{name: "remove-firmware-ids"}
@@ -188,8 +189,12 @@ func AddBMCPasswordFlag(cmd *cobra.Command, ptr *string) {
 	cmd.PersistentFlags().StringVarP(ptr, BMCPasswordFlag.name, BMCPasswordFlag.short, "", "password of the bmc user")
 }
 
-func AddFirmwareFlag(cmd *cobra.Command, ptr *string) {
-	cmd.PersistentFlags().StringVarP(ptr, FirmwareFlag.name, FirmwareFlag.short, "", "ID of the firmware")
+func AddFirmwareIDFlag(cmd *cobra.Command, ptr *string) {
+	cmd.PersistentFlags().StringVarP(ptr, FirmwareIDFlag.name, FirmwareIDFlag.short, "", "ID of the firmware")
+}
+
+func AddFirmwareVersionFlag(cmd *cobra.Command, ptr *string) {
+	cmd.PersistentFlags().StringVarP(ptr, FirmwareVersionFlag.name, FirmwareVersionFlag.short, "", "firmware version")
 }
 
 func AddFirmwareSetFlag(cmd *cobra.Command, ptr *string) {

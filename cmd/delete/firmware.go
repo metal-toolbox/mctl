@@ -48,6 +48,6 @@ var deleteFirmware = &cobra.Command{
 func init() {
 	flagsDefinedDeleteFirmware = &deleteFirmwareFlags{}
 
-	mctl.AddFirmwareFlag(deleteFirmware, &flagsDefinedDeleteFirmware.id)
-	mctl.RequireFlag(deleteFirmware, mctl.FirmwareFlag)
+	mctl.AddFirmwareIDFlag(deleteFirmware, &flagsDefinedDeleteFirmware.id)
+	mctl.RequireFlag(deleteFirmware, mctl.FirmwareIDFlag)
 }
