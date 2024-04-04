@@ -1,9 +1,6 @@
 package create
 
 import (
-	"log"
-	"strings"
-
 	"github.com/metal-toolbox/mctl/cmd"
 
 	"github.com/spf13/cobra"
@@ -12,9 +9,8 @@ import (
 var create = &cobra.Command{
 	Use:   "create",
 	Short: "Create resources",
-	Run: func(_ *cobra.Command, _ []string) {
-		commands := []string{"firmware", "firmware-set", "bom"}
-		log.Fatal("A valid create command parameter was expected: " + strings.Join(commands, ", "))
+	Run: func(cmd *cobra.Command, _ []string) {
+		_ = cmd.Help()
 	},
 }
 
