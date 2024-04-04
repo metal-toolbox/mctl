@@ -17,10 +17,11 @@ import (
 type listFirmwareFlags struct {
 	server    string // server UUID
 	vendor    string
-	models    []string
+	model     string
 	component string
 	version   string
 	limit     int
+	page      int
 }
 
 var (
@@ -42,20 +43,18 @@ var listFirmware = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		lowerCasedModels := func(models []string) []string {
-			lowered := []string{}
-			for _, m := range models {
-				lowered = append(lowered, strings.ToLower(m))
-			}
-
-			return lowered
-		}
-
 		filterParams := fleetdbapi.ComponentFirmwareVersionListParams{
-			Vendor:     strings.ToLower(flagsDefinedListFirmware.vendor),
-			Model:      lowerCasedModels(flagsDefinedListFirmware.models),
-			Version:    flagsDefinedListFirmware.version,
-			Pagination: &fleetdbapi.PaginationParams{Limit: flagsDefinedListFirmware.limit},
+			Vendor: strings.ToLower(flagsDefinedListFirmware.vendor),
+			// TODO - if we really want to search using multiple models
+			//
+			//  fix the the firmware search in fleetdb, its currently useless
+			//  because fleetdb queries the data using an 'AND' instead of an 'OR'
+			Model:   []string{strings.ToLower(flagsDefinedListFirmware.model)},
+			Version: flagsDefinedListFirmware.version,
+			Pagination: &fleetdbapi.PaginationParams{
+				Limit: flagsDefinedListFirmware.limit,
+				Page:  flagsDefinedListFirmware.page,
+			},
 		}
 
 		firmware, _, err := client.ListServerComponentFirmware(ctx, &filterParams)
@@ -90,11 +89,13 @@ var listFirmware = &cobra.Command{
 }
 
 func init() {
-	flagsDefinedListFirmware = &listFirmwareFlags{}
+	flagsDefinedListFirmware = &listFirmwareFlags{limit: 10}
 
-	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.server, "server", "", "server UUID")
-	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.vendor, "vendor", "", "vendor name")
-	listFirmware.PersistentFlags().StringSliceVar(&flagsDefinedListFirmware.models, "models", nil, "one or more comma separated models numbers")
-	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.component, "component", "", "component type")
-	listFirmware.PersistentFlags().StringVar(&flagsDefinedListFirmware.version, "version", "", "version number")
+	mctl.AddServerFlag(listFirmware, &flagsDefinedListFirmware.server)
+	mctl.AddVendorFlag(listFirmware, &flagsDefinedListFirmware.vendor)
+	mctl.AddModelFlag(listFirmware, &flagsDefinedListFirmware.model)
+	mctl.AddComponentTypeFlag(listFirmware, &flagsListComponent.slug)
+	mctl.AddFirmwareVersionFlag(listFirmware, &flagsDefinedListFirmware.version)
+	mctl.AddPageLimitFlag(listFirmware, &flagsDefinedListFirmware.limit)
+	mctl.AddPageFlag(listFirmware, &flagsDefinedListFirmware.page)
 }
