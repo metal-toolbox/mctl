@@ -59,6 +59,7 @@ var (
 	ServerSerialFlag                  = &flagDetails{name: "serial"}
 	ServerActionPowerActionFlag       = &flagDetails{name: "action"}
 	ServerActionPowerActionStatusFlag = &flagDetails{name: "action-status"}
+	ComponentTypeFlag                 = &flagDetails{name: "component"}
 
 	OutputTypeJSON outputType = "json"
 	OutputTypeText outputType = "text"
@@ -287,6 +288,10 @@ func AddBIOSConfigFlag(cmd *cobra.Command, ptr *bool) {
 
 func AddListComponentsFlag(cmd *cobra.Command, ptr *bool) {
 	cmd.PersistentFlags().BoolVar(ptr, ListComponentsFlag.name, false, "include component data")
+}
+
+func AddComponentTypeFlag(cmd *cobra.Command, ptr *string) {
+	cmd.PersistentFlags().StringVarP(ptr, ComponentTypeFlag.name, "", "", "the component type or slug (bmc|bios|nic..)")
 }
 
 func AddServerSerialFlag(cmd *cobra.Command, ptr *string) {
