@@ -15,6 +15,10 @@ type flagDetails struct {
 	short string
 }
 
+func (f *flagDetails) Name() string {
+	return f.name
+}
+
 var (
 	ConfigFileFlag                    = &flagDetails{name: "config", short: "c"}
 	ReAuthFlag                        = &flagDetails{name: "reauth"}

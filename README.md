@@ -17,3 +17,4 @@ For the updated list of all commands available, check out the [CLI docs](https:/
 - List firmware sets - `mctl list firmware-set`
 - Retrieve information about a firmware - `mctl get firmware --id <>`
 - Install a firmware set on a server - `mctl install firmware-set --server <>`
+- Import firmware, firmware-set from file - `mctl create firmware-set  --from-file samples/fw-set.json`, where the JSON file contents is the output of `mctl list firmware-set`
