@@ -13,7 +13,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/metal-toolbox/bomservice v0.1.5
 	github.com/metal-toolbox/conditionorc v1.0.5
-	github.com/metal-toolbox/fleetdb v0.16.10
+	github.com/metal-toolbox/fleetdb v0.17.1
 	github.com/metal-toolbox/rivets v1.0.1
 	github.com/nirasan/go-oauth-pkce-code-verifier v0.0.0-20220510032225-4f9f17eaec4c
 	github.com/olekukonko/tablewriter v0.0.5
@@ -121,7 +121,7 @@ require (
 	github.com/volatiletech/sqlboiler/v4 v4.16.2 // indirect
 	github.com/volatiletech/strmangle v0.0.6 // indirect
 	go.hollow.sh/serverservice v0.16.2 // indirect
-	go.hollow.sh/toolbox v0.6.2 // indirect
+	go.hollow.sh/toolbox v0.6.3 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.49.0 // indirect
 	go.opentelemetry.io/otel v1.24.0 // indirect
