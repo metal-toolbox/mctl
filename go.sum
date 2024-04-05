@@ -544,8 +544,8 @@ github.com/mattn/go-sqlite3 v1.14.14/go.mod h1:NyWgC/yNuGj7Q9rpYnZvas74GogHl5/Z4
 github.com/matttproud/golang_protobuf_extensions v1.0.1/go.mod h1:D8He9yQNgCq6Z5Ld7szi9bcBfOoFv/3dc6xSMkL2PC0=
 github.com/metal-toolbox/bomservice v0.1.5 h1:1QxDox9hiqxdv2uxEdOEoLBkA/IgvS2BBQ1IwjYCXus=
 github.com/metal-toolbox/bomservice v0.1.5/go.mod h1:jS7IDe24FrNWmf7fRu5LmGjMBVNXxg8thctMy+a2i6Q=
-github.com/metal-toolbox/conditionorc v1.0.5 h1:J3AyRhSUS4CNtDF8u+MeKTz3liygBDbYIQ4HkEoN8kQ=
-github.com/metal-toolbox/conditionorc v1.0.5/go.mod h1:Ss7ABVRV9jE0f38kOI4RnaANuMazMENUBx6LUVVuLLA=
+github.com/metal-toolbox/conditionorc v1.0.6 h1:SsFgAJdYaWbuJ12c9vuRlJxYfkx/AbRRCVcJpOS4njk=
+github.com/metal-toolbox/conditionorc v1.0.6/go.mod h1:KAzZINJE58V49+DsYAZ2mgFFGUJVNVPqyz20dZi4gu8=
 github.com/metal-toolbox/fleetdb v0.16.10 h1:LDfvz8wAISo6w0zLBR8tvSGoWohXlMa+Km79Z2mXZnY=
 github.com/metal-toolbox/fleetdb v0.16.10/go.mod h1:W94dDICxYir3Ygwpzz8IyULpXBXF+6BWRtAkQIK+0Qw=
 github.com/metal-toolbox/rivets v1.0.1 h1:eBVN1TucrP9IzXsrs5qqcUY6qYwKN3SBjnEGSOqOmlA=
@@ -764,8 +764,8 @@ go.etcd.io/etcd/client/v2 v2.305.4/go.mod h1:Ud+VUwIi9/uQHOMA+4ekToJ12lTxlv0zB/+
 go.etcd.io/etcd/client/v3 v3.5.4/go.mod h1:ZaRkVgBZC+L+dLCjTcF1hRXpgZXQPOvnA/Ak/gq3kiY=
 go.hollow.sh/serverservice v0.16.2 h1:0wt0XJC/rm4OdovB6g8Fsx7BT2X71pG0keJiiLZaY+w=
 go.hollow.sh/serverservice v0.16.2/go.mod h1:Zr99vSFO++ZlDjEf9rtPWi3TiMgMswJCW3D6LIFmMDM=
-go.hollow.sh/toolbox v0.6.2 h1:g0qKvo7rVgZ05dh7qxbAymPixumCd4MxVbq9gs90/3c=
-go.hollow.sh/toolbox v0.6.2/go.mod h1:nl+5RDDyYY/+wukOUzHHX2mOyWKRjlTOXUcGxny+tns=
+go.hollow.sh/toolbox v0.6.3 h1:IJOjiGdiwWwXJ2QfOkJuSucSIqrdXJbUBFst3u6T6z4=
+go.hollow.sh/toolbox v0.6.3/go.mod h1:nl+5RDDyYY/+wukOUzHHX2mOyWKRjlTOXUcGxny+tns=
 go.infratographer.com/x v0.3.9 h1:fsfF/w5zHgiNAHvYmvsWlICNha2X53WNLVSKOkyPnWo=
 go.infratographer.com/x v0.3.9/go.mod h1:n/61MZRKFbGlS8xUwAhTyDhqcL2Wk6uPsXADC2n5t1I=
 go.opencensus.io v0.21.0/go.mod h1:mSImk1erAIZhrmZN+AvHh14ztQfjbGwt4TtuofqLduU=
