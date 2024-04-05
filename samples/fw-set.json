@@ -1,0 +1,135 @@
+[
+  {
+    "created_at": "2023-07-11T11:54:06.224811Z",
+    "updated_at": "2023-09-18T08:08:12.929576Z",
+    "name": "dell_r6415_v1",
+    "attributes": [
+      {
+        "namespace": "sh.hollow.firmware_set.labels",
+        "data": {
+          "default": "true",
+          "latest": "true",
+          "model": "r6415",
+          "vendor": "dell"
+        },
+        "created_at": "2023-09-18T08:08:12.934926Z",
+        "updated_at": "2023-09-18T08:08:12.934926Z"
+      }
+    ],
+    "component_firmware": [
+      {
+        "uuid": "52f1581e-db75-44e2-9566-69982545c1b7",
+        "vendor": "dell",
+        "model": [
+          "boss-s1",
+          "r6415"
+        ],
+        "filename": "SAS-RAID_Firmware_3P39V_WN64_2.5.13.3024_A07_02.EXE",
+        "version": "2.5.13.3024",
+        "component": "storagecontroller",
+        "checksum": "md5sum:f9a156b4b077c826aa65eb8f1384efc3",
+        "upstream_url": "https://dl.dell.com/FOLDER06189651M/3/SAS-RAID_Firmware_3P39V_WN64_2.5.13.3024_A07_02.EXE",
+        "repository_url": "https://HOST/firmware/files/dell/SAS-RAID_Firmware_3P39V_WN64_2.5.13.3024_A07_02.EXE",
+        "created_at": "2023-05-12T13:22:07.738894Z",
+        "updated_at": "2024-02-13T08:00:11.101933Z"
+      },
+      {
+        "uuid": "bdb120bf-a9b9-4ef3-bce3-3d55274a388b",
+        "vendor": "dell",
+        "model": [
+          "r6415"
+        ],
+        "filename": "iDRAC-with-Lifecycle-Controller_Firmware_RTTPH_WN64_5.10.50.00_A00.EXE",
+        "version": "5.10.50.00",
+        "component": "bmc",
+        "checksum": "md5sum:0147e94a68213dfef11c1248cab50a98",
+        "upstream_url": "https://dl.dell.com/FOLDER08759624M/1/iDRAC-with-Lifecycle-Controller_Firmware_RTTPH_WN64_5.10.50.00_A00.EXE",
+        "repository_url": "https://HOST/firmware/files/dell/iDRAC-with-Lifecycle-Controller_Firmware_RTTPH_WN64_5.10.50.00_A00.EXE",
+        "created_at": "2023-02-22T15:30:17.711377Z",
+        "updated_at": "2023-08-09T07:58:35.69326Z"
+      },
+      {
+        "uuid": "d779a935-9d03-4b4a-a4a9-99b7b01f76aa",
+        "vendor": "dell",
+        "model": [
+          "r6415"
+        ],
+        "filename": "Network_Firmware_91K7J_WN64_14.31.22.50.EXE",
+        "version": "14.31.22.50",
+        "component": "nic",
+        "checksum": "md5sum:bb10d07ce18aa33f8f9b44829e5514db",
+        "upstream_url": "https://dl.dell.com/FOLDER08004795M/1/Network_Firmware_91K7J_WN64_14.31.22.50.EXE",
+        "repository_url": "https://HOST/firmware/files/dell/Network_Firmware_91K7J_WN64_14.31.22.50.EXE",
+        "created_at": "2023-02-22T15:30:33.953108Z",
+        "updated_at": "2023-08-09T07:58:32.855844Z"
+      },
+      {
+        "uuid": "ed4513bd-671a-48a5-945d-90a90578634d",
+        "vendor": "dell",
+        "model": [
+          "r6415"
+        ],
+        "filename": "BIOS_517K6_WN64_1.19.0.EXE",
+        "version": "1.19.0",
+        "component": "bios",
+        "checksum": "md5sum:00559360bb7d1e267689ee86593a3b54",
+        "upstream_url": "https://dl.dell.com/FOLDER09230230M/1/BIOS_517K6_WN64_1.19.0.EXE",
+        "repository_url": "https://HOST/firmware/files/dell/BIOS_517K6_WN64_1.19.0.EXE",
+        "created_at": "2023-02-22T15:30:23.210382Z",
+        "updated_at": "2023-08-09T07:58:39.845033Z"
+      }
+    ],
+    "uuid": "1518bcdb-ca8a-41f5-b417-93fea4a61338"
+  },
+  {
+    "created_at": "2023-07-11T11:54:07.844441Z",
+    "updated_at": "2023-09-18T08:08:14.15453Z",
+    "name": "supermicro_x11sch-f_v1",
+    "attributes": [
+      {
+        "namespace": "sh.hollow.firmware_set.labels",
+        "data": {
+          "default": "true",
+          "latest": "true",
+          "model": "x11sch-f",
+          "vendor": "supermicro"
+        },
+        "created_at": "2023-09-18T08:08:14.161091Z",
+        "updated_at": "2023-09-18T08:08:14.161091Z"
+      }
+    ],
+    "component_firmware": [
+      {
+        "uuid": "194ec6c2-e888-420c-ae6a-dbe5bb74c81a",
+        "vendor": "supermicro",
+        "model": [
+          "x11sch-f"
+        ],
+        "filename": "BIOS_X11SCH-F-1B11_20210525_1.6_STDsp.bin",
+        "version": "1.6",
+        "component": "bios",
+        "checksum": "md5sum:14f8285a659997b9a411722e73ce4c2f",
+        "upstream_url": "https://www.supermicro.com/about/policies/disclaimer.cfm?SoftwareItemID=14075",
+        "repository_url": "https://HOST/firmware/files/supermicro/BIOS_X11SCH-F-1B11_20210525_1.6_STDsp.bin",
+        "created_at": "2023-02-22T15:35:20.749262Z",
+        "updated_at": "2023-08-09T07:58:16.028011Z"
+      },
+      {
+        "uuid": "c2e08195-1add-4689-93db-004ee778e527",
+        "vendor": "supermicro",
+        "model": [
+          "x11sch-f"
+        ],
+        "filename": "BMC_X11AST2500-4101MS_20210510_01.73.12_STD.bin",
+        "version": "01.73.12",
+        "component": "bmc",
+        "checksum": "md5sum:2c2057c2448537e280e964940e1bd848",
+        "upstream_url": "https://www.supermicro.com/about/policies/disclaimer.cfm?SoftwareItemID=14021",
+        "repository_url": "https://HOST/firmware/files/supermicro/BMC_X11AST2500-4101MS_20210510_01.73.12_STD.bin",
+        "created_at": "2023-02-22T15:35:15.505229Z",
+        "updated_at": "2023-08-09T07:58:24.121563Z"
+      }
+    ],
+    "uuid": "21a68078-ae0b-4bad-939c-debc5b3908f7"
+  }
+]

@@ -12,4 +12,8 @@ type FirmwareSetFlags struct {
 	RemoveFirmwareUUIDs []string
 	// name for the firmware set to be created/edited
 	FirmwareSetName string
+	// create firmware set from file
+	CreateFromFile string
+	// ignore any create errors
+	IgnoreCreateErrors bool
 }

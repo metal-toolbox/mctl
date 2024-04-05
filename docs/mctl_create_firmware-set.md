@@ -5,16 +5,17 @@
 Create a firmware set
 
 ```
-mctl create firmware-set -U FIRMWAREIDS -n NAME [flags]
+mctl create firmware-set [flags]
 ```
 
 ### Options
 
 ```
-  -U, --firmware-ids strings    [required] comma separated list of firmware IDs
+  -U, --firmware-ids strings    comma separated list of firmware IDs
+  -F, --from-file string        JSON file with firmware configuration data
   -h, --help                    help for firmware-set
   -l, --labels stringToString   Labels to assign to the firmware set - 'vendor=foo,model=bar' (default [])
-  -n, --name string             [required] A name for the firmware set
+  -n, --name string             A name for the firmware set
 ```
 
 ### Options inherited from parent commands
