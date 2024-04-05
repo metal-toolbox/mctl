@@ -44,17 +44,20 @@ var listFirmware = &cobra.Command{
 		}
 
 		filterParams := fleetdbapi.ComponentFirmwareVersionListParams{
-			Vendor: strings.ToLower(flagsDefinedListFirmware.vendor),
-			// TODO - if we really want to search using multiple models
-			//
-			//  fix the the firmware search in fleetdb, its currently useless
-			//  because fleetdb queries the data using an 'AND' instead of an 'OR'
-			Model:   []string{strings.ToLower(flagsDefinedListFirmware.model)},
+			Vendor:  strings.ToLower(flagsDefinedListFirmware.vendor),
 			Version: flagsDefinedListFirmware.version,
 			Pagination: &fleetdbapi.PaginationParams{
 				Limit: flagsDefinedListFirmware.limit,
 				Page:  flagsDefinedListFirmware.page,
 			},
+		}
+
+		if flagsDefinedListFirmware.model != "" {
+			// TODO - if we really want to search using multiple models
+			//
+			//  fix the the firmware search in fleetdb, its currently useless
+			//  because fleetdb queries the data using an 'AND' instead of an 'OR'
+			filterParams.Model = []string{strings.ToLower(flagsDefinedListFirmware.model)}
 		}
 
 		firmware, _, err := client.ListServerComponentFirmware(ctx, &filterParams)
