@@ -11,6 +11,8 @@ import (
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	rctypes "github.com/metal-toolbox/rivets/condition"
+	"github.com/spf13/cobra"
 )
 
 var serverIDStr string

@@ -6,10 +6,9 @@ import (
 
 	"github.com/google/uuid"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/spf13/cobra"
 )
 
 type deleteFirmwareFlags struct {
@@ -17,9 +16,8 @@ type deleteFirmwareFlags struct {
 	id string
 }
 
-var (
-	flagsDefinedDeleteFirmware *deleteFirmwareFlags
-)
+var flagsDefinedDeleteFirmware *deleteFirmwareFlags
+
 var deleteFirmware = &cobra.Command{
 	Use:   "firmware",
 	Short: "Delete a firmware object",

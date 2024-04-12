@@ -276,7 +276,6 @@ func (c *authClient) handlePKCECallback(ctx context.Context, w http.ResponseWrit
 	token, err := c.oauthConfig.Exchange(ctx, code,
 		oauth2.SetAuthURLParam("code_verifier", c.codeVerifier.String()),
 	)
-
 	if err != nil {
 		log.Printf("ERROR in token exchange: %s\n", err.Error())
 

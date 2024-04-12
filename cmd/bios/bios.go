@@ -12,9 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	biosFlags *biosActionFlags
-)
+var biosFlags *biosActionFlags
 
 type biosActionFlags struct {
 	serverID      string

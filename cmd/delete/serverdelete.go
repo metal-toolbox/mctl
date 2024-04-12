@@ -4,20 +4,16 @@ import (
 	"context"
 	"log"
 
-	"github.com/spf13/cobra"
-
-	"github.com/metal-toolbox/mctl/internal/app"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/spf13/cobra"
 )
 
 type serverDeleteParams struct {
 	serverID string
 }
 
-var (
-	serverDeleteFlags *serverDeleteParams
-)
+var serverDeleteFlags *serverDeleteParams
 
 var serverDelete = &cobra.Command{
 	Use:   "server",

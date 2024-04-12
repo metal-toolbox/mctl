@@ -8,6 +8,11 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
+	"github.com/metal-toolbox/conditionorc/pkg/api/v1/client"
+	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
+	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
+	rctypes "github.com/metal-toolbox/rivets/condition"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"golang.org/x/exp/slices"

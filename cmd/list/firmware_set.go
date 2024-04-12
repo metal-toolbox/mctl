@@ -9,12 +9,11 @@ import (
 	"strings"
 
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	"github.com/olekukonko/tablewriter"
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/pkg/model"
+	"github.com/olekukonko/tablewriter"
+	"github.com/spf13/cobra"
 )
 
 type listFirmwareSetFlags struct {
@@ -26,6 +25,7 @@ type listFirmwareSetFlags struct {
 var (
 	flags *listFirmwareSetFlags
 )
+// var flagsDefinedListFwSet *listFirmwareSetFlags
 
 //nolint:err113 // brevity is best here
 func sendListFirmwareRequest(client *fleetdbapi.Client, cmd *cobra.Command) ([]fleetdbapi.ComponentFirmwareSet, error) {
