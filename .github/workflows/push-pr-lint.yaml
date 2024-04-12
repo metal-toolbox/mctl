@@ -17,7 +17,8 @@ jobs:
       uses: golangci/golangci-lint-action@v3
       with:
         args: --config .golangci.yml --timeout 2m
-        version: v1.56.2
+        # Also need to update Makefile if/when renovate updates this 
+        version: v1.56
 
     - name: Test
       run: go test ./...
