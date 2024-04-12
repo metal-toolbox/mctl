@@ -21,7 +21,7 @@ func NewFleetDBAPIClient(ctx context.Context, cfg *model.ConfigOIDC, reauth bool
 	accessToken := "fake"
 
 	if cfg == nil {
-		return nil, errors.Wrap(ErrNilConfig, "missing fleetdb API API client configuration")
+		return nil, errors.Wrap(ErrNilConfig, "missing fleetdb API client configuration")
 	}
 
 	if cfg.Disable {

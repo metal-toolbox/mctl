@@ -52,7 +52,7 @@ var listFirmware = &cobra.Command{
 		if flagsDefinedListFirmware.model != "" {
 			// TODO - if we really want to search using multiple models
 			//
-			//  fix the the firmware search in fleetdb, its currently useless
+			//  fix the firmware search in fleetdb, its currently useless
 			//  because fleetdb queries the data using an 'AND' instead of an 'OR'
 			filterParams.Model = []string{strings.ToLower(flagsDefinedListFirmware.model)}
 		}

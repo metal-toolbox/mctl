@@ -16,7 +16,6 @@ const (
 
 // Config struct holds the mctl configuration parameters
 type Config struct {
-
 	// File is configuration file path
 	File       string
 	FleetDBAPI *ConfigOIDC `mapstructure:"serverservice_api"` // TODO: implement backwards compatibility and rename.

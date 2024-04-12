@@ -206,7 +206,7 @@ func FormatConditionResponse(response *coapiv1.ServerResponse, kind rctypes.Kind
 func PrintResults(format string, data ...any) {
 	switch format {
 	case "text":
-		spew.Dump(data)
+		spew.Dump(data...)
 	case "json", "JSON":
 		b, err := json.MarshalIndent(data, "", "  ")
 		if err != nil {

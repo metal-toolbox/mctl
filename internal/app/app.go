@@ -90,7 +90,7 @@ func loadConfig(cfgFile string) (*model.Config, error) {
 func validateClientParams(cfg *model.Config) error {
 	if cfg.FleetDBAPI != nil {
 		if err := validateConfigOIDC(cfg.FleetDBAPI); err != nil {
-			return errors.Wrap(err, "fleetdb API API config")
+			return errors.Wrap(err, "fleetdb API config")
 		}
 	}
 
