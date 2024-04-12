@@ -6,11 +6,9 @@ import (
 	"os"
 
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/spf13/cobra"
 )
 
 // Create
@@ -19,9 +17,7 @@ type createFirmwareFlags struct {
 	firmwareConfigFile string
 }
 
-var (
-	flagsDefinedCreateFirmware *createFirmwareFlags
-)
+var flagsDefinedCreateFirmware *createFirmwareFlags
 
 var createFirmware = &cobra.Command{
 	Use:   "firmware",

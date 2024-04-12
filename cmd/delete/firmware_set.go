@@ -5,15 +5,12 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/spf13/cobra"
 )
 
-var (
-	deleteFWSetFlags mctl.FirmwareSetFlags
-)
+var deleteFWSetFlags mctl.FirmwareSetFlags
 
 var deleteFirmwareSet = &cobra.Command{
 	Use:   "firmware-set",

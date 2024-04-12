@@ -4,10 +4,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/spf13/cobra"
 )
 
 // Create Bom informations.
@@ -16,9 +15,7 @@ type uploadBomFileFlags struct {
 	bomXlsxFile string
 }
 
-var (
-	flagsUploadBomFileFlags *uploadBomFileFlags
-)
+var flagsUploadBomFileFlags *uploadBomFileFlags
 
 var uploadBomFile = &cobra.Command{
 	Use:   "bom",

@@ -9,12 +9,11 @@ import (
 	"os"
 
 	"github.com/google/uuid"
-	"github.com/spf13/cobra"
-
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/pkg/model"
+	"github.com/spf13/cobra"
 )
 
 var (

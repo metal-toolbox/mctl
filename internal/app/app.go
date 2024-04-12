@@ -12,9 +12,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var (
-	ErrConfig = errors.New("configuration error")
-)
+var ErrConfig = errors.New("configuration error")
 
 // Config holds configuration data when running mctl
 // App holds attributes for the mtl application

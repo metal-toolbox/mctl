@@ -6,19 +6,16 @@ import (
 	"os"
 
 	"github.com/google/uuid"
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/spf13/cobra"
 )
 
 type getFirmwareFlags struct {
 	id string
 }
 
-var (
-	flagsDefinedGetFirmware *getFirmwareFlags
-)
+var flagsDefinedGetFirmware *getFirmwareFlags
 
 // Get firmware info
 var getFirmware = &cobra.Command{
