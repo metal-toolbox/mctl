@@ -151,7 +151,7 @@ func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.AttributeListPar
 		alp = append(
 			alp,
 			fleetdbapi.AttributeListParams{
-				Namespace: rfleetdb.ServerAttributeNSVendor,
+				Namespace: rfleetdb.ServerVendorAttributeNS,
 				Keys:      []string{"vendor"},
 				Operator:  "eq",
 				Value:     strings.ToLower(flagsListServer.vendor),
@@ -163,7 +163,7 @@ func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.AttributeListPar
 		alp = append(
 			alp,
 			fleetdbapi.AttributeListParams{
-				Namespace: rfleetdb.ServerAttributeNSVendor,
+				Namespace: rfleetdb.ServerVendorAttributeNS,
 				Keys:      []string{"model"},
 				Operator:  "like",
 				Value:     strings.ToLower(flagsListServer.model),
@@ -175,7 +175,7 @@ func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.AttributeListPar
 		alp = append(
 			alp,
 			fleetdbapi.AttributeListParams{
-				Namespace: rfleetdb.ServerAttributeNSVendor,
+				Namespace: rfleetdb.ServerVendorAttributeNS,
 				Keys:      []string{"serial"},
 				Operator:  "eq",
 				Value:     strings.ToLower(flagsListServer.serial),
