@@ -116,5 +116,5 @@ func init() {
 	mctl.AddServerFlag(getFirmwareSet, &flagsDefinedGetFirmwareSet.serverID)
 	mctl.AddFirmwareSetFlag(getFirmwareSet, &flagsDefinedGetFirmwareSet.id)
 
-	mctl.RequireFlag(getFirmwareSet, mctl.ServerFlag)
+	mctl.MutuallyExclusiveFlags(getFirmwareSet, mctl.ServerFlag, mctl.FirmwareSetFlag)
 }

@@ -5,14 +5,14 @@
 Get information for given firmware set identifier
 
 ```
-mctl get firmware-set -s SERVER [flags]
+mctl get firmware-set [flags]
 ```
 
 ### Options
 
 ```
   -h, --help            help for firmware-set
-  -s, --server string   [required] ID of the server
+  -s, --server string   ID of the server
       --set-id string   ID of the firmware set
 ```
 
