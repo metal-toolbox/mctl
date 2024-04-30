@@ -17,7 +17,6 @@ type listComponentFlags struct {
 	serial    string
 	model     string
 	fwVersion string
-	health    string
 	records   bool
 	limit     int
 	page      int
