@@ -11,13 +11,14 @@ mctl list component --slug SLUG [flags]
 ### Options
 
 ```
-  -h, --help            help for component
-      --limit int       limit results returned. Max value is 1000 (hard limit set in fleetdb). To list more than 1000, you must query each page (with '--page') individually (default 10)
-  -m, --model string    filter by model
-      --page int        limit results to page (for use with --limit)
-      --slug string     [required] filter by component slug (nic/drive/bmc/bios...)
-  -v, --vendor string   filter by vendor
-      --with-records    print record count found with pagination info and return
+  -V, --firmware-version string   firmware version
+  -h, --help                      help for component
+      --limit int                 limit results returned. Max value is 1000 (hard limit set in fleetdb). To list more than 1000, you must query each page (with '--page') individually (default 10)
+  -m, --model string              filter by model
+      --page int                  limit results to page (for use with --limit)
+      --slug string               [required] filter by component slug (nic/drive/bmc/bios...)
+  -v, --vendor string             filter by vendor
+      --with-records              print record count found with pagination info and return
 ```
 
 ### Options inherited from parent commands
