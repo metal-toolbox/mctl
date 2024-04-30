@@ -5,20 +5,22 @@ import (
 	"os"
 
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	rfleetdb "github.com/metal-toolbox/rivets/fleetdb"
+	"github.com/spf13/cobra"
 )
 
 type listComponentFlags struct {
-	slug    string
-	vendor  string
-	serial  string
-	model   string
-	records bool
-	limit   int
-	page    int
+	slug      string
+	vendor    string
+	serial    string
+	model     string
+	fwVersion string
+	health    string
+	records   bool
+	limit     int
+	page      int
 }
 
 var (
@@ -48,11 +50,23 @@ var listComponent = &cobra.Command{
 			Vendor:              flagsListComponent.vendor,
 			Serial:              flagsListComponent.serial,
 			Model:               flagsListComponent.model,
+
 			Pagination: &fleetdbapi.PaginationParams{
 				Limit:   flagsListComponent.limit,
 				Page:    flagsListComponent.page,
 				Preload: false,
 			},
+		}
+
+		if flagsListComponent.fwVersion != "" {
+			lp.VersionedAttributeListParams = []fleetdbapi.AttributeListParams{
+				{
+					Namespace: rfleetdb.FirmwareVersionOutofbandNS,
+					Keys:      []string{"firmware", "installed"},
+					Operator:  "like",
+					Value:     flagsListComponent.fwVersion,
+				},
+			}
 		}
 
 		components, res, err := client.ListComponents(ctx, lp)
@@ -90,6 +104,7 @@ func init() {
 	mctl.AddWithRecordsFlag(listComponent, &flagsListComponent.records)
 	mctl.AddSlugFlag(listComponent, &flagsListComponent.slug, "filter by component slug (nic/drive/bmc/bios...)")
 	mctl.AddVendorFlag(listComponent, &flagsListComponent.vendor)
+	mctl.AddFirmwareVersionFlag(listComponent, &flagsListComponent.fwVersion)
 	mctl.AddModelFlag(listComponent, &flagsListComponent.model)
 	mctl.AddPageFlag(listComponent, &flagsListComponent.page)
 	mctl.AddPageLimitFlag(listComponent, &flagsListComponent.limit)
