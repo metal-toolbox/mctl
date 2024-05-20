@@ -4,9 +4,9 @@ mctl is a CLI utility to interact with the metal-toolbox ecosystem of services.
 
 ### Getting started
 
-0. Install the latest available version using `go install github.com/metal-toolbox/mctl@latest`.
-1. Create a configuration file as `.mctl.yml`, for sample configuration files checkout [samples/mctl.yml](https://github.com/metal-toolbox/mctl/blob/main/samples).
-2. Export `MCTLCONFIG=~/.mctl.yml`.
+1. Install the latest available version using `go install github.com/metal-toolbox/mctl@latest`.  Please note the `mctl` binary will install in the `bin` directory of your `$GOPATH`.
+2. Create a configuration file as `.mctl.yml`, for sample configuration files checkout [samples/mctl.yml](https://github.com/metal-toolbox/mctl/blob/main/samples).
+3. Export `MCTLCONFIG=~/.mctl.yml`.
 
 ### Actions
 
