@@ -18,6 +18,7 @@ mctl is a CLI utility to interact with metal toolbox services
 * [mctl collect](mctl_collect.md)	 - Collect current server firmware status and bios configuration
 * [mctl completion](mctl_completion.md)	 - Generate the autocompletion script for the specified shell
 * [mctl create](mctl_create.md)	 - Create resources
+* [mctl curl](mctl_curl.md)	 - Make a curl request with your auth token
 * [mctl delete](mctl_delete.md)	 - Delete resources
 * [mctl edit](mctl_edit.md)	 - Edit resources
 * [mctl gendocs](mctl_gendocs.md)	 - Generate markdown docs for mctl CLI
