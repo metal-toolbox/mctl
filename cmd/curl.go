@@ -10,10 +10,8 @@ import (
 	"slices"
 	"syscall"
 
-	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/internal/auth"
 	"github.com/metal-toolbox/mctl/pkg/model"
-	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
 
@@ -47,7 +45,8 @@ func doCurl(ctx context.Context, _ model.APIKind, args []string) {
 
 	token, err := auth.AccessToken(ctx, model.FleetDBAPI, mctl.Config.FleetDBAPI, false)
 	if err != nil {
-		log.Fatal(errors.Wrap(app.ErrAuth, string(model.FleetDBAPI)+err.Error()))
+		// nolint:gocritic // its fine if the ctx is not cleaned up we're exiting the app.
+		log.Fatal("auth token error: " + err.Error())
 	}
 
 	binary, lookErr := exec.LookPath("curl")
