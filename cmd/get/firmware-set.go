@@ -95,7 +95,7 @@ func firmwareSetForServer(ctx context.Context, client *fleetdbapi.Client, server
 	}
 
 	// identify firmware set by vendor, model attributes
-	fwSet, err := mctl.FirmwareSetByVendorModel(ctx, vendor, model, client)
+	fwSet, err := mctl.FirmwareSetByVendorModel(ctx, vendor, model, nil, client)
 	if err != nil {
 		return nil, err
 	}

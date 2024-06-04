@@ -90,7 +90,7 @@ func VendorModelFromAttrs(attrs []fleetdbapi.Attributes) (vendor, model string) 
 //
 // TODO: move into common library
 func FirmwareSetIDByVendorModel(ctx context.Context, vendor, model string, client *fleetdbapi.Client) (uuid.UUID, error) {
-	fwSet, err := FirmwareSetByVendorModel(ctx, vendor, model, client)
+	fwSet, err := FirmwareSetByVendorModel(ctx, vendor, model, nil, client)
 	if err != nil {
 		return uuid.Nil, err
 	}
@@ -108,7 +108,7 @@ func FirmwareSetIDByVendorModel(ctx context.Context, vendor, model string, clien
 // FirmwareSetByVendorModel returns the firmware set matched by the vendor, model attributes
 //
 // TODO: move into common library
-func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, client *fleetdbapi.Client) ([]fleetdbapi.ComponentFirmwareSet, error) {
+func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, labels map[string]string, client *fleetdbapi.Client) ([]fleetdbapi.ComponentFirmwareSet, error) {
 	vendor = strings.TrimSpace(vendor)
 	if vendor == "" {
 		return []fleetdbapi.ComponentFirmwareSet{}, errors.Wrap(
@@ -125,35 +125,50 @@ func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, client 
 		)
 	}
 
-	// ?attr=sh.hollow.firmware_set.labels~vendor~eq~dell&attr=sh.hollow.firmware_set.labels~model~eq~r750&attr=sh.hollow.firmware_set.labels~latest~eq~false
-	// list latest, default firmware sets by vendor, model attributes
-	fwSetListparams := &fleetdbapi.ComponentFirmwareSetListParams{
-		AttributeListParams: []fleetdbapi.AttributeListParams{
-			{
-				Namespace: FirmwareSetAttributeNS,
-				Keys:      []string{"vendor"},
-				Operator:  "eq",
-				Value:     strings.ToLower(vendor),
+	var fwSetListparams *fleetdbapi.ComponentFirmwareSetListParams
+	if len(labels) > 0 {
+		var labelParts []string
+		for key, value := range labels {
+			labelParts = append(labelParts, fmt.Sprintf("%s=%s", key, value))
+		}
+		labelsParams := strings.Join(labelParts, ",")
+		// labels select requires len(AttributeListParams) = 0
+		fwSetListparams = &fleetdbapi.ComponentFirmwareSetListParams{
+			Model:  model,
+			Vendor: vendor,
+			Labels: labelsParams,
+		}
+	} else {
+		// ?attr=sh.hollow.firmware_set.labels~vendor~eq~dell&attr=sh.hollow.firmware_set.labels~model~eq~r750&attr=sh.hollow.firmware_set.labels~latest~eq~false
+		// list latest, default firmware sets by vendor, model attributes
+		fwSetListparams = &fleetdbapi.ComponentFirmwareSetListParams{
+			AttributeListParams: []fleetdbapi.AttributeListParams{
+				{
+					Namespace: FirmwareSetAttributeNS,
+					Keys:      []string{"vendor"},
+					Operator:  "eq",
+					Value:     strings.ToLower(vendor),
+				},
+				{
+					Namespace: FirmwareSetAttributeNS,
+					Keys:      []string{"model"},
+					Operator:  "like",
+					Value:     strings.ToLower(model),
+				},
+				{
+					Namespace: FirmwareSetAttributeNS,
+					Keys:      []string{"latest"}, // latest indicates the most current revision of the firmware set.
+					Operator:  "eq",
+					Value:     "true",
+				},
+				{
+					Namespace: FirmwareSetAttributeNS,
+					Keys:      []string{"default"}, // default indicates the firmware set does not belong to an org/project.
+					Operator:  "eq",
+					Value:     "true",
+				},
 			},
-			{
-				Namespace: FirmwareSetAttributeNS,
-				Keys:      []string{"model"},
-				Operator:  "like",
-				Value:     strings.ToLower(model),
-			},
-			{
-				Namespace: FirmwareSetAttributeNS,
-				Keys:      []string{"latest"}, // latest indicates the most current revision of the firmware set.
-				Operator:  "eq",
-				Value:     "true",
-			},
-			{
-				Namespace: FirmwareSetAttributeNS,
-				Keys:      []string{"default"}, // default indicates the firmware set does not belong to an org/project.
-				Operator:  "eq",
-				Value:     "true",
-			},
-		},
+		}
 	}
 
 	fwSet, _, err := client.ListServerComponentFirmwareSet(ctx, fwSetListparams)

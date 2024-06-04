@@ -17,6 +17,7 @@ import (
 type listFirmwareSetFlags struct {
 	vendor string
 	model  string
+	labels map[string]string
 }
 
 var (
@@ -38,7 +39,7 @@ var listFirmwareSet = &cobra.Command{
 		var fwSet []fleetdbapi.ComponentFirmwareSet
 
 		if flagsDefinedListFwSet.vendor != "" || flagsDefinedListFwSet.model != "" {
-			fwSet, err = mctl.FirmwareSetByVendorModel(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, client)
+			fwSet, err = mctl.FirmwareSetByVendorModel(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, flagsDefinedListFwSet.labels, client)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -80,4 +81,5 @@ func init() {
 
 	mctl.AddModelFlag(listFirmwareSet, &flagsDefinedListFwSet.model)
 	mctl.AddVendorFlag(listFirmwareSet, &flagsDefinedListFwSet.vendor)
+	mctl.AddLabelsFlag(listFirmwareSet, &flagsDefinedListFwSet.labels, "Labels to from the firmware set - 'foo=bar,foo2=bar2'")
 }
