@@ -56,7 +56,7 @@ func AttributeFromLabels(ns string, labels map[string]string) (*fleetdbapi.Attri
 	}, nil
 }
 
-// AttributeByNamespace returns the serverservice attribute in the slice that matches the namespace
+// AttributeByNamespace returns the fleetdb attribute in the slice that matches the namespace
 //
 // TODO: move into common library and share with Alloy
 func AttributeByNamespace(ns string, attributes []fleetdbapi.Attributes) *fleetdbapi.Attributes {

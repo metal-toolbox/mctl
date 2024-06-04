@@ -42,6 +42,7 @@ var (
 	MacBMCFlag                        = &flagDetails{name: "bmc-mac"}
 	OutputFlag                        = &flagDetails{name: "output", short: "o"}
 	ForceFlag                         = &flagDetails{name: "force"}
+	PreLoadFlag                       = &flagDetails{name: "preload"}
 	DryRunFlag                        = &flagDetails{name: "dry-run"}
 	SkipBmcResetFlag                  = &flagDetails{name: "skip-bmc-reset"}
 	PowerOffRequiredFlag              = &flagDetails{name: "power-off-required"}
@@ -224,6 +225,10 @@ func AddOutputFlag(cmd *cobra.Command, ptr *string) {
 	*ptr = OutputTypeJSON.String() // default value
 	outputFlag := (*outputType)(ptr)
 	cmd.PersistentFlags().VarP(outputFlag, OutputFlag.name, OutputFlag.short, "{json|text}")
+}
+
+func AddPreLoadFlag(cmd *cobra.Command, ptr *bool) {
+	cmd.PersistentFlags().BoolVar(ptr, PreLoadFlag.name, false, "set to true in order to also load sub items. Example: Listing servers with preload will also load their components, attributes, and versioned attributes")
 }
 
 func AddForceFlag(cmd *cobra.Command, ptr *bool, usage string) {
