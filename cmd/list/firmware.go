@@ -43,8 +43,9 @@ var listFirmware = &cobra.Command{
 		}
 
 		filterParams := fleetdbapi.ComponentFirmwareVersionListParams{
-			Vendor:  strings.ToLower(flagsDefinedListFirmware.vendor),
-			Version: flagsDefinedListFirmware.version,
+			Vendor:    strings.ToLower(flagsDefinedListFirmware.vendor),
+			Version:   flagsDefinedListFirmware.version,
+			Component: flagsDefinedListFirmware.component,
 			Pagination: &fleetdbapi.PaginationParams{
 				Limit: flagsDefinedListFirmware.limit,
 				Page:  flagsDefinedListFirmware.page,
@@ -59,20 +60,13 @@ var listFirmware = &cobra.Command{
 			filterParams.Model = []string{strings.ToLower(flagsDefinedListFirmware.model)}
 		}
 
+		if flagsDefinedListFirmware.component != "" {
+			filterParams.Component = strings.ToLower(flagsDefinedListFirmware.component)
+		}
+
 		firmware, _, err := client.ListServerComponentFirmware(ctx, &filterParams)
 		if err != nil {
 			log.Fatal("fleetdb API client returned error: ", err)
-		}
-
-		// the built in filter only filters out vendor, model, and version, will have to filter out the other columns manually
-		if flagsDefinedListFirmware.component != "" {
-			filteredFirmware := make([]fleetdbapi.ComponentFirmwareVersion, 0)
-			for _, f := range firmware {
-				if f.Component == flagsDefinedListFirmware.component {
-					filteredFirmware = append(filteredFirmware, f)
-				}
-			}
-			firmware = filteredFirmware
 		}
 
 		if output == mctl.OutputTypeJSON.String() {
