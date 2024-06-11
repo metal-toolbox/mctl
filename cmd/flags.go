@@ -65,9 +65,7 @@ var (
 	OutputTypeText outputType = "text"
 )
 
-var (
-	errOutputType = errors.New("unsupported output type")
-)
+var errOutputType = errors.New("unsupported output type")
 
 type outputType string
 

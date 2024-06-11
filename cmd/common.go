@@ -8,17 +8,16 @@ import (
 	"strings"
 	"time"
 
+	bmclibcomm "github.com/bmc-toolbox/common"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/google/uuid"
-	"github.com/metal-toolbox/mctl/internal/app"
-	"github.com/pkg/errors"
-	"golang.org/x/net/context"
-
-	bmclibcomm "github.com/bmc-toolbox/common"
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
+	"github.com/metal-toolbox/mctl/internal/app"
 	rctypes "github.com/metal-toolbox/rivets/condition"
 	rt "github.com/metal-toolbox/rivets/types"
+	"github.com/pkg/errors"
+	"golang.org/x/net/context"
 )
 
 var (
@@ -265,7 +264,7 @@ func FormatConditionResponse(response *coapiv1.ServerResponse, kind rctypes.Kind
 func PrintResults(format string, data ...any) {
 	switch format {
 	case "text":
-		spew.Dump(data)
+		spew.Dump(data...)
 	case "json", "JSON":
 		b, err := json.MarshalIndent(data, "", "  ")
 		if err != nil {

@@ -28,9 +28,7 @@ type listServerFlags struct {
 	page      int
 }
 
-var (
-	flagsListServer *listServerFlags
-)
+var flagsListServer *listServerFlags
 
 // List
 var cmdListServer = &cobra.Command{

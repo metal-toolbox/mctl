@@ -2,7 +2,6 @@ package edit
 
 import (
 	"github.com/metal-toolbox/mctl/cmd"
-
 	"github.com/spf13/cobra"
 )
 

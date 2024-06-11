@@ -4,10 +4,9 @@ import (
 	"log"
 
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/spf13/cobra"
 )
 
 type getBomInfoByBmcMacAddressFlags struct {
@@ -23,9 +22,7 @@ func (gb *getBomInfoByBmcMacAddressFlags) hasBMCMacAddr() bool {
 	return gb.bmcMacAddr != ""
 }
 
-var (
-	flagsGetBomByMacAddress *getBomInfoByBmcMacAddressFlags
-)
+var flagsGetBomByMacAddress *getBomInfoByBmcMacAddressFlags
 
 var getBomInfoByMacAddress = &cobra.Command{
 	Use:   "bom",

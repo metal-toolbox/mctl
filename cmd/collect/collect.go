@@ -1,9 +1,8 @@
 package collect
 
 import (
-	"github.com/spf13/cobra"
-
 	"github.com/metal-toolbox/mctl/cmd"
+	"github.com/spf13/cobra"
 )
 
 var collect = &cobra.Command{

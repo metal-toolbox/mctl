@@ -9,11 +9,10 @@ import (
 
 	"github.com/google/uuid"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	"github.com/pkg/errors"
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/pkg/errors"
+	"github.com/spf13/cobra"
 )
 
 type getFirmwareSetFlags struct {
@@ -21,9 +20,7 @@ type getFirmwareSetFlags struct {
 	serverID string
 }
 
-var (
-	flagsDefinedGetFirmwareSet *getFirmwareSetFlags
-)
+var flagsDefinedGetFirmwareSet *getFirmwareSetFlags
 
 // Get firmware set
 var getFirmwareSet = &cobra.Command{

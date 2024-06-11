@@ -22,9 +22,7 @@ type listComponentFlags struct {
 	page      int
 }
 
-var (
-	flagsListComponent *listComponentFlags
-)
+var flagsListComponent *listComponentFlags
 
 // List
 var listComponent = &cobra.Command{

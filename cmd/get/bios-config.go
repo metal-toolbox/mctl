@@ -8,19 +8,16 @@ import (
 
 	"github.com/google/uuid"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/spf13/cobra"
 )
 
 type getBiosConfigFlags struct {
 	serverID string
 }
 
-var (
-	flagsDefinedGetBiosConfig *getBiosConfigFlags
-)
+var flagsDefinedGetBiosConfig *getBiosConfigFlags
 
 // Get BIOS configuration
 var getBiosConfig = &cobra.Command{
