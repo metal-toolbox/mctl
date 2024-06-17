@@ -12,6 +12,7 @@ import (
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/pkg/model"
+	rfleetdb "github.com/metal-toolbox/rivets/fleetdb"
 )
 
 type listFirmwareSetFlags struct {
@@ -39,7 +40,7 @@ var listFirmwareSet = &cobra.Command{
 		var fwSet []fleetdbapi.ComponentFirmwareSet
 
 		if flagsDefinedListFwSet.vendor != "" || flagsDefinedListFwSet.model != "" {
-			fwSet, err = mctl.FirmwareSetByVendorModel(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, flagsDefinedListFwSet.labels, client)
+			fwSet, err = rfleetdb.FirmwareSetByLabels(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, flagsDefinedListFwSet.labels, client)
 			if err != nil {
 				log.Fatal(err)
 			}
