@@ -25,6 +25,19 @@ var (
 	flagsDefinedListFwSet *listFirmwareSetFlags
 )
 
+func sendListFirmwareRequest(client *fleetdbapi.Client, cmd *cobra.Command) ([]fleetdbapi.ComponentFirmwareSet, error) {
+	if flagsDefinedListFwSet.vendor == "" && flagsDefinedListFwSet.model == "" {
+		fwSet, _, err := client.ListServerComponentFirmwareSet(cmd.Context(), &fleetdbapi.ComponentFirmwareSetListParams{})
+		return fwSet, err
+	}
+
+	if len(flagsDefinedListFwSet.labels) != 0 {
+		return rfleetdb.FirmwareSetByLabels(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, flagsDefinedListFwSet.labels, client)
+	}
+
+	return rfleetdb.FirmwareSetByVendorModel(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, client)
+}
+
 // List
 var listFirmwareSet = &cobra.Command{
 	Use:   "firmware-set",
@@ -37,18 +50,9 @@ var listFirmwareSet = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		var fwSet []fleetdbapi.ComponentFirmwareSet
-
-		if flagsDefinedListFwSet.vendor != "" || flagsDefinedListFwSet.model != "" {
-			fwSet, err = rfleetdb.FirmwareSetByLabels(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, flagsDefinedListFwSet.labels, client)
-			if err != nil {
-				log.Fatal(err)
-			}
-		} else {
-			fwSet, _, err = client.ListServerComponentFirmwareSet(cmd.Context(), &fleetdbapi.ComponentFirmwareSetListParams{})
-			if err != nil {
-				log.Fatal(err)
-			}
+		fwSet, err := sendListFirmwareRequest(client, cmd)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 		if output == mctl.OutputTypeJSON.String() {
