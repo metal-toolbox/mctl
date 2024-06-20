@@ -551,10 +551,10 @@ github.com/metal-toolbox/bomservice v0.1.5 h1:1QxDox9hiqxdv2uxEdOEoLBkA/IgvS2BBQ
 github.com/metal-toolbox/bomservice v0.1.5/go.mod h1:jS7IDe24FrNWmf7fRu5LmGjMBVNXxg8thctMy+a2i6Q=
 github.com/metal-toolbox/conditionorc v1.0.6 h1:SsFgAJdYaWbuJ12c9vuRlJxYfkx/AbRRCVcJpOS4njk=
 github.com/metal-toolbox/conditionorc v1.0.6/go.mod h1:KAzZINJE58V49+DsYAZ2mgFFGUJVNVPqyz20dZi4gu8=
-github.com/metal-toolbox/fleetdb v1.18.3 h1:vD7uaps4CEysAf0IMyujGiFHe6r3a5Zbt5bKhNjsWD8=
-github.com/metal-toolbox/fleetdb v1.18.3/go.mod h1:RRQt0MZQApuQKp4gUrE+ZwPVqvI6qhMbpakGBlxPJZc=
-github.com/metal-toolbox/rivets v1.0.4 h1:BFvlYWsN+5Zb2JS+oJJBDtaQ94M5x2Llf6kmwi+Byjo=
-github.com/metal-toolbox/rivets v1.0.4/go.mod h1:EMQJRT1mjIyFRXxvKNaBlz7Z4Sp88rTaGO8W18olN2I=
+github.com/metal-toolbox/fleetdb v1.18.5 h1:xFY6SzThdPMWtTnb8cNE0Dpa+kCMFcZdM72MITW530g=
+github.com/metal-toolbox/fleetdb v1.18.5/go.mod h1:RRQt0MZQApuQKp4gUrE+ZwPVqvI6qhMbpakGBlxPJZc=
+github.com/metal-toolbox/rivets v1.0.5 h1:PIOT8OPoNMVeSRIbjZUMuDqZD+nHdiXwgIDjWV330m8=
+github.com/metal-toolbox/rivets v1.0.5/go.mod h1:JBbPEDevQkQmNHNGi4zalTjqTTMs0/0/xCtx1EKe10c=
 github.com/microsoft/go-mssqldb v0.17.0/go.mod h1:OkoNGhGEs8EZqchVTtochlXruEhEOaO4S0d2sB5aeGQ=
 github.com/miekg/dns v1.1.26/go.mod h1:bPDLeHnStXmXAq1m/Ch/hvfNHr14JKNPMBo3VZKjuso=
 github.com/miekg/dns v1.1.41/go.mod h1:p6aan82bvRIyn+zDIv9xYNUpwa73JcSh9BKwknJysuI=

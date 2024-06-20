@@ -11,9 +11,10 @@ mctl list firmware-set [flags]
 ### Options
 
 ```
-  -h, --help            help for firmware-set
-  -m, --model string    filter by model
-  -v, --vendor string   filter by vendor
+  -h, --help                    help for firmware-set
+  -l, --labels stringToString   Labels to from the firmware set - 'foo=bar,foo2=bar2' (default [])
+  -m, --model string            filter by model
+  -v, --vendor string           filter by vendor
 ```
 
 ### Options inherited from parent commands

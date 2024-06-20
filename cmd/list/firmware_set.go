@@ -12,16 +12,31 @@ import (
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/pkg/model"
+	rfleetdb "github.com/metal-toolbox/rivets/fleetdb"
 )
 
 type listFirmwareSetFlags struct {
 	vendor string
 	model  string
+	labels map[string]string
 }
 
 var (
 	flagsDefinedListFwSet *listFirmwareSetFlags
 )
+
+func sendListFirmwareRequest(client *fleetdbapi.Client, cmd *cobra.Command) ([]fleetdbapi.ComponentFirmwareSet, error) {
+	if flagsDefinedListFwSet.vendor == "" && flagsDefinedListFwSet.model == "" {
+		fwSet, _, err := client.ListServerComponentFirmwareSet(cmd.Context(), &fleetdbapi.ComponentFirmwareSetListParams{})
+		return fwSet, err
+	}
+
+	if len(flagsDefinedListFwSet.labels) != 0 {
+		return rfleetdb.FirmwareSetByLabels(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, flagsDefinedListFwSet.labels, client)
+	}
+
+	return rfleetdb.FirmwareSetByVendorModel(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, client)
+}
 
 // List
 var listFirmwareSet = &cobra.Command{
@@ -35,18 +50,9 @@ var listFirmwareSet = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		var fwSet []fleetdbapi.ComponentFirmwareSet
-
-		if flagsDefinedListFwSet.vendor != "" || flagsDefinedListFwSet.model != "" {
-			fwSet, err = mctl.FirmwareSetByVendorModel(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, client)
-			if err != nil {
-				log.Fatal(err)
-			}
-		} else {
-			fwSet, _, err = client.ListServerComponentFirmwareSet(cmd.Context(), &fleetdbapi.ComponentFirmwareSetListParams{})
-			if err != nil {
-				log.Fatal(err)
-			}
+		fwSet, err := sendListFirmwareRequest(client, cmd)
+		if err != nil {
+			log.Fatal(err)
 		}
 
 		if output == mctl.OutputTypeJSON.String() {
@@ -80,4 +86,5 @@ func init() {
 
 	mctl.AddModelFlag(listFirmwareSet, &flagsDefinedListFwSet.model)
 	mctl.AddVendorFlag(listFirmwareSet, &flagsDefinedListFwSet.vendor)
+	mctl.AddLabelsFlag(listFirmwareSet, &flagsDefinedListFwSet.labels, "Labels to from the firmware set - 'foo=bar,foo2=bar2'")
 }

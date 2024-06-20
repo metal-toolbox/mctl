@@ -14,6 +14,7 @@ import (
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	rfleetdb "github.com/metal-toolbox/rivets/fleetdb"
 )
 
 type getFirmwareSetFlags struct {
@@ -95,7 +96,7 @@ func firmwareSetForServer(ctx context.Context, client *fleetdbapi.Client, server
 	}
 
 	// identify firmware set by vendor, model attributes
-	fwSet, err := mctl.FirmwareSetByVendorModel(ctx, vendor, model, client)
+	fwSet, err := rfleetdb.FirmwareSetByVendorModel(ctx, vendor, model, client)
 	if err != nil {
 		return nil, err
 	}

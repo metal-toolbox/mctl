@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
@@ -18,6 +17,7 @@ import (
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	rctypes "github.com/metal-toolbox/rivets/condition"
+	rfleetdb "github.com/metal-toolbox/rivets/fleetdb"
 	rt "github.com/metal-toolbox/rivets/types"
 )
 
@@ -90,7 +90,7 @@ func VendorModelFromAttrs(attrs []fleetdbapi.Attributes) (vendor, model string) 
 //
 // TODO: move into common library
 func FirmwareSetIDByVendorModel(ctx context.Context, vendor, model string, client *fleetdbapi.Client) (uuid.UUID, error) {
-	fwSet, err := FirmwareSetByVendorModel(ctx, vendor, model, client)
+	fwSet, err := rfleetdb.FirmwareSetByVendorModel(ctx, vendor, model, client)
 	if err != nil {
 		return uuid.Nil, err
 	}
@@ -103,72 +103,6 @@ func FirmwareSetIDByVendorModel(ctx context.Context, vendor, model string, clien
 	)
 
 	return fwSet[0].UUID, nil
-}
-
-// FirmwareSetByVendorModel returns the firmware set matched by the vendor, model attributes
-//
-// TODO: move into common library
-func FirmwareSetByVendorModel(ctx context.Context, vendor, model string, client *fleetdbapi.Client) ([]fleetdbapi.ComponentFirmwareSet, error) {
-	vendor = strings.TrimSpace(vendor)
-	if vendor == "" {
-		return []fleetdbapi.ComponentFirmwareSet{}, errors.Wrap(
-			ErrFwSetByVendorModel,
-			"got empty vendor attribute",
-		)
-	}
-
-	model = strings.TrimSpace(model)
-	if model == "" {
-		return []fleetdbapi.ComponentFirmwareSet{}, errors.Wrap(
-			ErrFwSetByVendorModel,
-			"got empty model attribute",
-		)
-	}
-
-	// ?attr=sh.hollow.firmware_set.labels~vendor~eq~dell&attr=sh.hollow.firmware_set.labels~model~eq~r750&attr=sh.hollow.firmware_set.labels~latest~eq~false
-	// list latest, default firmware sets by vendor, model attributes
-	fwSetListparams := &fleetdbapi.ComponentFirmwareSetListParams{
-		AttributeListParams: []fleetdbapi.AttributeListParams{
-			{
-				Namespace: FirmwareSetAttributeNS,
-				Keys:      []string{"vendor"},
-				Operator:  "eq",
-				Value:     strings.ToLower(vendor),
-			},
-			{
-				Namespace: FirmwareSetAttributeNS,
-				Keys:      []string{"model"},
-				Operator:  "like",
-				Value:     strings.ToLower(model),
-			},
-			{
-				Namespace: FirmwareSetAttributeNS,
-				Keys:      []string{"latest"}, // latest indicates the most current revision of the firmware set.
-				Operator:  "eq",
-				Value:     "true",
-			},
-			{
-				Namespace: FirmwareSetAttributeNS,
-				Keys:      []string{"default"}, // default indicates the firmware set does not belong to an org/project.
-				Operator:  "eq",
-				Value:     "true",
-			},
-		},
-	}
-
-	fwSet, _, err := client.ListServerComponentFirmwareSet(ctx, fwSetListparams)
-	if err != nil {
-		return []fleetdbapi.ComponentFirmwareSet{}, errors.Wrap(ErrFwSetByVendorModel, err.Error())
-	}
-
-	if len(fwSet) == 0 {
-		return []fleetdbapi.ComponentFirmwareSet{}, errors.Wrap(
-			ErrFwSetByVendorModel,
-			fmt.Sprintf("no fw sets identified for vendor: %s, model: %s", vendor, model),
-		)
-	}
-
-	return fwSet, nil
 }
 
 type ErrUnexpectedResponse struct {
