@@ -57,7 +57,7 @@ var cmdListServer = &cobra.Command{
 				PaginationParams{
 				Limit:   flagsListServer.limit,
 				Page:    flagsListServer.page,
-				Preload: preload,
+				Preload: false,
 				OrderBy: "",
 			},
 		}

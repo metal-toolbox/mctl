@@ -13,7 +13,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/metal-toolbox/bomservice v0.1.5
 	github.com/metal-toolbox/conditionorc v1.0.6
-	github.com/metal-toolbox/fleetdb v1.18.5
+	github.com/metal-toolbox/fleetdb v1.18.6-0.20240617210817-833f87cf7c69
 	github.com/metal-toolbox/rivets v1.0.5
 	github.com/nirasan/go-oauth-pkce-code-verifier v0.0.0-20220510032225-4f9f17eaec4c
 	github.com/olekukonko/tablewriter v0.0.5

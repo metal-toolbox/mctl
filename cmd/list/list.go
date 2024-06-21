@@ -7,8 +7,7 @@ import (
 )
 
 var (
-	output  string
-	preload bool
+	output string
 )
 
 var list = &cobra.Command{
@@ -27,5 +26,4 @@ func init() {
 	list.AddCommand(cmdListServer)
 
 	cmd.AddOutputFlag(list, &output)
-	cmd.AddPreLoadFlag(list, &preload)
 }
