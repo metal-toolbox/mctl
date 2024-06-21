@@ -26,7 +26,6 @@ mctl list component --slug SLUG [flags]
 ```
   -c, --config string       config file (default is $XDG_CONFIG_HOME/mctl/config.yml)
   -o, --output outputType   {json|text} (default json)
-      --preload             set to true in order to also load sub items. Example: Listing servers with preload will also load their components, attributes, and versioned attributes
       --reauth              re-authenticate with oauth services
 ```
 
