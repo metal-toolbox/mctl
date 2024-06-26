@@ -27,6 +27,7 @@ import (
 	_ "github.com/metal-toolbox/mctl/cmd/install"
 	_ "github.com/metal-toolbox/mctl/cmd/list"
 	_ "github.com/metal-toolbox/mctl/cmd/power"
+	_ "github.com/metal-toolbox/mctl/cmd/parse"
 )
 
 func main() {
