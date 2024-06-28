@@ -283,6 +283,29 @@ func (c *authClient) handlePKCECallback(ctx context.Context, w http.ResponseWrit
 		tc <- nil
 	}
 
-	w.Write([]byte("Success. You can now close this window.")) //nolint
+	w.Write(successHTML()) //nolint
 	tc <- token
+}
+
+func successHTML() []byte {
+	return []byte(`
+	<div class="info"><p>Auth success, you may close this page.</p></div>
+	<div class="auto"></div>
+
+	<script>
+	let auto = document.querySelector('.auto');
+	var timeout = 5;
+	setTimeout(function() { this.close(); }, timeout*1000);
+	var id = setInterval(function() {
+		if (timeout < 1) {
+			clearInterval(id);
+			auto.innerHTML = "Unable to close page automatically";
+			return;
+		}
+
+		timeout--;
+		auto.innerHTML = "This page will close automatically in " + timeout + " seconds...";
+	}, 1000);
+	</script>
+`)
 }
