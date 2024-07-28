@@ -14,7 +14,7 @@ require (
 	github.com/metal-toolbox/bomservice v0.1.5
 	github.com/metal-toolbox/conditionorc v1.0.8
 	github.com/metal-toolbox/fleetdb v1.18.6
-	github.com/metal-toolbox/rivets v1.0.7
+	github.com/metal-toolbox/rivets v1.2.0
 	github.com/nirasan/go-oauth-pkce-code-verifier v0.0.0-20220510032225-4f9f17eaec4c
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/pkg/errors v0.9.1
