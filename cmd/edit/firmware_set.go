@@ -30,7 +30,7 @@ var editFirmwareSet = &cobra.Command{
 
 		id, err := uuid.Parse(editFWSetFlags.ID)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalf("invalid set-id: %s, error: %s", editFWSetFlags.ID, err.Error())
 		}
 
 		payload := fleetdbapi.ComponentFirmwareSetRequest{
@@ -98,7 +98,7 @@ var editFirmwareSet = &cobra.Command{
 
 func init() {
 	mctl.AddFirmwareSetFlag(editFirmwareSet, &editFWSetFlags.ID)
-	mctl.AddNameFlag(editFirmwareSet, &editFWSetFlags.ID, "New name of the firmware set")
+	mctl.AddNameFlag(editFirmwareSet, &editFWSetFlags.FirmwareSetName, "New name of the firmware set")
 	mctl.AddLabelsFlag(editFirmwareSet, &editFWSetFlags.Labels,
 		"Labels to assign to the firmware set - 'vendor=foo,model=bar'")
 	mctl.AddFirmwareAddIDsFlag(editFirmwareSet, &editFWSetFlags.AddFirmwareUUIDs)
