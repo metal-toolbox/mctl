@@ -2,7 +2,7 @@
 
 ## mctl power
 
-Execute server/bmc power, set next-boot commands: [on|off|cycle|reset|soft|status|bmc-reset]
+Execute server/bmc power, set next-boot commands: [on|off|cycle|reset|soft|status|bmc-reset|boot-pxe-persistent]
 
 ```
 mctl power -s SERVER [flags]
@@ -11,7 +11,7 @@ mctl power -s SERVER [flags]
 ### Options
 
 ```
-      --action string   run a server power action [on|off|cycle|reset|soft|status|bmc-reset]
+      --action string   run a server power action [on|off|cycle|reset|soft|status|bmc-reset|boot-pxe-persistent]
       --action-status   Query the last power action status/response
   -h, --help            help for power
   -s, --server string   [required] ID of the server
