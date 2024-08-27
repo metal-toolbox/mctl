@@ -47,6 +47,8 @@ var (
 		"soft",
 		"status",
 		"bmc-reset",
+		// set PXE boot persistent and power on/cycle the server
+		"boot-pxe-persistent",
 	}
 
 	errInvalidAction = errors.New("invalid power action requested")
@@ -124,6 +126,7 @@ func paramsFromFlags(f *powerActionFlags) (*rctypes.ServerControlTaskParameters,
 
 	var action rctypes.ServerControlAction
 
+	var bootDevicePersistent, efiBoot bool
 	switch actionParam {
 	case "on", "off", "cycle", "reset", "soft":
 		action = rctypes.SetPowerState
@@ -131,14 +134,18 @@ func paramsFromFlags(f *powerActionFlags) (*rctypes.ServerControlTaskParameters,
 		action = rctypes.PowerCycleBMC
 	case "status":
 		action = rctypes.GetPowerState
+	case "boot-pxe-persistent":
+		action = rctypes.PxeBootPersistent
+		bootDevicePersistent = true
+		efiBoot = true
 	}
 
 	return rctypes.NewServerControlTaskParameters(
 		uuid.MustParse(f.serverID),
 		action,
 		actionParam,
-		false,
-		false,
+		bootDevicePersistent,
+		efiBoot,
 	), nil
 }
 
