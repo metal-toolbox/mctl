@@ -4,7 +4,7 @@ import (
 	"context"
 
 	bomclient "github.com/metal-toolbox/bomservice/pkg/api/v1/client"
-	co "github.com/metal-toolbox/conditionorc/pkg/api/v1/client"
+	co "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/client"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	"github.com/metal-toolbox/mctl/internal/auth"
 	"github.com/metal-toolbox/mctl/pkg/model"

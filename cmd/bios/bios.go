@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/google/uuid"
-	"github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
+	"github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/types"
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	rctypes "github.com/metal-toolbox/rivets/condition"
 	"github.com/spf13/cobra"
