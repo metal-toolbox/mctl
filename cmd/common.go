@@ -117,7 +117,7 @@ func (e *ErrUnexpectedResponse) Error() string {
 		s += " response message: " + e.message
 	}
 
-	return fmt.Sprintf("Unexpected response from Conditions API " + s)
+	return "Unexpected response from Conditions API " + s
 }
 
 func newErrUnexpectedResponse(statusCode int, message string) error {

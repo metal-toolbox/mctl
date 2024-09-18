@@ -89,7 +89,7 @@ func createFWSetsFromFile(ctx context.Context, client *fleetdbapi.Client, flgs *
 				continue
 			}
 
-			log.Printf("Adding firmware object: " + fw.UUID.String())
+			log.Printf("Adding firmware object: %s", fw.UUID.String())
 			_, _, err = client.CreateServerComponentFirmware(ctx, fw)
 			if err != nil {
 				log.Fatal("error adding firmware object: ", err)
@@ -98,7 +98,7 @@ func createFWSetsFromFile(ctx context.Context, client *fleetdbapi.Client, flgs *
 			firmwareAdded[fw.UUID.String()] = true
 		}
 
-		log.Printf("Adding firmware-set object: " + set.UUID.String())
+		log.Printf("Adding firmware-set object: %s", set.UUID.String())
 		req := fleetdbapi.ComponentFirmwareSetRequest{
 			ID:                     set.UUID,
 			Attributes:             set.Attributes,
