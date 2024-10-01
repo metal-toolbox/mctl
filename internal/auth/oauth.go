@@ -10,13 +10,13 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/coreos/go-oidc"
+	"github.com/coreos/go-oidc/v3/oidc"
 	"github.com/metal-toolbox/mctl/pkg/model"
 	cv "github.com/nirasan/go-oauth-pkce-code-verifier"
 	"github.com/skratchdot/open-golang/open"
 	"github.com/zalando/go-keyring"
 	"golang.org/x/oauth2"
-	"gopkg.in/square/go-jose.v2/jwt"
+	"gopkg.in/go-jose/go-jose.v2/jwt"
 )
 
 // The oauth, pkce handling code here was adapted for mctl from an internal project.
