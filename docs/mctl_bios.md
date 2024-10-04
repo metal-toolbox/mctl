@@ -21,5 +21,6 @@ Manage BIOS settings
 
 * [mctl](mctl.md)	 - mctl is a CLI utility to interact with metal toolbox services
 * [mctl bios reset](mctl_bios_reset.md)	 - Reset BIOS settings to default values
+* [mctl bios set](mctl_bios_set.md)	 - Set BIOS settings to something else
 * [mctl bios status](mctl_bios_status.md)	 - Get condition status of server
 

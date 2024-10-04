@@ -3,6 +3,7 @@ package bios
 import (
 	"context"
 	"log"
+	"net/url"
 
 	"github.com/google/uuid"
 	mctl "github.com/metal-toolbox/mctl/cmd"
@@ -16,7 +17,8 @@ var (
 )
 
 type biosActionFlags struct {
-	serverID string
+	serverID      string
+	biosConfigURL string
 }
 
 func CreateBiosControlCondition(ctx context.Context, action rctypes.BiosControlAction) error {
@@ -27,12 +29,24 @@ func CreateBiosControlCondition(ctx context.Context, action rctypes.BiosControlA
 		return err
 	}
 
-	serverID, err := biosFlags.ParseServerID()
+	serverID, err := uuid.Parse(biosFlags.serverID)
 	if err != nil {
 		return err
 	}
 
-	params := rctypes.NewBiosControlTaskParameters(serverID, action)
+	var biosURL *url.URL
+	if action == rctypes.SetConfig {
+		if biosFlags.biosConfigURL != "" {
+			biosURL, err = url.Parse(biosFlags.biosConfigURL)
+			if err != nil {
+				return err
+			}
+		} else {
+			log.Fatal("failed to get biosConfigURL for `mctl bios set`, yet is a required option")
+		}
+	}
+
+	params := rctypes.NewBiosControlTaskParameters(serverID, action, biosURL)
 
 	response, err := client.ServerBiosControl(ctx, params)
 	if err != nil {
@@ -47,10 +61,6 @@ func CreateBiosControlCondition(ctx context.Context, action rctypes.BiosControlA
 	log.Printf("status=%d msg=%s conditionID=%s", response.StatusCode, response.Message, conditionResp.ID)
 
 	return err
-}
-
-func (f *biosActionFlags) ParseServerID() (uuid.UUID, error) {
-	return uuid.Parse(f.serverID)
 }
 
 var biosCmd = &cobra.Command{
