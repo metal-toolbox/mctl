@@ -60,6 +60,7 @@ var (
 	ServerActionPowerActionFlag       = &flagDetails{name: "action"}
 	ServerActionPowerActionStatusFlag = &flagDetails{name: "action-status"}
 	ComponentTypeFlag                 = &flagDetails{name: "component"}
+	BIOSConfigURLFlag                 = &flagDetails{name: "bios-config-url"}
 
 	OutputTypeJSON outputType = "json"
 	OutputTypeText outputType = "text"
@@ -313,5 +314,14 @@ func AddServerPowerActionStatusFlag(cmd *cobra.Command, ptr *bool) {
 		ServerActionPowerActionStatusFlag.name,
 		false,
 		"Query the last power action status/response",
+	)
+}
+
+func AddBIOSConfigURLFlag(cmd *cobra.Command, ptr *string) {
+	cmd.PersistentFlags().StringVar(
+		ptr,
+		BIOSConfigURLFlag.name,
+		"",
+		"raw.githubusercontent.com path to bios config",
 	)
 }
