@@ -2,7 +2,7 @@
 
 ## mctl bios set
 
-Set BIOS settings to something else
+Set BIOS settings from github config file url
 
 ```
 mctl bios set -s SERVER --bios-config-url BIOSCONFIGURL [flags]

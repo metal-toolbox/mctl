@@ -10,7 +10,7 @@ import (
 
 var setCmd = &cobra.Command{
 	Use:   "set",
-	Short: "Set BIOS settings to something else",
+	Short: "Set BIOS settings from github config file url",
 	Run: func(cmd *cobra.Command, _ []string) {
 		err := CreateBiosControlCondition(cmd.Context(), rctypes.SetConfig)
 		if err != nil {
