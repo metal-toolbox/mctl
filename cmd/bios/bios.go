@@ -36,13 +36,9 @@ func CreateBiosControlCondition(ctx context.Context, action rctypes.BiosControlA
 
 	var biosURL *url.URL
 	if action == rctypes.SetConfig {
-		if biosFlags.biosConfigURL != "" {
-			biosURL, err = url.Parse(biosFlags.biosConfigURL)
-			if err != nil {
-				return err
-			}
-		} else {
-			log.Fatal("failed to get biosConfigURL for `mctl bios set`, yet is a required option")
+		biosURL, err = url.Parse(biosFlags.biosConfigURL)
+		if err != nil {
+			return err
 		}
 	}
 
