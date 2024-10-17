@@ -14,7 +14,7 @@ import (
 	"golang.org/x/net/context"
 
 	bmclibcomm "github.com/bmc-toolbox/common"
-	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
+	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/condition/types"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	rctypes "github.com/metal-toolbox/rivets/condition"
 	rfleetdb "github.com/metal-toolbox/rivets/fleetdb"
