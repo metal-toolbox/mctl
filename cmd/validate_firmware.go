@@ -16,7 +16,7 @@ type validationFlags struct {
 
 var (
 	// incoming command line parameters
-	fwv_flags = &validationFlags{}
+	fwvFlags = &validationFlags{}
 )
 
 var validateFirmwareCmd = &cobra.Command{
@@ -30,12 +30,12 @@ var validateFirmwareCmd = &cobra.Command{
 			log.Fatalf("creating app structure: %s", err.Error())
 		}
 
-		srvID, err := uuid.Parse(fwv_flags.srvIDStr)
+		srvID, err := uuid.Parse(fwvFlags.srvIDStr)
 		if err != nil {
 			log.Fatalf("parsing server id: %s", err.Error())
 		}
 
-		fwSetID, err := uuid.Parse(fwv_flags.fwSetIDStr)
+		fwSetID, err := uuid.Parse(fwvFlags.fwSetIDStr)
 		if err != nil {
 			log.Fatalf("parsing firmware set id: %s", err.Error())
 		}
@@ -50,16 +50,16 @@ var validateFirmwareCmd = &cobra.Command{
 			log.Fatalf("making validate firmware call: %s", err.Error())
 		}
 
-		PrintResults(fwv_flags.output, resp)
+		PrintResults(fwvFlags.output, resp)
 	},
 }
 
 func init() {
 	RootCmd.AddCommand(validateFirmwareCmd)
 
-	AddOutputFlag(validateFirmwareCmd, &fwv_flags.output)
-	AddFirmwareSetFlag(validateFirmwareCmd, &fwv_flags.fwSetIDStr)
-	AddServerFlag(validateFirmwareCmd, &fwv_flags.srvIDStr)
+	AddOutputFlag(validateFirmwareCmd, &fwvFlags.output)
+	AddFirmwareSetFlag(validateFirmwareCmd, &fwvFlags.fwSetIDStr)
+	AddServerFlag(validateFirmwareCmd, &fwvFlags.srvIDStr)
 	RequireFlag(validateFirmwareCmd, ServerFlag)
 	RequireFlag(validateFirmwareCmd, FirmwareSetFlag)
 }
