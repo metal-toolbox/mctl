@@ -1,4 +1,3 @@
-//nolint:gocritic,err113 // the commented code and dynamic error are intentional
 package bios
 
 import (
