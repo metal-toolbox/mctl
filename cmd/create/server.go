@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"log"
 
-	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
+	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/types"
 	"github.com/spf13/cobra"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"

@@ -8,7 +8,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/spf13/cobra"
 
-	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
+	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/types"
 	rctypes "github.com/metal-toolbox/rivets/condition"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"

@@ -14,8 +14,8 @@ import (
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 
-	"github.com/metal-toolbox/conditionorc/pkg/api/v1/client"
-	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
+	ccl "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/client"
+	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/types"
 	rctypes "github.com/metal-toolbox/rivets/condition"
 
 	"github.com/metal-toolbox/mctl/internal/app"
@@ -102,7 +102,7 @@ func powerAction(ctx context.Context) {
 	log.Printf("status=%d msg=%s conditionID=%s", response.StatusCode, response.Message, condition.ID)
 }
 
-func actionStatus(ctx context.Context, serverID uuid.UUID, c *client.Client) {
+func actionStatus(ctx context.Context, serverID uuid.UUID, c *ccl.Client) {
 	resp, err := c.ServerConditionStatus(ctx, serverID)
 	if err != nil {
 		log.Fatalf("querying server conditions: %s", err.Error())

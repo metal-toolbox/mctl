@@ -1,12 +1,11 @@
 package bios
 
 import (
-	"encoding/json"
+	"errors"
 
 	"github.com/google/uuid"
-	"github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
+	"github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/types"
 	mctl "github.com/metal-toolbox/mctl/cmd"
-	rctypes "github.com/metal-toolbox/rivets/condition"
 	"github.com/spf13/cobra"
 )
 
@@ -19,11 +18,13 @@ type biosActionFlags struct {
 }
 
 func (f *biosActionFlags) ToCondition() (*types.ConditionCreate, error) {
-	id, err := f.ParseServerID()
+	/*id, err := f.ParseServerID()
 	if err != nil {
 		return nil, err
-	}
+	}*/
 
+	return nil, errors.New("unimplemented")
+	/* XXX: updating conditionorc hauled in a change to rivets that makes this no longer compile.
 	biosParams := rctypes.NewBiosControlTaskParameters(id, rctypes.ResetSettings)
 
 	params, err := json.Marshal(biosParams)
@@ -31,7 +32,7 @@ func (f *biosActionFlags) ToCondition() (*types.ConditionCreate, error) {
 		return nil, err
 	}
 
-	return &types.ConditionCreate{Parameters: params}, nil
+	return &types.ConditionCreate{Parameters: params}, nil*/
 }
 
 func (f *biosActionFlags) ParseServerID() (uuid.UUID, error) {
