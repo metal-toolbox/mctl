@@ -2,7 +2,7 @@ module github.com/metal-toolbox/mctl
 
 go 1.23
 
-toolchain go1.23.1
+toolchain go1.23.2
 
 require (
 	github.com/adrg/xdg v0.4.0
