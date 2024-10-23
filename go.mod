@@ -8,7 +8,7 @@ require (
 	github.com/adrg/xdg v0.4.0
 	github.com/bmc-toolbox/common v0.0.0-20240926143744-8c478be881d7
 	github.com/coreos/go-oidc/v3 v3.11.0
-	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
+	github.com/davecgh/go-spew v1.1.1
 	github.com/dustin/go-humanize v1.0.1
 	github.com/google/uuid v1.6.0
 	github.com/metal-toolbox/bomservice v0.1.6
