@@ -89,7 +89,6 @@ func printComponent(components []*rt.Component, slug string) {
 	got := []*rt.Component{}
 
 	for _, c := range components {
-		c := c
 		if strings.EqualFold(slug, c.Name) {
 			got = append(got, c)
 		}
