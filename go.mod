@@ -24,12 +24,11 @@ require (
 	github.com/zalando/go-keyring v0.2.5
 	golang.org/x/exp v0.0.0-20240719175910-8a7402abbf56
 	golang.org/x/net v0.30.0
-	golang.org/x/oauth2 v0.22.0
+	golang.org/x/oauth2 v0.24.0
 	gopkg.in/go-jose/go-jose.v2 v2.6.3
 )
 
 require (
-
 	github.com/alessio/shellescape v1.4.2 // indirect
 	github.com/banzaicloud/logrus-runtime-formatter v0.0.0-20190729070250-5ae5475bae5e // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
