@@ -6,6 +6,7 @@ service:
 linters-settings:
   govet:
     auto-fix: true
+    shadow: true
     settings:
       printf:
         funcs:
@@ -13,8 +14,6 @@ linters-settings:
           - (github.com/golangci/golangci-lint/pkg/logutils.Log).Warnf
           - (github.com/golangci/golangci-lint/pkg/logutils.Log).Errorf
           - (github.com/golangci/golangci-lint/pkg/logutils.Log).Fatalf
-  revive:
-    min-confidence: 0
   gocyclo:
     min-complexity: 15
   dupl:
@@ -64,7 +63,6 @@ linters:
     - gocritic
     - err113
     - goimports
-    - revive
     - misspell
     - noctx
     - stylecheck
