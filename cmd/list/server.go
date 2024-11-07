@@ -94,7 +94,6 @@ var cmdListServer = &cobra.Command{
 
 		rtServers := make([]*rt.Server, 0, len(servers))
 		for _, s := range servers {
-			s := s
 			rtServers = append(rtServers, rfleetdb.ConvertServer(&s))
 		}
 

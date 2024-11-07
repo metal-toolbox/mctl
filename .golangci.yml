@@ -62,7 +62,7 @@ linters:
     # additional linters
     - bodyclose
     - gocritic
-    - goerr113
+    - err113
     - goimports
     - revive
     - misspell
@@ -77,7 +77,7 @@ linters:
     - nilerr
     - reassign
     - whitespace
-    - exportloopref
+    - copyloopvar
 
   enable-all: false
   disable-all: true
