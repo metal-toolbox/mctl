@@ -21,7 +21,7 @@ require (
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
-	github.com/zalando/go-keyring v0.2.5
+	github.com/zalando/go-keyring v0.2.6
 	golang.org/x/exp v0.0.0-20240719175910-8a7402abbf56
 	golang.org/x/net v0.30.0
 	golang.org/x/oauth2 v0.22.0
@@ -29,8 +29,7 @@ require (
 )
 
 require (
-
-	github.com/alessio/shellescape v1.4.2 // indirect
+	al.essio.dev/pkg/shellescape v1.5.1 // indirect
 	github.com/banzaicloud/logrus-runtime-formatter v0.0.0-20190729070250-5ae5475bae5e // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bytedance/sonic v1.12.1 // indirect
@@ -41,7 +40,7 @@ require (
 	github.com/cockroachdb/cockroach-go/v2 v2.3.8 // indirect
 	github.com/coreos/go-oidc v2.2.1+incompatible // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.4 // indirect
-	github.com/danieljoos/wincred v1.2.1 // indirect
+	github.com/danieljoos/wincred v1.2.2 // indirect
 	github.com/ericlagergren/decimal v0.0.0-20240411145413-00de7ca16731 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/friendsofgo/errors v0.9.2 // indirect
