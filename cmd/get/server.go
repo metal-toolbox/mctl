@@ -10,7 +10,7 @@ import (
 	"github.com/dustin/go-humanize"
 	"github.com/google/uuid"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	rt "github.com/metal-toolbox/rivets/types"
+	rt "github.com/metal-toolbox/rivets/v2/types"
 	"github.com/olekukonko/tablewriter"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"

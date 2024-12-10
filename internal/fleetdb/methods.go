@@ -5,7 +5,7 @@ import (
 	"sort"
 
 	ss "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	rt "github.com/metal-toolbox/rivets/types"
+	rt "github.com/metal-toolbox/rivets/v2/types"
 	"github.com/pkg/errors"
 )
 

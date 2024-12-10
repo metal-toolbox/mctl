@@ -14,8 +14,8 @@ import (
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/types"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	"github.com/metal-toolbox/mctl/internal/app"
-	rctypes "github.com/metal-toolbox/rivets/condition"
-	rt "github.com/metal-toolbox/rivets/types"
+	rctypes "github.com/metal-toolbox/rivets/v2/condition"
+	rt "github.com/metal-toolbox/rivets/v2/types"
 	"github.com/pkg/errors"
 	"golang.org/x/net/context"
 )

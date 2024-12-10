@@ -7,11 +7,11 @@ import (
 	"strings"
 
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	mctl "github.com/metal-toolbox/mctl/cmd"
-	rt "github.com/metal-toolbox/rivets/types"
+	rt "github.com/metal-toolbox/rivets/v2/types"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
 
+	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/internal/fleetdb"
 )
