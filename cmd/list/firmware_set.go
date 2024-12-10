@@ -29,8 +29,8 @@ var (
 
 func sendListFirmwareRequest(client *fleetdbapi.Client, cmd *cobra.Command) ([]fleetdbapi.ComponentFirmwareSet, error) {
 	params := &fleetdbapi.ComponentFirmwareSetListParams{
-		Vendor: flags.vendor,
-		Model:  flags.model,
+		Vendor: strings.TrimSpace(flags.vendor),
+		Model:  strings.TrimSpace(flags.model),
 	}
 
 	labelParts := make([]string, 0)

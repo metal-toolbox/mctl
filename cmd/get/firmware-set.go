@@ -14,7 +14,6 @@ import (
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
-	rfleetdb "github.com/metal-toolbox/rivets/fleetdb"
 )
 
 type getFirmwareSetFlags struct {
@@ -95,8 +94,14 @@ func firmwareSetForServer(ctx context.Context, client *fleetdbapi.Client, server
 		return nil, errNoVendorAttrs
 	}
 
+	params := &fleetdbapi.ComponentFirmwareSetListParams{
+		Vendor: strings.TrimSpace(vendor),
+		Model:  strings.TrimSpace(model),
+		Labels: "default=true,latest=true",
+	}
+
 	// identify firmware set by vendor, model attributes
-	fwSet, err := rfleetdb.FirmwareSetByVendorModel(ctx, vendor, model, client)
+	fwSet, _, err := client.ListServerComponentFirmwareSet(context.Background(), params)
 	if err != nil {
 		return nil, err
 	}
