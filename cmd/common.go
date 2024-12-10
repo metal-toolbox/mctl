@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	bmclibcomm "github.com/bmc-toolbox/common"
 	"github.com/davecgh/go-spew/spew"
 	"github.com/google/uuid"
+	bmclibcomm "github.com/metal-toolbox/bmc-common"
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/types"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	"github.com/metal-toolbox/mctl/internal/app"

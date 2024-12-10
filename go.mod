@@ -6,11 +6,11 @@ toolchain go1.23.1
 
 require (
 	github.com/adrg/xdg v0.5.3
-	github.com/bmc-toolbox/common v0.0.0-20241031162543-6b96e5981a0d
 	github.com/coreos/go-oidc/v3 v3.11.0
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
 	github.com/dustin/go-humanize v1.0.1
 	github.com/google/uuid v1.6.0
+	github.com/metal-toolbox/bmc-common v1.0.2
 	github.com/metal-toolbox/bomservice v0.1.6
 	github.com/metal-toolbox/conditionorc v1.12.1
 	github.com/metal-toolbox/fleetdb v1.20.1
@@ -87,7 +87,6 @@ require (
 	github.com/magiconair/properties v1.8.9 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
-	github.com/metal-toolbox/bmc-common v1.0.2 // indirect
 	github.com/metal-toolbox/rivets v1.3.10 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect

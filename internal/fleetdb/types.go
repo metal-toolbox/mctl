@@ -1,8 +1,8 @@
 package fleetdb
 
 import (
-	"github.com/bmc-toolbox/common"
 	"github.com/google/uuid"
+	common "github.com/metal-toolbox/bmc-common"
 )
 
 // FirmwareVersionedAttribute holds component firmware information.
