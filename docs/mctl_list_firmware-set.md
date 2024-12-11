@@ -5,16 +5,16 @@
 List firmware
 
 ```
-mctl list firmware-set [flags]
+mctl list firmware-set -v VENDOR -m MODEL [flags]
 ```
 
 ### Options
 
 ```
   -h, --help                    help for firmware-set
-  -l, --labels stringToString   Labels to from the firmware set - 'foo=bar,foo2=bar2' (default [])
-  -m, --model string            filter by model
-  -v, --vendor string           filter by vendor
+  -l, --labels stringToString   Labels to identify the firmware set - e.g. 'key=value,default=true,latest=true' (default [])
+  -m, --model string            [required] filter by model
+  -v, --vendor string           [required] filter by vendor
 ```
 
 ### Options inherited from parent commands

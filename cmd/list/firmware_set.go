@@ -1,6 +1,9 @@
 package list
 
 import (
+	"context"
+	"errors"
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -12,7 +15,6 @@ import (
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/pkg/model"
-	rfleetdb "github.com/metal-toolbox/rivets/fleetdb"
 )
 
 type listFirmwareSetFlags struct {
@@ -22,20 +24,32 @@ type listFirmwareSetFlags struct {
 }
 
 var (
-	flagsDefinedListFwSet *listFirmwareSetFlags
+	flags *listFirmwareSetFlags
 )
 
+//nolint:err113 // brevity is best here
 func sendListFirmwareRequest(client *fleetdbapi.Client, cmd *cobra.Command) ([]fleetdbapi.ComponentFirmwareSet, error) {
-	if flagsDefinedListFwSet.vendor == "" && flagsDefinedListFwSet.model == "" {
-		fwSet, _, err := client.ListServerComponentFirmwareSet(cmd.Context(), &fleetdbapi.ComponentFirmwareSetListParams{})
-		return fwSet, err
+	params := &fleetdbapi.ComponentFirmwareSetListParams{
+		Vendor: strings.TrimSpace(flags.vendor),
+		Model:  strings.TrimSpace(flags.model),
 	}
 
-	if len(flagsDefinedListFwSet.labels) != 0 {
-		return rfleetdb.FirmwareSetByLabels(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, flagsDefinedListFwSet.labels, client)
+	labelParts := make([]string, 0)
+	for k, v := range flags.labels {
+		labelParts = append(labelParts, fmt.Sprintf("%s=%s", k, v))
+	}
+	params.Labels = strings.Join(labelParts, ",")
+
+	fwSet, _, err := client.ListServerComponentFirmwareSet(context.Background(), params)
+	if err != nil {
+		return nil, fmt.Errorf("retrieving firmware sets: %w", err)
 	}
 
-	return rfleetdb.FirmwareSetByVendorModel(cmd.Context(), flagsDefinedListFwSet.vendor, flagsDefinedListFwSet.model, client)
+	if len(fwSet) == 0 {
+		return nil, errors.New("no fw sets identified")
+	}
+
+	return fwSet, nil
 }
 
 // List
@@ -82,9 +96,12 @@ var listFirmwareSet = &cobra.Command{
 }
 
 func init() {
-	flagsDefinedListFwSet = &listFirmwareSetFlags{}
+	flags = &listFirmwareSetFlags{}
 
-	mctl.AddModelFlag(listFirmwareSet, &flagsDefinedListFwSet.model)
-	mctl.AddVendorFlag(listFirmwareSet, &flagsDefinedListFwSet.vendor)
-	mctl.AddLabelsFlag(listFirmwareSet, &flagsDefinedListFwSet.labels, "Labels to from the firmware set - 'foo=bar,foo2=bar2'")
+	mctl.AddModelFlag(listFirmwareSet, &flags.model)
+	mctl.AddVendorFlag(listFirmwareSet, &flags.vendor)
+	mctl.AddLabelsFlag(listFirmwareSet, &flags.labels,
+		"Labels to identify the firmware set - e.g. 'key=value,default=true,latest=true'")
+	mctl.RequireFlag(listFirmwareSet, mctl.VendorFlag)
+	mctl.RequireFlag(listFirmwareSet, mctl.ModelFlag)
 }

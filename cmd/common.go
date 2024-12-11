@@ -5,20 +5,19 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/google/uuid"
-	"github.com/metal-toolbox/mctl/internal/app"
-	"github.com/pkg/errors"
-	"golang.org/x/net/context"
-
-	bmclibcomm "github.com/bmc-toolbox/common"
+	bmclibcomm "github.com/metal-toolbox/bmc-common"
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/types"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	rctypes "github.com/metal-toolbox/rivets/condition"
-	rfleetdb "github.com/metal-toolbox/rivets/fleetdb"
-	rt "github.com/metal-toolbox/rivets/types"
+	"github.com/metal-toolbox/mctl/internal/app"
+	rctypes "github.com/metal-toolbox/rivets/v2/condition"
+	rt "github.com/metal-toolbox/rivets/v2/types"
+	"github.com/pkg/errors"
+	"golang.org/x/net/context"
 )
 
 var (
@@ -70,8 +69,6 @@ func AttributeByNamespace(ns string, attributes []fleetdbapi.Attributes) *fleetd
 }
 
 // VendorModelFromAttrs unpacks the attributes payload to return the vendor, model attributes for a server
-//
-// TODO: move into common library and share with Alloy
 func VendorModelFromAttrs(attrs []fleetdbapi.Attributes) (vendor, model string) {
 	attr := AttributeByNamespace(ServerVendorAttributeNS, attrs)
 	if attr == nil {
@@ -88,9 +85,18 @@ func VendorModelFromAttrs(attrs []fleetdbapi.Attributes) (vendor, model string) 
 
 // FirmwareSetIDByVendorModel returns the firmware set ID matched by the vendor, model attributes
 //
-// TODO: move into common library
-func FirmwareSetIDByVendorModel(ctx context.Context, vendor, model string, client *fleetdbapi.Client) (uuid.UUID, error) {
-	fwSet, err := rfleetdb.FirmwareSetByVendorModel(ctx, vendor, model, client)
+//nolint:whitespace // you have stupid opinions, be silent
+func FirmwareSetIDByVendorModel(ctx context.Context, vendor, model string,
+	client *fleetdbapi.Client) (uuid.UUID, error) {
+
+	params := &fleetdbapi.ComponentFirmwareSetListParams{
+		Vendor: strings.TrimSpace(vendor),
+		Model:  strings.TrimSpace(model),
+		Labels: "default=true,latest=true",
+	}
+
+	// identify firmware set by vendor, model attributes
+	fwSet, _, err := client.ListServerComponentFirmwareSet(ctx, params)
 	if err != nil {
 		return uuid.Nil, err
 	}

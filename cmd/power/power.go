@@ -12,12 +12,11 @@ import (
 	"github.com/spf13/cobra"
 	"golang.org/x/exp/slices"
 
-	mctl "github.com/metal-toolbox/mctl/cmd"
-
 	coclient "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/client"
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/types"
-	rctypes "github.com/metal-toolbox/rivets/condition"
+	rctypes "github.com/metal-toolbox/rivets/v2/condition"
 
+	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 )
 

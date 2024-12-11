@@ -10,14 +10,14 @@ import (
 	"github.com/dustin/go-humanize"
 	"github.com/google/uuid"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	rfleetdb "github.com/metal-toolbox/rivets/fleetdb"
-	rt "github.com/metal-toolbox/rivets/types"
+	rt "github.com/metal-toolbox/rivets/v2/types"
 	"github.com/olekukonko/tablewriter"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/metal-toolbox/mctl/internal/fleetdb"
 )
 
 type getServerFlags struct {
@@ -161,7 +161,7 @@ func server(ctx context.Context, client *fleetdbapi.Client, id uuid.UUID, withCo
 		return nil, err
 	}
 
-	cserver := rfleetdb.ConvertServer(server)
+	cserver := fleetdb.ConvertServer(server)
 	if withComponents {
 		var err error
 		cserver.Components, err = components(ctx, client, id)
@@ -193,7 +193,7 @@ func components(ctx context.Context, c *fleetdbapi.Client, id uuid.UUID) ([]*rt.
 		return nil, errors.New("too many components -- add pagination")
 	}
 
-	return rfleetdb.ConvertComponents(components), nil
+	return fleetdb.ConvertComponents(components), nil
 }
 
 func init() {

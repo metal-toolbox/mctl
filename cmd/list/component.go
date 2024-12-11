@@ -6,9 +6,10 @@ import (
 
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	mctl "github.com/metal-toolbox/mctl/cmd"
-	"github.com/metal-toolbox/mctl/internal/app"
-	rfleetdb "github.com/metal-toolbox/rivets/fleetdb"
 	"github.com/spf13/cobra"
+
+	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/metal-toolbox/mctl/internal/fleetdb"
 )
 
 type listComponentFlags struct {
@@ -60,7 +61,7 @@ var listComponent = &cobra.Command{
 		if flagsListComponent.fwVersion != "" {
 			lp.VersionedAttributeListParams = []fleetdbapi.AttributeListParams{
 				{
-					Namespace: rfleetdb.FirmwareVersionOutofbandNS,
+					Namespace: fleetdb.FirmwareVersionOutofbandNS,
 					Keys:      []string{"firmware", "installed"},
 					Operator:  "like",
 					Value:     flagsListComponent.fwVersion,
