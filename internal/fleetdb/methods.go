@@ -54,7 +54,6 @@ func RecordToComponent(rec *ss.ServerComponent) (*rt.Component, error) {
 	}
 
 	for _, va := range rec.VersionedAttributes {
-		va := va
 		// the following relies on the knowledge that we'll get only the latest
 		// versioned attributes from FleetDB.
 		switch va.Namespace {
@@ -90,7 +89,6 @@ func RecordToComponent(rec *ss.ServerComponent) (*rt.Component, error) {
 	}
 
 	for _, a := range rec.Attributes {
-		a := a // this doesn't need to be here after go 1.22
 		if a.Namespace == ComponentAttributeInbandNS {
 			attrs := &rt.ComponentAttributes{}
 			if err := UnpackAttribute(&a, attrs); err != nil {
@@ -124,7 +122,6 @@ func ConvertComponents(cs []ss.ServerComponent) []*rt.Component {
 		}
 
 		for _, vattr := range c.VersionedAttributes {
-			vattr := vattr
 			// TODO: set the most current data from either the inband/outofband NS
 			switch vattr.Namespace {
 			case FirmwareVersionInbandNS, FirmwareVersionOutofbandNS:
@@ -142,7 +139,6 @@ func ConvertComponents(cs []ss.ServerComponent) []*rt.Component {
 		}
 
 		for _, attr := range c.Attributes {
-			attr := attr
 			switch attr.Namespace {
 			case ComponentAttributeInbandNS, ComponentAttributeOutofbandNS:
 				a := &rt.ComponentAttributes{}
@@ -177,8 +173,6 @@ func ConvertServer(s *ss.Server) *rt.Server {
 
 	// TODO: set the most current data from either the inband/outofband NS
 	for _, attr := range s.Attributes {
-		attr := attr
-
 		switch attr.Namespace {
 		case ServerAttributeNSBmcAddress:
 			bmcAttr := BMCAttribute{}

@@ -84,6 +84,8 @@ func VendorModelFromAttrs(attrs []fleetdbapi.Attributes) (vendor, model string) 
 }
 
 // FirmwareSetIDByVendorModel returns the firmware set ID matched by the vendor, model attributes
+//
+//nolint:whitespace // you have stupid opinions, be silent
 func FirmwareSetIDByVendorModel(ctx context.Context, vendor, model string,
 	client *fleetdbapi.Client) (uuid.UUID, error) {
 
@@ -94,7 +96,7 @@ func FirmwareSetIDByVendorModel(ctx context.Context, vendor, model string,
 	}
 
 	// identify firmware set by vendor, model attributes
-	fwSet, _, err := client.ListServerComponentFirmwareSet(context.Background(), params)
+	fwSet, _, err := client.ListServerComponentFirmwareSet(ctx, params)
 	if err != nil {
 		return uuid.Nil, err
 	}

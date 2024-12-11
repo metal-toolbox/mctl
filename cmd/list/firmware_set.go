@@ -27,6 +27,7 @@ var (
 	flags *listFirmwareSetFlags
 )
 
+//nolint:err113 // brevity is best here
 func sendListFirmwareRequest(client *fleetdbapi.Client, cmd *cobra.Command) ([]fleetdbapi.ComponentFirmwareSet, error) {
 	params := &fleetdbapi.ComponentFirmwareSetListParams{
 		Vendor: strings.TrimSpace(flags.vendor),
