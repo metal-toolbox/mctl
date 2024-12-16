@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	rctypes "github.com/metal-toolbox/rivets/condition"
+	rctypes "github.com/metal-toolbox/rivets/v2/condition"
 	"github.com/spf13/cobra"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"

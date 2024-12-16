@@ -7,12 +7,13 @@ import (
 	"strings"
 
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	mctl "github.com/metal-toolbox/mctl/cmd"
-	"github.com/metal-toolbox/mctl/internal/app"
-	rfleetdb "github.com/metal-toolbox/rivets/fleetdb"
-	rt "github.com/metal-toolbox/rivets/types"
+	rt "github.com/metal-toolbox/rivets/v2/types"
 	"github.com/olekukonko/tablewriter"
 	"github.com/spf13/cobra"
+
+	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/metal-toolbox/mctl/internal/fleetdb"
 )
 
 type listServerFlags struct {
@@ -94,7 +95,7 @@ var cmdListServer = &cobra.Command{
 
 		rtServers := make([]*rt.Server, 0, len(servers))
 		for _, s := range servers {
-			rtServers = append(rtServers, rfleetdb.ConvertServer(&s))
+			rtServers = append(rtServers, fleetdb.ConvertServer(&s))
 		}
 
 		if flagsListServer.creds {
@@ -151,7 +152,7 @@ func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.AttributeListPar
 		alp = append(
 			alp,
 			fleetdbapi.AttributeListParams{
-				Namespace: rfleetdb.ServerVendorAttributeNS,
+				Namespace: fleetdb.ServerVendorAttributeNS,
 				Keys:      []string{"vendor"},
 				Operator:  "eq",
 				Value:     strings.ToLower(flagsListServer.vendor),
@@ -163,7 +164,7 @@ func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.AttributeListPar
 		alp = append(
 			alp,
 			fleetdbapi.AttributeListParams{
-				Namespace: rfleetdb.ServerVendorAttributeNS,
+				Namespace: fleetdb.ServerVendorAttributeNS,
 				Keys:      []string{"model"},
 				Operator:  "like",
 				Value:     strings.ToLower(flagsListServer.model),
@@ -175,7 +176,7 @@ func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.AttributeListPar
 		alp = append(
 			alp,
 			fleetdbapi.AttributeListParams{
-				Namespace: rfleetdb.ServerVendorAttributeNS,
+				Namespace: fleetdb.ServerVendorAttributeNS,
 				Keys:      []string{"serial"},
 				Operator:  "eq",
 				Value:     strings.ToLower(flagsListServer.serial),
@@ -187,7 +188,7 @@ func attributeParamsFromFlags(fl *listServerFlags) []fleetdbapi.AttributeListPar
 		alp = append(
 			alp,
 			fleetdbapi.AttributeListParams{
-				Namespace: rfleetdb.ServerNSBMCErrorsAttribute,
+				Namespace: fleetdb.ServerNSBMCErrorsAttribute,
 			},
 		)
 	}
