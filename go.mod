@@ -26,7 +26,7 @@ require (
 	golang.org/x/exp v0.0.0-20241210194714-1829a127f884
 	golang.org/x/net v0.32.0
 	golang.org/x/oauth2 v0.24.0
-	gopkg.in/go-jose/go-jose.v2 v2.6.3
+	gopkg.in/go-jose/go-jose.v4 v4.0.4
 )
 
 require (
