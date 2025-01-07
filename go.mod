@@ -6,7 +6,7 @@ toolchain go1.23.1
 
 require (
 	github.com/adrg/xdg v0.5.3
-	github.com/coreos/go-oidc/v3 v3.11.0
+	github.com/coreos/go-oidc/v3 v3.12.0
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
 	github.com/dustin/go-humanize v1.0.1
 	github.com/google/uuid v1.6.0
