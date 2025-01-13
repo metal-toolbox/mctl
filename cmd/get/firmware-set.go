@@ -106,7 +106,7 @@ func firmwareSetForServer(ctx context.Context, client *fleetdbapi.Client, server
 		return nil, err
 	}
 
-	if fwSet == nil {
+	if len(fwSet) == 0 { // len(nil) is also 0
 		return nil, errors.Wrap(
 			errNotFound,
 			fmt.Sprintf("vendor: %s, model: %s", vendor, model),
