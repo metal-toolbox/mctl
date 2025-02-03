@@ -13,7 +13,7 @@ mctl list component --slug SLUG [flags]
 ```
   -V, --firmware-version string   firmware version
   -h, --help                      help for component
-      --limit int                 limit results returned. Max value is 1000 (hard limit set in fleetdb). To list more than 1000, you must query each page (with '--page') individually (default 10)
+      --limit int                 limit results returned. Max value is 1000 (hard limit set in fleetdb). To list more than 1000, you must query each page (with '--page') individually (default 100)
   -m, --model string              filter by model
       --page int                  limit results to page (for use with --limit)
       --slug string               [required] filter by component slug (nic/drive/bmc/bios...)
