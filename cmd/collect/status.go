@@ -6,13 +6,11 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	"github.com/spf13/cobra"
 
 	rctypes "github.com/metal-toolbox/rivets/v2/condition"
 
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
-	rctypes "github.com/metal-toolbox/rivets/condition"
 	"github.com/spf13/cobra"
 )
 
