@@ -11,12 +11,13 @@ import (
 	"time"
 
 	"github.com/coreos/go-oidc/v3/oidc"
+	"github.com/go-jose/go-jose/v4"
+	"github.com/go-jose/go-jose/v4/jwt"
 	"github.com/metal-toolbox/mctl/pkg/model"
 	cv "github.com/nirasan/go-oauth-pkce-code-verifier"
 	"github.com/skratchdot/open-golang/open"
 	"github.com/zalando/go-keyring"
 	"golang.org/x/oauth2"
-	"gopkg.in/go-jose/go-jose.v2/jwt"
 )
 
 // The oauth, pkce handling code here was adapted for mctl from an internal project.
@@ -161,7 +162,7 @@ func (a *authenticator) refreshToken(ctx context.Context) (*oauth2.Token, error)
 
 // tokenFromRaw will take a access and refresh token string and convert them into a proper token
 func (a *authenticator) tokenFromRaw(rawAccess, refresh string) (*oauth2.Token, error) {
-	tok, err := jwt.ParseSigned(rawAccess)
+	tok, err := jwt.ParseSigned(rawAccess, []jose.SignatureAlgorithm{jose.RS256})
 	if err != nil {
 		return nil, err
 	}
