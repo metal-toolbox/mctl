@@ -25,6 +25,7 @@ type listFirmwareSetFlags struct {
 var (
 	flags *listFirmwareSetFlags
 )
+
 // var flagsDefinedListFwSet *listFirmwareSetFlags
 
 //nolint:err113 // brevity is best here
