@@ -81,6 +81,7 @@ var listFirmware = &cobra.Command{
 }
 
 func init() {
+	// nolint:gomnd,mnd // Set non-0 limit by default, overridden by AddPageLimitFlag
 	flagsDefinedListFirmware = &listFirmwareFlags{limit: 10}
 
 	mctl.AddVendorFlag(listFirmware, &flagsDefinedListFirmware.vendor)

@@ -10,14 +10,13 @@ import (
 	"github.com/dustin/go-humanize"
 	"github.com/google/uuid"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
+	mctl "github.com/metal-toolbox/mctl/cmd"
+	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/metal-toolbox/mctl/internal/fleetdb"
 	rt "github.com/metal-toolbox/rivets/v2/types"
 	"github.com/olekukonko/tablewriter"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-
-	mctl "github.com/metal-toolbox/mctl/cmd"
-	"github.com/metal-toolbox/mctl/internal/app"
-	"github.com/metal-toolbox/mctl/internal/fleetdb"
 )
 
 type getServerFlags struct {

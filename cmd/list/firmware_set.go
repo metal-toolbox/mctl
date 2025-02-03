@@ -22,9 +22,8 @@ type listFirmwareSetFlags struct {
 	labels map[string]string
 }
 
-var (
-	flags *listFirmwareSetFlags
-)
+var flags *listFirmwareSetFlags
+
 // var flagsDefinedListFwSet *listFirmwareSetFlags
 
 //nolint:err113 // brevity is best here

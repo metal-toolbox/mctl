@@ -5,24 +5,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"slices"
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/metal-toolbox/conditionorc/pkg/api/v1/client"
-	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/types"
-	mctl "github.com/metal-toolbox/mctl/cmd"
-	"github.com/metal-toolbox/mctl/internal/app"
-	rctypes "github.com/metal-toolbox/rivets/condition"
-	"github.com/pkg/errors"
-	"github.com/spf13/cobra"
-	"golang.org/x/exp/slices"
-
 	coclient "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/client"
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/types"
-	rctypes "github.com/metal-toolbox/rivets/v2/condition"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	rctypes "github.com/metal-toolbox/rivets/v2/condition"
+	"github.com/pkg/errors"
+	"github.com/spf13/cobra"
 )
 
 var powerCmd = &cobra.Command{
