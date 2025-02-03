@@ -265,7 +265,7 @@ func AddPageFlag(cmd *cobra.Command, ptr *int) {
 }
 
 func AddPageLimitFlag(cmd *cobra.Command, ptr *int) {
-	defaultLimit := 10
+	defaultLimit := 100
 	usage := fmt.Sprintf("limit results returned. Max value is %d (hard limit set in fleetdb). To list more than %d, you must query each page (with '--page') individually", fleetdbapi.MaxPaginationSize, fleetdbapi.MaxPaginationSize)
 
 	cmd.PersistentFlags().IntVar(ptr, LimitFlag.name, defaultLimit, usage)
