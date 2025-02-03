@@ -6,10 +6,9 @@ import (
 
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	mctl "github.com/metal-toolbox/mctl/cmd"
-	"github.com/spf13/cobra"
-
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/internal/fleetdb"
+	"github.com/spf13/cobra"
 )
 
 type listComponentFlags struct {

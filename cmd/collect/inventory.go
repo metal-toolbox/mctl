@@ -6,12 +6,10 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/types"
-	rctypes "github.com/metal-toolbox/rivets/v2/condition"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	rctypes "github.com/metal-toolbox/rivets/v2/condition"
 	"github.com/spf13/cobra"
 )
 

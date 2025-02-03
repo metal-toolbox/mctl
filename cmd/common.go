@@ -87,8 +87,8 @@ func VendorModelFromAttrs(attrs []fleetdbapi.Attributes) (vendor, model string) 
 //
 //nolint:whitespace // you have stupid opinions, be silent
 func FirmwareSetIDByVendorModel(ctx context.Context, vendor, model string,
-	client *fleetdbapi.Client) (uuid.UUID, error) {
-
+	client *fleetdbapi.Client,
+) (uuid.UUID, error) {
 	params := &fleetdbapi.ComponentFirmwareSetListParams{
 		Vendor: strings.TrimSpace(vendor),
 		Model:  strings.TrimSpace(model),

@@ -22,9 +22,7 @@ type listFirmwareSetFlags struct {
 	labels map[string]string
 }
 
-var (
-	flags *listFirmwareSetFlags
-)
+var flags *listFirmwareSetFlags
 
 // var flagsDefinedListFwSet *listFirmwareSetFlags
 

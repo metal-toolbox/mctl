@@ -9,10 +9,9 @@ import (
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	rctypes "github.com/metal-toolbox/rivets/v2/condition"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-
-	rctypes "github.com/metal-toolbox/rivets/v2/condition"
 )
 
 type installFirmwareSetFlags struct {

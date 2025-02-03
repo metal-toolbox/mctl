@@ -6,7 +6,6 @@ import (
 	"log"
 
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/types"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/spf13/cobra"
