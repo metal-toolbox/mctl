@@ -9,11 +9,11 @@ BUILD_DATE  := $(shell date +%s)
 
 ## lint
 lint:
-	go run github.com/golangci/golangci-lint/cmd/golangci-lint@v1.57 run --config .golangci.yml
+	go run github.com/golangci/golangci-lint/cmd/golangci-lint@v1.61 run --config .golangci.yml
 
 ## lint-fix - auto fix lint errors - for the linters that support auto fix
 lint-fix:
-	go run github.com/golangci/golangci-lint/cmd/golangci-lint@v1.57 run --fix --config .golangci.yml
+	go run github.com/golangci/golangci-lint/cmd/golangci-lint@v1.61 run --fix --config .golangci.yml
 
 ## Go test
 test:
