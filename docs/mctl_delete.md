@@ -24,6 +24,7 @@ mctl delete [flags]
 ### SEE ALSO
 
 * [mctl](mctl.md)	 - mctl is a CLI utility to interact with metal toolbox services
+* [mctl delete bios-config-set](mctl_delete_bios-config-set.md)	 - Delete a bios config set
 * [mctl delete firmware](mctl_delete_firmware.md)	 - Delete a firmware object
 * [mctl delete firmware-set](mctl_delete_firmware-set.md)	 - Delete a firmware set
 * [mctl delete server](mctl_delete_server.md)	 - Delete server from fleetDB
