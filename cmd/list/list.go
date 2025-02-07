@@ -24,6 +24,7 @@ func init() {
 	list.AddCommand(listFirmwareSet)
 	list.AddCommand(listComponent)
 	list.AddCommand(cmdListServer)
+	list.AddCommand(listServerBiosConfigSet)
 
 	cmd.AddOutputFlag(list, &output)
 }

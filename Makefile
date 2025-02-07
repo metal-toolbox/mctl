@@ -45,6 +45,20 @@ endif
 		 -X ${LDFLAG_LOCATION}.AppVersion=${VERSION} \
 		 -X ${LDFLAG_LOCATION}.BuildDate=${BUILD_DATE}"
 
+## build windows bin
+build-windows:
+ifeq (${GO_VERSION}, 0)
+	$(error build requies go version 1.17.n or higher)
+endif
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o mctl \
+		-ldflags \
+		"-X ${LDFLAG_LOCATION}.GitCommit=${GIT_COMMIT} \
+		 -X ${LDFLAG_LOCATION}.GitBranch=${GIT_BRANCH} \
+		 -X ${LDFLAG_LOCATION}.GitSummary=${GIT_SUMMARY} \
+		 -X ${LDFLAG_LOCATION}.AppVersion=${VERSION} \
+		 -X ${LDFLAG_LOCATION}.BuildDate=${BUILD_DATE}"
+
+
 ## Generate CLI docs
 gen-docs:
 	CGO_ENABLED=0 go build -o mctl

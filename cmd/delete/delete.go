@@ -19,4 +19,5 @@ func init() {
 	deleteCmd.AddCommand(deleteFirmwareSet)
 	deleteCmd.AddCommand(deleteFirmware)
 	deleteCmd.AddCommand(serverDelete)
+	deleteCmd.AddCommand(deleteServerBiosConfigSet)
 }

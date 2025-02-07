@@ -1,4 +1,8 @@
-disable_oauth: true
-serverservice_endpoint: http://localhost:8000
-conditions_endpoint: http://localhost:9000
-bomservice_endpoint: http://localhost:9003
+---
+serverservice_api:
+  endpoint: http://localhost:8000
+  disable: true
+
+conditions_api:
+  endpoint: http://localhost:8001
+  disable: true
