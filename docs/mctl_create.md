@@ -24,6 +24,7 @@ mctl create [flags]
 ### SEE ALSO
 
 * [mctl](mctl.md)	 - mctl is a CLI utility to interact with metal toolbox services
+* [mctl create bios-config-set](mctl_create_bios-config-set.md)	 - Create a bios config set
 * [mctl create bom](mctl_create_bom.md)	 - Upload Bom File
 * [mctl create firmware](mctl_create_firmware.md)	 - Create firmware
 * [mctl create firmware-set](mctl_create_firmware-set.md)	 - Create a firmware set

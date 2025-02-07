@@ -20,4 +20,5 @@ func init() {
 	create.AddCommand(createFirmwareSet)
 	create.AddCommand(uploadBomFile)
 	create.AddCommand(serverEnroll)
+	create.AddCommand(createServerBiosConfigSet)
 }

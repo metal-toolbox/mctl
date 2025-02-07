@@ -25,6 +25,7 @@ mctl list [flags]
 ### SEE ALSO
 
 * [mctl](mctl.md)	 - mctl is a CLI utility to interact with metal toolbox services
+* [mctl list bios-config-set](mctl_list_bios-config-set.md)	 - List bios config
 * [mctl list component](mctl_list_component.md)	 - List Components
 * [mctl list firmware](mctl_list_firmware.md)	 - List firmware
 * [mctl list firmware-set](mctl_list_firmware-set.md)	 - List firmware

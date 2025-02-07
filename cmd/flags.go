@@ -61,6 +61,7 @@ var (
 	ServerActionPowerActionStatusFlag = &flagDetails{name: "action-status"}
 	ComponentTypeFlag                 = &flagDetails{name: "component"}
 	BIOSConfigURLFlag                 = &flagDetails{name: "bios-config-url"}
+	BIOSConfigSetIDFlag               = &flagDetails{name: "bios-config-set-id", short: "i"}
 
 	OutputTypeJSON outputType = "json"
 	OutputTypeText outputType = "text"
@@ -297,6 +298,10 @@ func AddComponentTypeFlag(cmd *cobra.Command, ptr *string) {
 
 func AddServerSerialFlag(cmd *cobra.Command, ptr *string) {
 	cmd.PersistentFlags().StringVar(ptr, ServerSerialFlag.name, "", "filter by server serial")
+}
+
+func AddBIOSConfigSetIDFlag(cmd *cobra.Command, ptr *string) {
+	cmd.PersistentFlags().StringVarP(ptr, BIOSConfigSetIDFlag.name, BIOSConfigSetIDFlag.short, "", "specify ID of Bios Config Set")
 }
 
 func AddServerPowerActionFlag(cmd *cobra.Command, ptr *string, params []string) {
