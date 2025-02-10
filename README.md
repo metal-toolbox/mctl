@@ -18,3 +18,4 @@ For the updated list of all commands available, check out the [CLI docs](https:/
 - Retrieve information about a firmware - `mctl get firmware --id <>`
 - Install a firmware set on a server - `mctl install firmware-set --server <>`
 - Import firmware, firmware-set from file - `mctl create firmware-set  --from-file samples/fw-set.json`, where the JSON file contents is the output of `mctl list firmware-set`
+- Get component gaps between EMAPI and FleetDB for a server - `./mctl get component_gaps -s <>`. You will need to build the `mctl` with a build tag `-tags staff`.
