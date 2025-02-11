@@ -7,13 +7,12 @@ import (
 	"strings"
 
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	rt "github.com/metal-toolbox/rivets/v2/types"
-	"github.com/olekukonko/tablewriter"
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/internal/fleetdb"
+	rt "github.com/metal-toolbox/rivets/v2/types"
+	"github.com/olekukonko/tablewriter"
+	"github.com/spf13/cobra"
 )
 
 type listServerFlags struct {
@@ -29,9 +28,7 @@ type listServerFlags struct {
 	page      int
 }
 
-var (
-	flagsListServer *listServerFlags
-)
+var flagsListServer *listServerFlags
 
 // List
 var cmdListServer = &cobra.Command{

@@ -9,12 +9,11 @@ import (
 	"os"
 
 	"github.com/google/uuid"
-	"github.com/spf13/cobra"
-
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/pkg/model"
+	"github.com/spf13/cobra"
 )
 
 var (
@@ -46,10 +45,7 @@ var createFirmwareSet = &cobra.Command{
 		}
 
 		if definedfirmwareSetFlags.CreateFromFile != "" {
-			err = createFWSetsFromFile(cmd.Context(), client, definedfirmwareSetFlags)
-			if err != nil {
-				log.Fatal(err)
-			}
+			createFWSetsFromFile(cmd.Context(), client, definedfirmwareSetFlags)
 		} else {
 			err = createFWSetFromCLI(cmd.Context(), client, definedfirmwareSetFlags)
 			if err != nil {
@@ -59,7 +55,7 @@ var createFirmwareSet = &cobra.Command{
 	},
 }
 
-func createFWSetsFromFile(ctx context.Context, client *fleetdbapi.Client, flgs *mctl.FirmwareSetFlags) (err error) {
+func createFWSetsFromFile(ctx context.Context, client *fleetdbapi.Client, flgs *mctl.FirmwareSetFlags) {
 	var fwsets []*fleetdbapi.ComponentFirmwareSet
 
 	fbytes, err := os.ReadFile(flgs.CreateFromFile)
@@ -111,8 +107,6 @@ func createFWSetsFromFile(ctx context.Context, client *fleetdbapi.Client, flgs *
 			log.Fatal("error adding firmware-set object: ", err)
 		}
 	}
-
-	return nil
 }
 
 func createFWSetFromCLI(ctx context.Context, client *fleetdbapi.Client, flgs *mctl.FirmwareSetFlags) (err error) {

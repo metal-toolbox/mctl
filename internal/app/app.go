@@ -12,9 +12,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var (
-	ErrConfig = errors.New("configuration error")
-)
+var ErrConfig = errors.New("configuration error")
 
 // Config holds configuration data when running mctl
 // App holds attributes for the mtl application
@@ -92,7 +90,7 @@ func loadConfig(cfgFile string) (*model.Config, error) {
 func validateClientParams(cfg *model.Config) error {
 	if cfg.FleetDBAPI != nil {
 		if err := validateConfigOIDC(cfg.FleetDBAPI); err != nil {
-			return errors.Wrap(err, "fleetdb API API config")
+			return errors.Wrap(err, "fleetdb API config")
 		}
 	}
 

@@ -194,7 +194,7 @@ func (a *authenticator) keyringStoreToken(token *oauth2.Token) error {
 func (a *authenticator) authCodePKCE(ctx context.Context, oauthConfig *oauth2.Config, audience string) (*oauth2.Token, error) {
 	tc := make(chan *oauth2.Token)
 
-	// nolint:gomnd // state string is limited to 20 random characters
+	// nolint:gomnd,mnd // state string is limited to 20 random characters
 	c := &authClient{
 		oauthConfig: oauthConfig,
 		state:       randStr(20),
@@ -207,7 +207,7 @@ func (a *authenticator) authCodePKCE(ctx context.Context, oauthConfig *oauth2.Co
 		c.handlePKCECallback(ctx, w, r, tc)
 	})
 
-	// nolint:gomnd // read header timeout is set to 30s
+	// nolint:gomnd,mnd // read header timeout is set to 30s
 	server := &http.Server{Addr: ":18000", ReadHeaderTimeout: time.Second * 30, Handler: mux}
 
 	go func() {
@@ -276,7 +276,6 @@ func (c *authClient) handlePKCECallback(ctx context.Context, w http.ResponseWrit
 	token, err := c.oauthConfig.Exchange(ctx, code,
 		oauth2.SetAuthURLParam("code_verifier", c.codeVerifier.String()),
 	)
-
 	if err != nil {
 		log.Printf("ERROR in token exchange: %s\n", err.Error())
 

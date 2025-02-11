@@ -3,9 +3,8 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/spf13/cobra"
-
 	"github.com/metal-toolbox/mctl/internal/version"
+	"github.com/spf13/cobra"
 )
 
 var cmdVersion = &cobra.Command{

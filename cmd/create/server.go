@@ -6,10 +6,9 @@ import (
 	"log"
 
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/types"
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/spf13/cobra"
 )
 
 type serverEnrollParams struct {
@@ -20,9 +19,7 @@ type serverEnrollParams struct {
 	password string
 }
 
-var (
-	serverEnrollFlags *serverEnrollParams
-)
+var serverEnrollFlags *serverEnrollParams
 
 var serverEnroll = &cobra.Command{
 	Use:   "server",

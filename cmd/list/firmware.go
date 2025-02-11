@@ -7,11 +7,10 @@ import (
 	"strings"
 
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	"github.com/olekukonko/tablewriter"
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/olekukonko/tablewriter"
+	"github.com/spf13/cobra"
 )
 
 type listFirmwareFlags struct {
@@ -23,9 +22,7 @@ type listFirmwareFlags struct {
 	page      int
 }
 
-var (
-	flagsDefinedListFirmware *listFirmwareFlags
-)
+var flagsDefinedListFirmware *listFirmwareFlags
 
 // List
 var listFirmware = &cobra.Command{
@@ -55,7 +52,7 @@ var listFirmware = &cobra.Command{
 		if flagsDefinedListFirmware.model != "" {
 			// TODO - if we really want to search using multiple models
 			//
-			//  fix the the firmware search in fleetdb, its currently useless
+			//  fix the firmware search in fleetdb, its currently useless
 			//  because fleetdb queries the data using an 'AND' instead of an 'OR'
 			filterParams.Model = []string{strings.ToLower(flagsDefinedListFirmware.model)}
 		}
@@ -84,6 +81,7 @@ var listFirmware = &cobra.Command{
 }
 
 func init() {
+	// nolint:gomnd,mnd // Set non-0 limit by default, overridden by AddPageLimitFlag
 	flagsDefinedListFirmware = &listFirmwareFlags{limit: 10}
 
 	mctl.AddVendorFlag(listFirmware, &flagsDefinedListFirmware.vendor)

@@ -6,16 +6,13 @@ import (
 
 	"github.com/google/uuid"
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
 	"github.com/metal-toolbox/mctl/pkg/model"
+	"github.com/spf13/cobra"
 )
 
-var (
-	editFWSetFlags mctl.FirmwareSetFlags
-)
+var editFWSetFlags mctl.FirmwareSetFlags
 
 var editFirmwareSet = &cobra.Command{
 	Use:   "firmware-set",

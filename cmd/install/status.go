@@ -6,11 +6,10 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	rctypes "github.com/metal-toolbox/rivets/v2/condition"
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	rctypes "github.com/metal-toolbox/rivets/v2/condition"
+	"github.com/spf13/cobra"
 )
 
 var serverIDStr string

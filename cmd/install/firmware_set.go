@@ -6,14 +6,12 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/pkg/errors"
-	"github.com/spf13/cobra"
-
 	fleetdbapi "github.com/metal-toolbox/fleetdb/pkg/api/v1"
-	rctypes "github.com/metal-toolbox/rivets/v2/condition"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	rctypes "github.com/metal-toolbox/rivets/v2/condition"
+	"github.com/pkg/errors"
+	"github.com/spf13/cobra"
 )
 
 type installFirmwareSetFlags struct {
@@ -25,9 +23,7 @@ type installFirmwareSetFlags struct {
 	dryRun                bool
 }
 
-var (
-	flagsDefinedInstallFwSet *installFirmwareSetFlags
-)
+var flagsDefinedInstallFwSet *installFirmwareSetFlags
 
 // List
 var installFirmwareSet = &cobra.Command{
@@ -35,7 +31,6 @@ var installFirmwareSet = &cobra.Command{
 	Short: "Install firmware set",
 	Run: func(cmd *cobra.Command, _ []string) {
 		installFwSet(cmd.Context())
-
 	},
 }
 

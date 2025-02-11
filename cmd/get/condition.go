@@ -4,10 +4,9 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	"github.com/spf13/cobra"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/spf13/cobra"
 )
 
 type getConditionFlags struct {
@@ -15,9 +14,7 @@ type getConditionFlags struct {
 	id string
 }
 
-var (
-	flagsDefinedGetCondition *getConditionFlags
-)
+var flagsDefinedGetCondition *getConditionFlags
 
 var getCondition = &cobra.Command{
 	Use:   "condition",

@@ -5,19 +5,16 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/types"
-	"github.com/spf13/cobra"
-
 	"github.com/metal-toolbox/mctl/internal/app"
+	"github.com/spf13/cobra"
 )
 
 type validationFlags struct {
 	srvIDStr, fwSetIDStr, output string
 }
 
-var (
-	// incoming command line parameters
-	fwvFlags = &validationFlags{}
-)
+// incoming command line parameters
+var fwvFlags = &validationFlags{}
 
 var validateFirmwareCmd = &cobra.Command{
 	Use:   "validate-firmware",

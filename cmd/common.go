@@ -87,8 +87,8 @@ func VendorModelFromAttrs(attrs []fleetdbapi.Attributes) (vendor, model string) 
 //
 //nolint:whitespace // you have stupid opinions, be silent
 func FirmwareSetIDByVendorModel(ctx context.Context, vendor, model string,
-	client *fleetdbapi.Client) (uuid.UUID, error) {
-
+	client *fleetdbapi.Client,
+) (uuid.UUID, error) {
 	params := &fleetdbapi.ComponentFirmwareSetListParams{
 		Vendor: strings.TrimSpace(vendor),
 		Model:  strings.TrimSpace(model),
@@ -205,7 +205,7 @@ func FormatConditionResponse(response *coapiv1.ServerResponse, kind rctypes.Kind
 func PrintResults(format string, data ...any) {
 	switch format {
 	case "text":
-		spew.Dump(data)
+		spew.Dump(data...)
 	case "json", "JSON":
 		b, err := json.MarshalIndent(data, "", "  ")
 		if err != nil {

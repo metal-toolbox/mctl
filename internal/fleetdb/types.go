@@ -72,7 +72,7 @@ type ComponentCommonAttributes struct {
 	SmartErrors                  []string             `json:"smart_errors,omitempty"`
 	PowerCapacityWatts           int64                `json:"power_capacity_watts,omitempty"`
 	SizeBytes                    int64                `json:"size_bytes,omitempty"`
-	CapacityBytes                int64                `json:"capacity_bytes,omitempty" diff:"immutable"`
+	CapacityBytes                int64                `diff:"immutable"                               json:"capacity_bytes,omitempty"`
 	ClockSpeedHz                 int64                `json:"clock_speed_hz,omitempty"`
 	Cores                        int                  `json:"cores,omitempty"`
 	Threads                      int                  `json:"threads,omitempty"`

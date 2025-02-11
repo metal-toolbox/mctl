@@ -6,13 +6,11 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	"github.com/spf13/cobra"
-
 	coapiv1 "github.com/metal-toolbox/conditionorc/pkg/api/v1/conditions/types"
-	rctypes "github.com/metal-toolbox/rivets/v2/condition"
-
 	mctl "github.com/metal-toolbox/mctl/cmd"
 	"github.com/metal-toolbox/mctl/internal/app"
+	rctypes "github.com/metal-toolbox/rivets/v2/condition"
+	"github.com/spf13/cobra"
 )
 
 type collectInventoryFlags struct {
@@ -21,16 +19,13 @@ type collectInventoryFlags struct {
 	skipBiosConfigCollect     bool
 }
 
-var (
-	flagsDefinedCollectInventory *collectInventoryFlags
-)
+var flagsDefinedCollectInventory *collectInventoryFlags
 
 var collectInventoryCmd = &cobra.Command{
 	Use:   "inventory",
 	Short: "Collect current server firmware status and bios configuration",
 	Run: func(cmd *cobra.Command, _ []string) {
 		collectInventory(cmd.Context())
-
 	},
 }
 
