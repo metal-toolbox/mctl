@@ -19,7 +19,7 @@ import (
 var curlCmd = &cobra.Command{
 	Use:   "curl fleetdbapi -- args",
 	Short: "Make a curl request with your auth token",
-	Args:  cobra.MinimumNArgs(2), // nolint:gomnd
+	Args:  cobra.MinimumNArgs(2), // nolint:gomnd // 2 args: curl+fleetdbapi
 	Run: func(cmd *cobra.Command, args []string) {
 		apiKind := args[0]
 		if !slices.Contains(
