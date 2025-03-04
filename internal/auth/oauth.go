@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/coreos/go-oidc/v3/oidc"
-	"github.com/go-jose/go-jose/v4"
+	jose "github.com/go-jose/go-jose/v4"
 	"github.com/go-jose/go-jose/v4/jwt"
 	"github.com/metal-toolbox/mctl/pkg/model"
 	cv "github.com/nirasan/go-oauth-pkce-code-verifier"
