@@ -15,7 +15,7 @@ import (
 )
 
 //nolint:err113 // brevity is best here
-func sendListServerBiosConfigSetRequest(client *fleetdbapi.Client, cmd *cobra.Command) (*[]fleetdbapi.BiosConfigSet, error) {
+func sendListServerBiosConfigSetRequest(client *fleetdbapi.Client, _ *cobra.Command) (*[]fleetdbapi.BiosConfigSet, error) {
 	params := &fleetdbapi.BiosConfigSetListParams{
 		Pagination: fleetdbapi.PaginationParams{
 			Preload: true,
