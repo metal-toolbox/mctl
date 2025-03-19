@@ -30,9 +30,6 @@ var (
 	NameFlag                          = &flagDetails{name: "name", short: "n"}
 	LabelsFlag                        = &flagDetails{name: "labels", short: "l"}
 	FacilityFlag                      = &flagDetails{name: "facility"}
-	BMCAddressFlag                    = &flagDetails{name: "bmc-addr", short: "a"}
-	BMCUsernameFlag                   = &flagDetails{name: "bmc-user", short: "u"}
-	BMCPasswordFlag                   = &flagDetails{name: "bmc-pass", short: "p"}
 	FirmwareIDFlag                    = &flagDetails{name: "firmware-id", short: "f"}
 	FirmwareVersionFlag               = &flagDetails{name: "firmware-version", short: "V"}
 	FirmwareSetFlag                   = &flagDetails{name: "set-id"}
@@ -178,18 +175,6 @@ func AddLabelsFlag(cmd *cobra.Command, ptr *map[string]string, usage string) {
 
 func AddFacilityFlag(cmd *cobra.Command, ptr *string) {
 	cmd.PersistentFlags().StringVar(ptr, FacilityFlag.name, "", "facility name")
-}
-
-func AddBMCAddressFlag(cmd *cobra.Command, ptr *string) {
-	cmd.PersistentFlags().StringVarP(ptr, BMCAddressFlag.name, BMCAddressFlag.short, "", "address of the bmc")
-}
-
-func AddBMCUsernameFlag(cmd *cobra.Command, ptr *string) {
-	cmd.PersistentFlags().StringVarP(ptr, BMCUsernameFlag.name, BMCUsernameFlag.short, "", "username of the bmc user")
-}
-
-func AddBMCPasswordFlag(cmd *cobra.Command, ptr *string) {
-	cmd.PersistentFlags().StringVarP(ptr, BMCPasswordFlag.name, BMCPasswordFlag.short, "", "password of the bmc user")
 }
 
 func AddFirmwareIDFlag(cmd *cobra.Command, ptr *string) {

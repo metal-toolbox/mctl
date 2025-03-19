@@ -15,9 +15,6 @@ import (
 type serverEnrollParams struct {
 	serverID string
 	facility string
-	ip       string
-	username string
-	password string
 }
 
 var (
@@ -37,9 +34,6 @@ func enrollServer(ctx context.Context) {
 
 	params, err := json.Marshal(coapiv1.AddServerParams{
 		Facility: serverEnrollFlags.facility,
-		IP:       serverEnrollFlags.ip,
-		Username: serverEnrollFlags.username,
-		Password: serverEnrollFlags.password,
 	})
 	if err != nil {
 		log.Fatal(err)
@@ -70,14 +64,9 @@ func enrollServer(ctx context.Context) {
 func init() {
 	serverEnrollFlags = &serverEnrollParams{}
 
-	mctl.AddBMCAddressFlag(serverEnroll, &serverEnrollFlags.ip)
-	mctl.AddBMCUsernameFlag(serverEnroll, &serverEnrollFlags.username)
-	mctl.AddBMCPasswordFlag(serverEnroll, &serverEnrollFlags.password)
 	mctl.AddFacilityFlag(serverEnroll, &serverEnrollFlags.facility)
 	mctl.AddServerFlag(serverEnroll, &serverEnrollFlags.serverID)
 
-	mctl.RequireFlag(serverEnroll, mctl.BMCAddressFlag)
-	mctl.RequireFlag(serverEnroll, mctl.BMCUsernameFlag)
-	mctl.RequireFlag(serverEnroll, mctl.BMCPasswordFlag)
+	mctl.RequireFlag(serverEnroll, mctl.ServerFlag)
 	mctl.RequireFlag(serverEnroll, mctl.FacilityFlag)
 }
