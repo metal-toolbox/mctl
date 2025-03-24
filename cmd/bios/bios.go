@@ -34,12 +34,13 @@ func CreateBiosControlCondition(ctx context.Context, action rctypes.BiosControlA
 		return err
 	}
 
-	var biosURL *url.URL
+	var biosURL *rctypes.ConfigURL
 	if action == rctypes.SetConfig {
-		biosURL, err = url.Parse(biosFlags.biosConfigURL)
+		biosURLstr, err := url.Parse(biosFlags.biosConfigURL)
 		if err != nil {
 			return err
 		}
+		*biosURL = rctypes.ConfigURL(*biosURLstr)
 	}
 
 	params := rctypes.NewBiosControlTaskParameters(serverID, action, biosURL)
