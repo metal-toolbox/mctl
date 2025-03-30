@@ -7,7 +7,7 @@ toolchain go1.23.1
 require (
 	github.com/adrg/xdg v0.5.3
 	github.com/bmc-toolbox/common v0.0.0-20240723142833-87832458b53b
-	github.com/coreos/go-oidc/v3 v3.12.0
+	github.com/coreos/go-oidc/v3 v3.13.0
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
 	github.com/dustin/go-humanize v1.0.1
 	github.com/go-jose/go-jose/v4 v4.0.5
@@ -29,7 +29,7 @@ require (
 	go.equinixmetal.net/staff v0.42.0
 	golang.org/x/exp v0.0.0-20250106191152-7588d65b2ba8
 	golang.org/x/net v0.37.0
-	golang.org/x/oauth2 v0.25.0
+	golang.org/x/oauth2 v0.28.0
 )
 
 require (
