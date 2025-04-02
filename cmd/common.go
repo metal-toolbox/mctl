@@ -220,7 +220,7 @@ func PrintResults(format string, data ...any) {
 func ServerBMCCredentials(ctx context.Context, client *fleetdbapi.Client, server *rt.Server) error {
 	cred, _, err := client.GetCredential(ctx, uuid.MustParse(server.ID), fleetdbapi.ServerCredentialTypeBMC)
 	if err != nil {
-		// nolint:goerr113 // error is readable when formatted
+		// nolint:err113 // error is readable when formatted
 		return fmt.Errorf("error in credential lookup for: %s, err: %s", server.ID, err.Error())
 	}
 
