@@ -14,7 +14,7 @@ var cmdVersion = &cobra.Command{
 	Run: func(_ *cobra.Command, _ []string) {
 		fmt.Println("mctl -- brought to you by Fleet Services")
 		fmt.Printf(
-			"version: %s\ncommit: %s\nbranch: %s\ngo version: %s\nbuilt-on: %s",
+			"version: %s\ncommit: %s\nbranch: %s\ngo version: %s\nbuilt-on: %s\n",
 			version.AppVersion, version.GitCommit, version.GitBranch,
 			version.GoVersion, version.BuildDate,
 		)

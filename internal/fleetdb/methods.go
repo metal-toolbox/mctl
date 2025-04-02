@@ -169,6 +169,7 @@ func ConvertServer(s *ss.Server) *rt.Server {
 		Facility:  s.FacilityCode,
 		Name:      s.Name,
 		UpdatedAt: s.UpdatedAt,
+		DeletedAt: s.DeletedAt,
 	}
 
 	// TODO: set the most current data from either the inband/outofband NS

@@ -39,7 +39,13 @@ func deleteServer(ctx context.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("status=%d\nmsg=%s\nserverID=%v", response.StatusCode, response.Message, response.Records.ServerID)
+	if response != nil {
+		if response.Records != nil {
+			log.Printf("status=%d\nmsg=%s\nserverID=%v", response.StatusCode, response.Message, response.Records.ServerID)
+			return
+		}
+	}
+	log.Printf("status=%d\nmsg=%s\n", response.StatusCode, response.Message)
 }
 
 func init() {
