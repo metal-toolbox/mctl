@@ -567,8 +567,8 @@ github.com/metal-toolbox/bomservice v0.2.0 h1:YoI4i/xu4sEWGlqD+CUY+K3c7iWkfLZJy1
 github.com/metal-toolbox/bomservice v0.2.0/go.mod h1:dGRQcUyHIMjVEPTRIPQxnYaiarGVMVl95+k/ILWb8lQ=
 github.com/metal-toolbox/conditionorc v1.12.5 h1:uMlrVxd6waC1W57dQMZv+s7Eh9k4dkXFW6v5YBFIqCs=
 github.com/metal-toolbox/conditionorc v1.12.5/go.mod h1:8gwNg+Pt9uTfd4xdN8xkgUUdOwE8YHQhqgaKpEPas5c=
-github.com/metal-toolbox/fleetdb v1.20.1 h1:5YHnG8hFpzmRz7Ulyqs9tWPAIfJdMrUXcuWDWk/g88k=
-github.com/metal-toolbox/fleetdb v1.20.1/go.mod h1:8yVOYkEbxNRAvHx02g7bP6oBDiWBvhQ9HY95zI9ZtTU=
+github.com/metal-toolbox/fleetdb v1.20.2 h1:QbHUX32eAC6CuiOT8mUqdef3Im5T5ueLPy9z0Wz6jNY=
+github.com/metal-toolbox/fleetdb v1.20.2/go.mod h1:8yVOYkEbxNRAvHx02g7bP6oBDiWBvhQ9HY95zI9ZtTU=
 github.com/metal-toolbox/rivets v1.3.10 h1:UgYQSx/QJF6Yuzf+YSRF/t9soL6QjMY8sLugf/aMmII=
 github.com/metal-toolbox/rivets v1.3.10/go.mod h1:HkF9k8yw3MZqrIkxsi7w7EkTP3h2/t08WBpm+WK/Dsk=
 github.com/metal-toolbox/rivets/v2 v2.1.2 h1:9Dhz3mKH6BGYfnm+bko1lZhbE9RiN0/Tcd1HAHIKHIs=
