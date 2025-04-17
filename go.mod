@@ -8,7 +8,7 @@ require (
 	github.com/adrg/xdg v0.5.3
 	github.com/bmc-toolbox/common v0.0.0-20240723142833-87832458b53b
 	github.com/coreos/go-oidc/v3 v3.14.1
-	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
+	github.com/davecgh/go-spew v1.1.1
 	github.com/dustin/go-humanize v1.0.1
 	github.com/go-jose/go-jose/v4 v4.0.5
 	github.com/go-playground/validator v9.31.0+incompatible
