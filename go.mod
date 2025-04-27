@@ -14,7 +14,7 @@ require (
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/google/uuid v1.6.0
 	github.com/metal-toolbox/bmc-common v1.0.3
-	github.com/metal-toolbox/bomservice v0.2.0
+	github.com/metal-toolbox/bomservice v0.3.1
 	github.com/metal-toolbox/conditionorc v1.12.5
 	github.com/metal-toolbox/fleetdb v1.20.2
 	github.com/metal-toolbox/rivets/v2 v2.1.2
